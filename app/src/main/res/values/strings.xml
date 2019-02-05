@@ -2,5 +2,14 @@
     <string name="app_name">DoorStepHub</string>
     <string name="enter_login_id_hint"> Enter Mobile Number</string>
     <string name="enter_otp_hint">Enter OTP</string>
-    <string name="dont_have_account">Don\'t have Account?? Login with Mobile Number</string>
+    <string name="dont_have_account">Don\'t have a Account?? "\n" Login with Mobile Number</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="terms_and_conditions">Agree To Our Terms And Conditions</string>
+    <string name="service_schedule_heading">Please Fill The Details Below</string>
 </resources>
