@@ -1,5 +1,7 @@
 package appsnova.com.doorstephub;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -19,33 +21,41 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import appsnova.com.doorstephub.adapters.HomeAdapter;
 import appsnova.com.doorstephub.models.ServiceCategoryModel;
+import appsnova.com.doorstephub.utilities.NetworkUtils;
+import appsnova.com.doorstephub.utilities.SharedPref;
+import appsnova.com.doorstephub.utilities.UrlUtility;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    
+    //create View Objects
     RecyclerView servicesCategoryRecyclerView;
-    List<ServiceCategoryModel> dataList;
+    
+    //create Utils Objects
+    NetworkUtils networkUtils;
+    SharedPref sharedPref;
+    ProgressDialog progressDialog;
+    List<ServiceCategoryModel> serviceCategoryModelList;
     HomeAdapter homeAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        //intialie Utils Objects
+        serviceCategoryModelList = new ArrayList<>();
+        networkUtils = new NetworkUtils(this);
+        sharedPref = new SharedPref(this);
+        
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -56,11 +66,11 @@ public class HomeActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         servicesCategoryRecyclerView = findViewById(R.id.servicesCategoryRecyclerView);
-        dataList = new ArrayList<ServiceCategoryModel>();
-        homeAdapter = new HomeAdapter(dataList);
+        serviceCategoryModelList = new ArrayList<ServiceCategoryModel>();
+        homeAdapter = new HomeAdapter(serviceCategoryModelList);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
         servicesCategoryRecyclerView.hasFixedSize();
         servicesCategoryRecyclerView.setLayoutManager(layoutManager);
         servicesCategoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -70,43 +80,43 @@ public class HomeActivity extends AppCompatActivity
     }
     public void onPrepareData(){
         ServiceCategoryModel data =new ServiceCategoryModel("Sai");
-        dataList.add(data);
+        serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("Sri");
-        dataList.add(data);
+        serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("Divya");
-        dataList.add(data);
+        serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("Teja");
-        dataList.add(data);
+        serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("Deepthi");
-        dataList.add(data);
+        serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("Neelu");
-        dataList.add(data);
+        serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("Latha");
-        dataList.add(data);
+        serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("PVR");
-        dataList.add(data);
+        serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("Sri");
-        dataList.add(data);
+        serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("Divya");
-        dataList.add(data);
+        serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("Teja");
-        dataList.add(data);
+        serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("Deepthi");
-        dataList.add(data);
+        serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("Neelu");
-        dataList.add(data);
+        serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("Latha");
-        dataList.add(data);
+        serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("PVR");
-        dataList.add(data);
+        serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("Deepthi");
-        dataList.add(data);
+        serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("Neelu");
-        dataList.add(data);
+        serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("Latha");
-        dataList.add(data);
+        serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("PVR");
-        dataList.add(data);
+        serviceCategoryModelList.add(data);
 
 
         homeAdapter.notifyDataSetChanged();
@@ -154,18 +164,33 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_message) {
 
         } else if (id == R.id.nav_mybookings) {
-
+            if (networkUtils.checkConnection()){
+                startActivity(new Intent(this, MyBookingsActivity.class));
+            }else{
+                UrlUtility.showCustomToast(getResources().getString(R.string.no_connection), this);
+            }
         }else if (id == R.id.nav_feedback) {
-
-        }
+            if (networkUtils.checkConnection()){
+                startActivity(new Intent(this, FeedbackActivity.class));
+            }else{
+                UrlUtility.showCustomToast(getResources().getString(R.string.no_connection), this);            }
+            }
         else if (id == R.id.nav_setting) {
 
         }
         else if (id == R.id.nav_discounts) {
-
+            if (networkUtils.checkConnection()){
+                startActivity(new Intent(this, DiscountsActivity.class));
+            }else{
+                UrlUtility.showCustomToast(getResources().getString(R.string.no_connection), this);
+            }
         }
         else if (id == R.id.nav_Aboutus) {
-
+            if (networkUtils.checkConnection()){
+                startActivity(new Intent(this, MyBookingsActivity.class));
+            }else{
+                UrlUtility.showCustomToast(getResources().getString(R.string.no_connection), this);
+            }
         }
         else if (id == R.id.nav_share) {
 

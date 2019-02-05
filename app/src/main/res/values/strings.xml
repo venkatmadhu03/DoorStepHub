@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">DoorStepHub</string>
+    <string name="no_connection">Not Connected to Internet or SLow connection detected</string>
     <string name="enter_login_id_hint"> Enter Mobile Number</string>
     <string name="enter_otp_hint">Enter OTP</string>
     <string name="dont_have_account">Don\'t have a Account?? "\n" Login with Mobile Number</string>
