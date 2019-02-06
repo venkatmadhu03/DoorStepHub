@@ -173,8 +173,9 @@ public class HomeActivity extends AppCompatActivity
             if (networkUtils.checkConnection()){
                 startActivity(new Intent(this, FeedbackActivity.class));
             }else{
-                UrlUtility.showCustomToast(getResources().getString(R.string.no_connection), this);            }
+                UrlUtility.showCustomToast(getResources().getString(R.string.no_connection), this);
             }
+        }
         else if (id == R.id.nav_setting) {
 
         }
@@ -193,7 +194,12 @@ public class HomeActivity extends AppCompatActivity
             }
         }
         else if (id == R.id.nav_share) {
-
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT,
+                    "Hey check out my app at: https://play.google.com/store/apps/details?id=com.google.android.apps.plus");
+            sendIntent.setType("text/plain");
+            startActivity(sendIntent);
         }
         else if (id == R.id.nav_send) {
 
