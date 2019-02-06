@@ -2,14 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical">-->
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
+            android:layout_height="wrap_content"
             android:text="@string/service_schedule_heading"
             android:textAlignment="center"
             android:paddingStart="@dimen/textviewpadding_start"
@@ -19,11 +18,11 @@
             android:textSize="@dimen/textview_size"
             />
 
-        <ScrollView
+       <!-- <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scrollbars="vertical"
-            android:layout_weight="0.9">
+            android:layout_weight="0.9">-->
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -31,8 +30,9 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/name"
+                    android:id="@+id/editText_name"
                     android:hint="Name"
+                    android:layout_marginTop="50dp"
                     android:imeOptions="actionNext"
                     android:textSize="@dimen/edittext_size"
                     android:drawableStart="@drawable/name"
@@ -49,12 +49,12 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/phone"
+                    android:id="@+id/edittext_phone"
                     android:hint="Phone"
                     android:imeOptions="actionNext"
                     android:inputType="phone"
                     android:textSize="@dimen/edittext_size"
-                    android:layout_below="@id/name"
+                    android:layout_below="@id/editText_name"
                     android:drawableStart="@drawable/phone"
                     android:drawablePadding="@dimen/drawable_padding"
                     android:background="@drawable/edittext_background"
@@ -68,11 +68,11 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/calendar"
+                    android:id="@+id/edittext_date"
                     android:hint="Calendar"
                     android:imeOptions="actionNext"
                     android:textSize="@dimen/edittext_size"
-                    android:layout_below="@id/phone"
+                    android:layout_below="@id/edittext_phone"
                     android:drawableStart="@drawable/calendar"
                     android:drawablePadding="@dimen/drawable_padding"
                     android:background="@drawable/edittext_background"
@@ -86,7 +86,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/description"
+                    android:id="@+id/edittext_description"
                     android:hint="Description"
                     android:textSize="@dimen/edittext_size"
                     android:maxLines="5"
@@ -94,7 +94,7 @@
                     android:gravity="top|start"
                     android:drawableStart="@drawable/description"
                     android:drawablePadding="@dimen/drawable_padding"
-                    android:layout_below="@id/calendar"
+                    android:layout_below="@id/edittext_date"
                     android:background="@drawable/edittext_background"
                     android:paddingTop="@dimen/edittextpadding_top"
                     android:paddingBottom="@dimen/edittextpadding_bottom"
@@ -106,14 +106,14 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/house_number"
+                    android:id="@+id/edittext_housenumber"
                     android:hint="House Number"
                     android:textSize="@dimen/edittext_size"
                     android:imeOptions="actionNext"
                     android:drawableStart="@drawable/location"
                     android:drawablePadding="@dimen/drawable_padding"
                     android:inputType="text"
-                    android:layout_below="@id/description"
+                    android:layout_below="@id/edittext_description"
                     android:background="@drawable/edittext_background"
                     android:paddingTop="@dimen/edittextpadding_top"
                     android:paddingBottom="@dimen/edittextpadding_bottom"
@@ -125,14 +125,14 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/colony"
+                    android:id="@+id/edittext_colony"
                     android:drawableStart="@drawable/location"
                     android:drawablePadding="@dimen/drawable_padding"
                     android:hint="Colony"
                     android:inputType="text"
                     android:imeOptions="actionNext"
                     android:textSize="@dimen/edittext_size"
-                    android:layout_below="@id/house_number"
+                    android:layout_below="@id/edittext_housenumber"
                     android:background="@drawable/edittext_background"
                     android:paddingTop="@dimen/edittextpadding_top"
                     android:paddingBottom="@dimen/edittextpadding_bottom"
@@ -146,12 +146,12 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/location"
                     android:drawablePadding="@dimen/drawable_padding"
-                    android:id="@+id/landmark"
+                    android:id="@+id/edittext_landmark"
                     android:hint="Landmark"
                     android:inputType="text"
                     android:imeOptions="actionNext"
                     android:textSize="@dimen/edittext_size"
-                    android:layout_below="@id/colony"
+                    android:layout_below="@id/edittext_colony"
                     android:background="@drawable/edittext_background"
                     android:paddingTop="@dimen/edittextpadding_top"
                     android:paddingBottom="@dimen/edittextpadding_bottom"
@@ -163,14 +163,14 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/city"
+                    android:id="@+id/edittext_city"
                     android:imeOptions="actionNext"
                     android:drawableStart="@drawable/location"
                     android:drawablePadding="@dimen/drawable_padding"
                     android:hint="City"
                     android:textSize="@dimen/edittext_size"
                     android:inputType="text"
-                    android:layout_below="@id/landmark"
+                    android:layout_below="@id/edittext_landmark"
                     android:background="@drawable/edittext_background"
                     android:paddingTop="@dimen/edittextpadding_top"
                     android:paddingBottom="@dimen/edittextpadding_bottom"
@@ -182,15 +182,31 @@
 
 
                 <CheckBox
+                    android:id="@+id/serviceschedule_checkbox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/city"
+                    android:layout_below="@id/edittext_city"
                     android:text="@string/terms_and_conditions"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="8dp"
                     android:paddingStart="@dimen/drawable_padding"
                     />
+
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/serviveschedulebutton"
+                    android:layout_below="@id/serviceschedule_checkbox"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_centerInParent="true"
+                    android:text="Submit"
+                    android:layout_marginTop="10dp"
+                    android:onClick="serviveschedulebutton"
+                    android:background="@drawable/serviceselection_button_bg"/>
+
             </RelativeLayout>
-        </ScrollView>
-    </LinearLayout>
+       <!-- </ScrollView>-->
+ <!--   </LinearLayout>-->
 </RelativeLayout>

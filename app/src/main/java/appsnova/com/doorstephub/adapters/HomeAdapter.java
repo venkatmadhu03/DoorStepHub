@@ -47,7 +47,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         draw.setShape(GradientDrawable.RECTANGLE);
         draw.setColor(Color.rgb(red, green, blue));
         myViewHolder.recycler_text.setBackground(draw);
-        myViewHolder.recycler_text.setTextColor(Color.BLACK);
+        myViewHolder.recycler_text.setTextColor(Color.WHITE);
 
 
        /* if(i %2 == 1)

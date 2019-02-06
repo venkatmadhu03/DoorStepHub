@@ -7,9 +7,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import appsnova.com.doorstephub.adapters.ServiceSelectionAdapter;
 import appsnova.com.doorstephub.models.ServiceSelectionModel;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;

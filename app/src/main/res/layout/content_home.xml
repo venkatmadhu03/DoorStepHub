@@ -7,16 +7,17 @@
     android:orientation="vertical"
     android:layout_marginTop="70dp"
     >
-    <TextView
+    <appsnova.com.doorstephub.ownlibraries.MyTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Recycler View"
+        android:text="@string/areas_expertise_text"
         android:textAlignment="center"
-        android:textSize="25sp"/>
+        android:textSize="20sp"
+        android:layout_marginBottom="10dp"/>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/servicesCategoryRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>

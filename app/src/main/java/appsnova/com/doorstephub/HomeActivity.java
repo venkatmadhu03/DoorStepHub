@@ -27,7 +27,6 @@ import appsnova.com.doorstephub.utilities.UrlUtility;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,7 +130,7 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    @Override
+/*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
@@ -151,7 +150,7 @@ public class HomeActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -188,7 +187,7 @@ public class HomeActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_Aboutus) {
             if (networkUtils.checkConnection()){
-                startActivity(new Intent(this, MyBookingsActivity.class));
+                startActivity(new Intent(this, AboutUsActivity.class));
             }else{
                 UrlUtility.showCustomToast(getResources().getString(R.string.no_connection), this);
             }

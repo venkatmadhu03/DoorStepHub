@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:id="@+id/serviceselection_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/servicebackground">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:id="@+id/logo_container">
+        android:id="@+id/logo_container"
+        >
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/logo"
             android:src="@mipmap/ic_launcher_round"/>
     </LinearLayout>
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/services"
@@ -23,19 +26,20 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/service_required_for"
             android:textAlignment="center"
-            android:text="Service Required For?"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:id="@+id/services_text"/>
         <RadioGroup
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@id/services_text"
-            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/textviewpadding_bottom"
             android:id="@+id/services_radiogroup">
             <RadioButton
                 android:layout_width="wrap_content"
@@ -47,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:text="Laptop"/>
         </RadioGroup>
-    </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,20 +63,21 @@
         android:layout_alignParentBottom="true">
 
         <TextView
+            android:id="@+id/servicestype_text"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.1"
-            android:textAlignment="center"
-            android:text="Which Service Type Required?"
-            android:id="@+id/servicestype_text"/>
+            android:layout_weight="0.04"
+            android:text="@string/which_service_type_required"
+            android:textAlignment="center" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.5"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
             android:layout_below="@id/servicestype_text"
             android:id="@+id/serviceselection_list">
-        </android.support.v7.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
 
         <Button
@@ -81,13 +86,13 @@
             android:layout_weight="0.1"
             android:id="@+id/button_continue"
             android:text="Continue"
+            android:textColor="@color/colorWhite"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:layout_below="@id/serviceselection_list"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:layout_marginTop="5dp"
-            android:onClick="serviceselection"/>
+            android:onClick="serviceselection"
+            android:background="@drawable/serviceselection_button_bg"/>
     </LinearLayout>
 
 </RelativeLayout>
