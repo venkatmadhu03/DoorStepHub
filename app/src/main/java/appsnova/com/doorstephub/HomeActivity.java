@@ -66,7 +66,7 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         servicesCategoryRecyclerView = findViewById(R.id.servicesCategoryRecyclerView);
         serviceCategoryModelList = new ArrayList<ServiceCategoryModel>();
-        homeAdapter = new HomeAdapter(serviceCategoryModelList);
+        homeAdapter = new HomeAdapter(serviceCategoryModelList, this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -76,7 +76,7 @@ public class HomeActivity extends AppCompatActivity
         servicesCategoryRecyclerView.setAdapter(homeAdapter);
 
         onPrepareData();
-    }
+    } //onCreate
     public void onPrepareData(){
         ServiceCategoryModel data =new ServiceCategoryModel("Sai");
         serviceCategoryModelList.add(data);
@@ -119,7 +119,7 @@ public class HomeActivity extends AppCompatActivity
 
 
         homeAdapter.notifyDataSetChanged();
-    }
+    } //onPrepareData
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -128,29 +128,8 @@ public class HomeActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }
+    } //onBackPressed
 
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -207,5 +186,5 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
+    } //onNavigationItemSelected
 }

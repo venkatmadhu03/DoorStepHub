@@ -33,7 +33,7 @@ public class ServiceSelectionAdapter   extends RecyclerView.Adapter<ServiceSelec
     public void onBindViewHolder(@NonNull ServiceSelectionViewHolder holder, int i) {
 
         final ServiceSelectionModel serviceSelectionModel = serviceSelectionModelList.get(i);
-        holder.servicetext.setText(serviceSelectionModel.getName());
+        holder.servicerow_checkbox.setText(serviceSelectionModel.getName());
         holder.servicerow_checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -63,7 +63,7 @@ public class ServiceSelectionAdapter   extends RecyclerView.Adapter<ServiceSelec
         public ServiceSelectionViewHolder(@NonNull View itemView) {
             super(itemView);
             servicerelativelayout = itemView.findViewById(R.id.container);
-            servicetext =itemView.findViewById(R.id.servicerow_text);
+        //    servicetext =itemView.findViewById(R.id.servicerow_text);
             servicerow_checkbox = itemView.findViewById(R.id.service_row_checkbox);
         }
     }

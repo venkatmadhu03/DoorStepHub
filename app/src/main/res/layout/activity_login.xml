@@ -59,7 +59,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/mobileNumberLoginET"
-                        android:hint="enter_login_id_hint"
+                        android:hint="@string/enter_login_id_hint"
                         android:drawableStart="@drawable/phone"
                         android:backgroundTint="@color/colorPrimary"
                         android:textColorHint="@color/colorPrimary"
@@ -96,7 +96,8 @@
                     android:src="@drawable/forwardarrow"
                     android:layout_below="@+id/passwordLoginTIL"
                     android:layout_marginTop="10dp"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_centerHorizontal="true"
+                    android:onClick="loginsuccessfull"/>
 
             </RelativeLayout>
 

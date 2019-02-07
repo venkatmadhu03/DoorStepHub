@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import appsnova.com.doorstephub.adapters.ServiceSelectionAdapter;
 import appsnova.com.doorstephub.models.ServiceSelectionModel;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -92,6 +93,7 @@ public class ServiceSelectionActivity extends AppCompatActivity {
             }
 
         }
+        startActivity(new Intent(this, ServiceScheduleActivity.class));
 
     }
 }

@@ -10,14 +10,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/service_row_checkbox"
         android:gravity="center"
-        android:theme="@style/CheckBoxTheme"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Hello"
-        android:id="@+id/servicerow_text"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_toRightOf="@id/service_row_checkbox"/>
+        android:theme="@style/CheckBoxTheme"
+        android:layout_marginLeft="@dimen/nav_header_vertical_spacing"/>
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Hello"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:id="@+id/servicerow_text"-->
+        <!--android:textSize="16sp"-->
+        <!--android:textStyle="bold"-->
+        <!--android:layout_toRightOf="@id/service_row_checkbox"/>-->
 </RelativeLayout>

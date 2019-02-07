@@ -32,6 +32,8 @@
     <style name="CheckBoxTheme" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">#FFC107</item>
         <item name="colorControlActivated">#9C27B0</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

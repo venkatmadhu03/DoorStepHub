@@ -1,5 +1,7 @@
 package appsnova.com.doorstephub.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
@@ -13,11 +15,13 @@ import java.util.Random;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import appsnova.com.doorstephub.R;
+import appsnova.com.doorstephub.ServiceSelectionActivity;
 import appsnova.com.doorstephub.models.ServiceCategoryModel;
 import appsnova.com.doorstephub.ownlibraries.MyTextView;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
     List<ServiceCategoryModel> serviceCategoryModelList;
+    Context context;
 
     @NonNull
     @Override
@@ -28,8 +32,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         return myViewHolder;
     }
 
-    public HomeAdapter(List<ServiceCategoryModel> serviceCategoryModelList) {
+    public HomeAdapter(List<ServiceCategoryModel> serviceCategoryModelList, Context context) {
         this.serviceCategoryModelList = serviceCategoryModelList;
+        this.context = context;
     }
 
     @Override
@@ -65,7 +70,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         myViewHolder.recycler_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                context.startActivity(new Intent(context, ServiceSelectionActivity.class));
             }
         });
 

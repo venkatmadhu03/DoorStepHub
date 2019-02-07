@@ -36,34 +36,7 @@ public class ServiceScheduleActivity extends AppCompatActivity{
         serviceschedule_checkbox = findViewById(R.id.serviceschedule_checkbox);
 
 
-        if(editText_name.getText().toString().length() == 0)
-        {
-            editText_name.setError("Name is Required");
-        }
-        if(editText_phone.getText().toString().length() == 0 )
-        {
-            editText_phone.setError("PhoneNumber is Required");
-        }
-       /* else if(editText_phone.getText().toString().length()<10 && editText_phone.getText().toString().length()>10){
-            editText_phone.setError("Please enter the valid mobile number");
-        }*/
-        if(editText_date.getText().toString().length() == 0)
-        {
-            editText_date.setError("Date is Required");
-        }
 
-        if(editText_housenum.getText().toString().length() == 0)
-        {
-            editText_housenum.setError("HouseNumber is Required");
-        }
-        if(editText_colony.getText().toString().length() == 0)
-        {
-            editText_colony.setError("Colony is Required");
-        }
-        if(editText_city.getText().toString().length() == 0)
-        {
-            editText_city.setError("City is Required");
-        }
     }
 
     public void serviveschedulebutton(View view) {
@@ -76,8 +49,34 @@ public class ServiceScheduleActivity extends AppCompatActivity{
         }
         else{
 
-            Toast.makeText(this, "Please Fill The Required Fields..", Toast.LENGTH_SHORT).show();
-          //  serviveschedulebutton.setEnabled(false);
+            if(editText_name.getText().toString().length() == 0)
+            {
+                editText_name.setError("Name is Required");
+            }
+            if(editText_phone.getText().toString().length() == 0 )
+            {
+                editText_phone.setError("PhoneNumber is Required");
+            }
+       /* else if(editText_phone.getText().toString().length()<10 && editText_phone.getText().toString().length()>10){
+            editText_phone.setError("Please enter the valid mobile number");
+        }*/
+            if(editText_date.getText().toString().length() == 0)
+            {
+                editText_date.setError("Date is Required");
+            }
+
+            if(editText_housenum.getText().toString().length() == 0)
+            {
+                editText_housenum.setError("HouseNumber is Required");
+            }
+            if(editText_colony.getText().toString().length() == 0)
+            {
+                editText_colony.setError("Colony is Required");
+            }
+            if(editText_city.getText().toString().length() == 0)
+            {
+                editText_city.setError("City is Required");
+            }          //  serviveschedulebutton.setEnabled(false);
         }
         }
 
