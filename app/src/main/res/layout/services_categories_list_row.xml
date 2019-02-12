@@ -7,31 +7,30 @@
     android:id="@+id/recycler_container">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:paddingBottom="15dp"
-        android:paddingTop="15dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
-        <LinearLayout
+        android:layout_height="150dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="3dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
             <appsnova.com.doorstephub.ownlibraries.MyTextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/recycler_text"
                 android:text="hello"
-                android:paddingBottom="15dp"
-                android:paddingTop="15dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                app:textfont="Roboto-Bold.ttf"
                 android:textSize="20sp"
                 android:textAlignment="center"
-                android:layout_gravity="center"/>
-        </LinearLayout>
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                app:textfont="Roboto-Bold.ttf"
+               />
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
 

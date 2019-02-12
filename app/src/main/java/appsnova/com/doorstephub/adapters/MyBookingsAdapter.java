@@ -1,5 +1,7 @@
 package appsnova.com.doorstephub.adapters;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +17,15 @@ import appsnova.com.doorstephub.models.MyBookingsModel;
 
 public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.MyBookingsViewHolder> {
     List<MyBookingsModel> myBookingsModelList;
+    ItemClickListener itemClickListener;
+    Context context;
 
-    public MyBookingsAdapter(List<MyBookingsModel> myBookingsModelList) {
+
+    public MyBookingsAdapter(Context context,List<MyBookingsModel> myBookingsModelList,ItemClickListener itemClickListener) {
         this.myBookingsModelList = myBookingsModelList;
+        this.itemClickListener = itemClickListener;
+        this.myBookingsModelList = myBookingsModelList;
+
     }
 
     @NonNull
@@ -26,7 +34,13 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
 
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.mybooking_list_row,parent,false);
-        MyBookingsViewHolder myBookingsViewHolder =new MyBookingsViewHolder(view);
+        final MyBookingsViewHolder myBookingsViewHolder =new MyBookingsViewHolder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemClickListener.onClickItem(v,myBookingsViewHolder.getAdapterPosition());
+            }
+        });
         return myBookingsViewHolder;
     }
 
@@ -39,6 +53,19 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
         holder.mybooking_servicerequiredtxt.setText("Service Required:"+myBookingsModel.getServicerequired());
         holder.mybooking_subservicetxt.setText("Sub Service:"+myBookingsModel.getSubservice());
         holder.mybooking_scheduleddatetxt.setText("Scheduled On:"+myBookingsModel.getScheduleddate());
+        holder.mybooking_status.setText(myBookingsModel.getStatus());
+
+        if(myBookingsModel.getStatus().equalsIgnoreCase("completed")){
+            holder.mybooking_status.setTextColor(Color.GREEN);
+        }
+        else if(myBookingsModel.getStatus().equalsIgnoreCase("rejected")){
+            holder.mybooking_status.setTextColor(Color.RED);
+        }
+        else
+        {
+            holder.mybooking_status.setTextColor(Color.BLUE);
+
+        }
 
            /* for(int i=0;i<myBookingsModelList.size();i++){
                 if(position<myBookingsModelList.size()-1){
@@ -59,7 +86,7 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
         RelativeLayout mybookings_rowlayout;
         View mybookings_horizontaldivider;
         TextView mybooking_orderidtxt,mybooking_nametxt,mybooking_servicerequiredtxt,mybooking_subservicetxt,
-                mybooking_scheduleddatetxt;
+                mybooking_scheduleddatetxt,mybooking_status;
         public MyBookingsViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -70,8 +97,12 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
             mybooking_servicerequiredtxt = itemView.findViewById(R.id.mybooking_servicerequiredtxt);
             mybooking_subservicetxt = itemView.findViewById(R.id.mybooking_subservicetxt);
             mybooking_scheduleddatetxt = itemView.findViewById(R.id.mybooking_scheduledatetxt);
+            mybooking_status = itemView.findViewById(R.id.mybooking_status);
 
 
         }
+    }
+    public interface ItemClickListener {
+        void onClickItem(View v,int pos);
     }
 }

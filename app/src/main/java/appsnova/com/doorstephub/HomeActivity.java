@@ -17,6 +17,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import appsnova.com.doorstephub.adapters.HomeAdapter;
@@ -68,8 +69,8 @@ public class HomeActivity extends AppCompatActivity
         serviceCategoryModelList = new ArrayList<ServiceCategoryModel>();
         homeAdapter = new HomeAdapter(serviceCategoryModelList, this);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        GridLayoutManager layoutManager = new GridLayoutManager(this,2);
+       // layoutManager.setOrientation(RecyclerView.VERTICAL);
         servicesCategoryRecyclerView.hasFixedSize();
         servicesCategoryRecyclerView.setLayoutManager(layoutManager);
         servicesCategoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -78,44 +79,27 @@ public class HomeActivity extends AppCompatActivity
         onPrepareData();
     } //onCreate
     public void onPrepareData(){
-        ServiceCategoryModel data =new ServiceCategoryModel("Sai");
+        ServiceCategoryModel data =new ServiceCategoryModel("Networking Issues");
         serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Sri");
+        data =new ServiceCategoryModel("Printer Repair");
         serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Divya");
+        data =new ServiceCategoryModel("Hardware Issues");
         serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Teja");
+        data =new ServiceCategoryModel("Software Installation");
         serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Deepthi");
+        data =new ServiceCategoryModel("System upgradation");
         serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Neelu");
+        data =new ServiceCategoryModel("Data Backup");
         serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Latha");
+        data =new ServiceCategoryModel("System Slow");
         serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("PVR");
+        data =new ServiceCategoryModel("Power Problems");
         serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Sri");
+        data =new ServiceCategoryModel("General Service");
         serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Divya");
+        data =new ServiceCategoryModel("AMC Services");
         serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Teja");
-        serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Deepthi");
-        serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Neelu");
-        serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Latha");
-        serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("PVR");
-        serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Deepthi");
-        serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Neelu");
-        serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Latha");
-        serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("PVR");
-        serviceCategoryModelList.add(data);
+
 
 
         homeAdapter.notifyDataSetChanged();
@@ -139,24 +123,24 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_message) {
+        } /*else if (id == R.id.nav_message) {
 
-        } else if (id == R.id.nav_mybookings) {
+        }*/ else if (id == R.id.nav_mybookings) {
             if (networkUtils.checkConnection()){
                 startActivity(new Intent(this, MyBookingsActivity.class));
             }else{
                 UrlUtility.showCustomToast(getResources().getString(R.string.no_connection), this);
             }
-        }else if (id == R.id.nav_feedback) {
+        }/*else if (id == R.id.nav_feedback) {
             if (networkUtils.checkConnection()){
                 startActivity(new Intent(this, FeedbackActivity.class));
             }else{
                 UrlUtility.showCustomToast(getResources().getString(R.string.no_connection), this);
             }
-        }
-        else if (id == R.id.nav_setting) {
+        }*/
+       /* else if (id == R.id.nav_setting) {
 
-        }
+        }*/
         else if (id == R.id.nav_discounts) {
             if (networkUtils.checkConnection()){
                 startActivity(new Intent(this, DiscountsActivity.class));
@@ -179,9 +163,9 @@ public class HomeActivity extends AppCompatActivity
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
         }
-        else if (id == R.id.nav_send) {
+       /* else if (id == R.id.nav_send) {
 
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

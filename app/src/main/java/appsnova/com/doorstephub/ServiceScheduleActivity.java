@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,6 +22,8 @@ public class ServiceScheduleActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_schedule);
 
+       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         setTitle("ServiceScheduleActivity");
 
         editText_name = findViewById(R.id.editText_name);
@@ -35,7 +38,17 @@ public class ServiceScheduleActivity extends AppCompatActivity{
         serviveschedulebutton = findViewById(R.id.serviveschedulebutton);
         serviceschedule_checkbox = findViewById(R.id.serviceschedule_checkbox);
 
-
+        serviceschedule_checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    serviveschedulebutton.setEnabled(true);
+                }
+                else{
+                    serviveschedulebutton.setEnabled(false);
+                }
+            }
+        });
 
     }
 

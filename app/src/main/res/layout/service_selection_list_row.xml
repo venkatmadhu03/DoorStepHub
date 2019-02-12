@@ -1,25 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/container">
-
-    <CheckBox
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="3dp"
+        android:id="@+id/service_item"
+        app:cardCornerRadius="5dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/container">
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/image_background"
+        android:src="@drawable/background"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/selected_item"
+                android:src="@drawable/tick_mark"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"/>
+    <!--<CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/service_row_checkbox"
-        android:gravity="center"
+        android:layout_centerHorizontal="true"
         android:text="Hello"
-        android:theme="@style/CheckBoxTheme"
-        android:layout_marginLeft="@dimen/nav_header_vertical_spacing"/>
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Hello"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:id="@+id/servicerow_text"-->
-        <!--android:textSize="16sp"-->
-        <!--android:textStyle="bold"-->
-        <!--android:layout_toRightOf="@id/service_row_checkbox"/>-->
+        android:layout_centerVertical="true"/>-->
+
+            <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello"
+        android:id="@+id/servicerow_text"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+       />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>

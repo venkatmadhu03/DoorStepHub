@@ -2,31 +2,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">-->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/service_schedule_heading"
-            android:textAlignment="center"
-            android:paddingStart="@dimen/textviewpadding_start"
-            android:paddingEnd="@dimen/textviewpadding_end"
-            android:paddingTop="@dimen/textviewpadding_top"
-            android:paddingBottom="@dimen/textviewpadding_bottom"
-            android:textSize="@dimen/textview_size"
-            />
 
-       <!-- <ScrollView
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:scrollbars="vertical"
-            android:layout_weight="0.9">-->
+            android:layout_height="match_parent"
+            android:scrollbars="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/service_schedule_heading"
+                    android:textAlignment="center"
+                    android:paddingStart="@dimen/textviewpadding_start"
+                    android:paddingEnd="@dimen/textviewpadding_end"
+                    android:paddingTop="@dimen/textviewpadding_top"
+                    android:paddingBottom="@dimen/textviewpadding_bottom"
+                    android:textSize="@dimen/textview_size"
+                    />
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -164,7 +161,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/edittext_city"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
                     android:drawableStart="@drawable/location"
                     android:drawablePadding="@dimen/drawable_padding"
                     android:hint="City"
@@ -201,12 +198,14 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:layout_centerInParent="true"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:text="Submit"
                     android:layout_marginTop="10dp"
                     android:onClick="serviveschedulebutton"
                     android:background="@drawable/serviceselection_button_bg"/>
 
             </RelativeLayout>
-       <!-- </ScrollView>-->
- <!--   </LinearLayout>-->
+        </ScrollView>
+
 </RelativeLayout>

@@ -16,6 +16,7 @@ public class ServiceSelectionModel {
     }
     public void setSelected(boolean selected) {
         isSelected = selected;
+
     }
 
 

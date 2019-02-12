@@ -2,14 +2,23 @@ package appsnova.com.doorstephub.models;
 
 public class MyBookingsModel {
 
-    String orderid,username,servicerequired,subservice,scheduleddate;
+    String orderid,username,servicerequired,subservice,scheduleddate,status;
 
-    public MyBookingsModel(String orderid, String username, String servicerequired, String subservice, String scheduleddate) {
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public MyBookingsModel(String orderid, String username, String servicerequired, String subservice, String scheduleddate, String status) {
         this.orderid = orderid;
         this.username = username;
         this.servicerequired = servicerequired;
         this.subservice = subservice;
         this.scheduleddate = scheduleddate;
+        this.status = status;
     }
 
     public String getOrderid() {

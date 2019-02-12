@@ -25,7 +25,7 @@ public class AboutUsActivity extends AppCompatActivity {
         aboutus_progressBar = findViewById(R.id.aboutus_progressbar);
         aboutus_webview = findViewById(R.id.webview_aboutus);
 
-        aboutus_webview.loadUrl("http://www.google.com");
+        aboutus_webview.loadUrl("https://doorstephub.com/");
         aboutus_webview.getSettings().setJavaScriptEnabled(true);
         aboutus_webview.getSettings().setDisplayZoomControls(true);
         aboutus_webview.getSettings().setSupportZoom(true);
