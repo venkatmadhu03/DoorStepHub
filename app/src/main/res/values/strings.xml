@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">DoorStepHub</string>
     <string name="no_connection">Not Connected to Internet or Slow Connection detected</string>
+    <string name="progress_message">Please wait while we connect</string>
 
     <string name="enter_login_id_hint"> Enter Mobile Number</string>
     <string name="enter_otp_hint">Enter OTP</string>

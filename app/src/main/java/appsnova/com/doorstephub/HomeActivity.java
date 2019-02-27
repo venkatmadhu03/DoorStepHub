@@ -4,9 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
@@ -25,9 +30,14 @@ import appsnova.com.doorstephub.models.ServiceCategoryModel;
 import appsnova.com.doorstephub.utilities.NetworkUtils;
 import appsnova.com.doorstephub.utilities.SharedPref;
 import appsnova.com.doorstephub.utilities.UrlUtility;
+import appsnova.com.doorstephub.utilities.VolleySingleton;
 
 import android.view.Menu;
 import android.view.MenuItem;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +47,8 @@ public class HomeActivity extends AppCompatActivity
     
     //create View Objects
     RecyclerView servicesCategoryRecyclerView;
+    int statusCode;
+    String statusMessage;
     
     //create Utils Objects
     NetworkUtils networkUtils;
@@ -52,6 +64,7 @@ public class HomeActivity extends AppCompatActivity
         serviceCategoryModelList = new ArrayList<>();
         networkUtils = new NetworkUtils(this);
         sharedPref = new SharedPref(this);
+        progressDialog=UrlUtility.showProgressDialog(this);
         
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -75,11 +88,52 @@ public class HomeActivity extends AppCompatActivity
         servicesCategoryRecyclerView.setLayoutManager(layoutManager);
         servicesCategoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
         servicesCategoryRecyclerView.setAdapter(homeAdapter);
+        if (networkUtils.checkConnection()){
+            getServicesListFromServer();
 
-        onPrepareData();
+        }
+
     } //onCreate
-    public void onPrepareData(){
-        ServiceCategoryModel data =new ServiceCategoryModel("Networking Issues");
+
+    //get Services List from server
+    public void getServicesListFromServer(){
+        progressDialog.show();
+        serviceCategoryModelList.clear();
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, UrlUtility.SERVICES_LIST_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Log.d("servicesResponse", "onResponse: "+response);
+                    JSONObject jsonObject=new JSONObject(response);
+                    statusCode = jsonObject.getInt("statusCode");
+                    statusMessage = jsonObject.getString("statusMessage");
+                    JSONArray jsonArray=jsonObject.getJSONArray("response");
+                    if (statusCode==200){
+                        for (int i=0;i<jsonArray.length();i++){
+                            JSONObject jsonObject1=jsonArray.getJSONObject(i);
+                            ServiceCategoryModel serviceCategoryModel=new ServiceCategoryModel();
+                            serviceCategoryModel.setId(jsonObject1.getString("id"));
+                            serviceCategoryModel.setName(jsonObject1.getString("name"));
+                            serviceCategoryModel.setServices_id(jsonObject1.getString("services_id"));
+                            serviceCategoryModelList.add(serviceCategoryModel);
+                        }
+                        homeAdapter.notifyDataSetChanged();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                progressDialog.dismiss();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+            }
+        });
+        VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
+        VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
+       /* ServiceCategoryModel data =new ServiceCategoryModel("Networking Issues");
         serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("Printer Repair");
         serviceCategoryModelList.add(data);
@@ -99,11 +153,9 @@ public class HomeActivity extends AppCompatActivity
         serviceCategoryModelList.add(data);
         data =new ServiceCategoryModel("AMC Services");
         serviceCategoryModelList.add(data);
+        homeAdapter.notifyDataSetChanged();*/
 
-
-
-        homeAdapter.notifyDataSetChanged();
-    } //onPrepareData
+    } //end of getServicesListFromServer
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

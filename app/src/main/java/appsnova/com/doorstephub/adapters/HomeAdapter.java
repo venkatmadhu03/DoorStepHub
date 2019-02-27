@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder,final int i) {
         ServiceCategoryModel myData = serviceCategoryModelList.get(i);
         myViewHolder.recycler_text.setText(myData.getName());
 
@@ -54,23 +55,16 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         myViewHolder.recycler_text.setBackground(draw);
         myViewHolder.recycler_text.setTextColor(Color.WHITE);
 
-
-       /* if(i %2 == 1)
-        {
-            myViewHolder.recycler_text.setBackgroundColor(Color.parseColor("#000000"));
-            myViewHolder.recycler_text.setTextColor(Color.parseColor("#FFFFFF"));
-            //  holder.imageView.setBackgroundColor(Color.parseColor("#FFFFFF"));
-        }
-        else
-        {
-            myViewHolder.recycler_text.setBackgroundColor(Color.parseColor("#1849AA"));
-            myViewHolder.recycler_text.setTextColor(Color.parseColor("#FFFFFF"));
-            //  holder.imageView.setBackgroundColor(Color.parseColor("#FFFAF8FD"));
-        }*/
         myViewHolder.recycler_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, ServiceSelectionActivity.class));
+                Intent intent=new Intent(context,ServiceSelectionActivity.class);
+                intent.putExtra("service_id",serviceCategoryModelList.get(i).getId());
+                intent.putExtra("service_name",serviceCategoryModelList.get(i).getName());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Log.d("serviceId", "onClick: "+serviceCategoryModelList.get(i).getId()+","+serviceCategoryModelList.get(i).getName());
+                context.startActivity(intent);
+//                context.startActivity(new Intent(context, ServiceSelectionActivity.class));
             }
         });
 

@@ -1,6 +1,7 @@
 package appsnova.com.doorstephub.utilities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,25 @@ import android.widget.Toast;
 import appsnova.com.doorstephub.R;
 
 public class UrlUtility {
+
+    public  static final String BASE_URL="https://doorstephub.com/api/index.php/";
+//    public  static final String BASE_URL="http://10.10.10.212/CodeIgniter/index.php/";
+    public static final String SERVICES_LIST_URL=BASE_URL+"Services/ServicesList";
+    public static final String SUB_SERVICES_LIST_URL=BASE_URL+"Services/SubServicesList";
+    public static final String SUBMIT_DETAILS_URL=BASE_URL+"Services/SubServicesList";
+    public static final String CREATE_REQUEST_URL=BASE_URL+"Bookings/CreateRequest";
+
+    public static ProgressDialog showProgressDialog(Context mContext) {
+
+        ProgressDialog progressDialog = new ProgressDialog(mContext);
+        progressDialog.setMessage(mContext.getResources().getString(R.string.progress_message));
+        progressDialog.setCancelable(false);
+        progressDialog.setProgress(0);
+        progressDialog.setMax(100);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCanceledOnTouchOutside(false);
+        return progressDialog;
+    }// end of Progress dialog
 
 
     /**

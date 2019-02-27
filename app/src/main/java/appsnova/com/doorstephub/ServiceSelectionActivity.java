@@ -8,7 +8,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import appsnova.com.doorstephub.adapters.ServiceSelectionAdapter;
 import appsnova.com.doorstephub.models.ServiceSelectionModel;
+import appsnova.com.doorstephub.utilities.NetworkUtils;
+import appsnova.com.doorstephub.utilities.SharedPref;
+import appsnova.com.doorstephub.utilities.UrlUtility;
+import appsnova.com.doorstephub.utilities.VolleySingleton;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -22,39 +27,80 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ServiceSelectionActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ServiceSelectionAdapter serviceSelectionAdapter;
-    List<ServiceSelectionModel> serviceSelectionModels;
+    List<ServiceSelectionModel> serviceSelectionModelList;
     List<ServiceSelectionModel> selecteditemlist;
     ActionMode mActionMode;
     boolean isMultiSelect = false;
+    int statusCode;
+    String statusMessage;
+    Bundle bundle;
+    String service_Id="",service_name="";
+    NetworkUtils networkUtils;
+    SharedPref sharedPref;
+    ProgressDialog progressDialog;
+    int selectedItemsCount;
+    LinearLayout services;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_selection);
+        services=findViewById(R.id.services);
+
+        //intialie Utils Objects
+        networkUtils = new NetworkUtils(this);
+        sharedPref = new SharedPref(this);
+        progressDialog = UrlUtility.showProgressDialog(this);
+        bundle=getIntent().getExtras();
+        if (bundle!=null){
+            service_Id=bundle.getString("service_id");
+            service_name=bundle.getString("service_name");
+            Log.d("service_Id", "onCreate: "+service_Id+","+service_name);
+        }
+        if (service_name.contains("Computer Service and Repairs")){
+            services.setVisibility(View.VISIBLE);
+        }else {
+            services.setVisibility(View.GONE);
+        }
 
         setTitle("ServiveSelectionActivity");
 
         recyclerView = findViewById(R.id.serviceselection_list);
-        serviceSelectionModels = new ArrayList<>();
+        serviceSelectionModelList = new ArrayList<>();
         selecteditemlist = new ArrayList<>();
-        serviceSelectionAdapter = new ServiceSelectionAdapter(ServiceSelectionActivity.this, serviceSelectionModels, selecteditemlist);
+        serviceSelectionAdapter = new ServiceSelectionAdapter(ServiceSelectionActivity.this, serviceSelectionModelList, selecteditemlist);
 
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(ServiceSelectionActivity.this, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(serviceSelectionAdapter);
-        serviceSelectionAdapter.notifyDataSetChanged();
+       // serviceSelectionAdapter.notifyDataSetChanged();
 
-        onpreparedata();
+        if (networkUtils.checkConnection()){
+            getSubServicesListFromServer();
+        }
 
 
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
@@ -63,10 +109,8 @@ public class ServiceSelectionActivity extends AppCompatActivity {
 
                 if (!isMultiSelect) {
                     isMultiSelect = true;
-                    if (mActionMode == null) {
-                        mActionMode = startActionMode(mActionModeCallback);
-                    }
                 }
+
 
                 multi_select(position);
 
@@ -74,59 +118,71 @@ public class ServiceSelectionActivity extends AppCompatActivity {
 
             @Override
             public void onItemLongClick(View view, int position) {
-                if (!isMultiSelect) {
-                    isMultiSelect = true;
-                    if (mActionMode == null) {
-                        mActionMode = startActionMode(mActionModeCallback);
-                    }
-                }
-
-                multi_select(position);
             }
+
         }));
     }
 
-    public void onpreparedata() {
-        ServiceSelectionModel model = new ServiceSelectionModel("Networking Issues");
-        serviceSelectionModels.add(model);
-        model = new ServiceSelectionModel("Printer Repair");
-        serviceSelectionModels.add(model);
-        model = new ServiceSelectionModel("Hardware Issues");
-        serviceSelectionModels.add(model);
-        model = new ServiceSelectionModel("Software Installation");
-        serviceSelectionModels.add(model);
-        model = new ServiceSelectionModel("System Upgradation");
-        serviceSelectionModels.add(model);
-        model = new ServiceSelectionModel("Data Backup");
-        serviceSelectionModels.add(model);
-        model = new ServiceSelectionModel("System Slow");
-        serviceSelectionModels.add(model);
-        model = new ServiceSelectionModel("Power Problems");
-        serviceSelectionModels.add(model);
-        model = new ServiceSelectionModel("General Service");
-        serviceSelectionModels.add(model);
-        model = new ServiceSelectionModel("AMC Service");
-        serviceSelectionModels.add(model);
+    // get SubServices
+    public void getSubServicesListFromServer() {
+        progressDialog.show();
+        serviceSelectionModelList.clear();
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, UrlUtility.SUB_SERVICES_LIST_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("SubServicesResponse", "onResponse: "+response);
+                try {
+                    JSONObject jsonObject=new JSONObject(response);
+                    statusCode=jsonObject.getInt("statusCode");
+                    statusMessage=jsonObject.getString("statusMessage");
+                    JSONArray jsonArray=jsonObject.getJSONArray("response");
+                    if (statusCode==200){
+                        for (int i=0;i<jsonArray.length();i++){
+                            JSONObject jsonObject1=jsonArray.getJSONObject(i);
+                            ServiceSelectionModel serviceSelectionModel=new ServiceSelectionModel();
+                            serviceSelectionModel.setId(jsonObject1.getString("id"));
+                            serviceSelectionModel.setName(jsonObject1.getString("name"));
+                            serviceSelectionModel.setTitle(jsonObject1.getString("title"));
+                            serviceSelectionModel.setDescription(jsonObject1.getString("description"));
+                            serviceSelectionModelList.add(serviceSelectionModel);
+                        }
+                        Log.d("size", "onResponse: "+serviceSelectionModelList.size());
+                        serviceSelectionAdapter.notifyDataSetChanged();
 
-        serviceSelectionAdapter.notifyDataSetChanged();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                progressDialog.dismiss();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params=new HashMap<>();
+                params.put("User_ID","65");
+                params.put("service_subcat_id",service_Id);
 
-    }
+                JSONObject jsonObject=new JSONObject(params);
+                Log.d("subservicesparams", "getParams: "+jsonObject.toString());
+
+                return params;
+            }
+        };
+        VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
+        VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
+
+    }//end of getSubServicesListFromServer
 
 
     public void serviceselection(View view) {
-        /*selecteditemlist= new ArrayList<ServiceSelectionModel>();
-        for (ServiceSelectionModel model :serviceSelectionModels) {
-            if (model.isSelected()) {
-                String name = model.getName();
-                selecteditemlist.add(model);
-                Log.d("name","Output : " + name);
-                Log.d("namelist", String.valueOf(selecteditemlist.size()));
-            }
 
-        }*/
-        startActivity(new Intent(this, ServiceScheduleActivity.class));
-
-        }
+        selectedItemsList();
+    }
 
     @Override
     protected void onPause() {
@@ -149,113 +205,57 @@ public class ServiceSelectionActivity extends AppCompatActivity {
     }
 
     public void multi_select(int position) {
-
-        if (mActionMode != null) {
-            if (selecteditemlist.contains(serviceSelectionModels.get(position))){
-                selecteditemlist.remove(serviceSelectionModels.get(position));
+            if (selecteditemlist.contains(serviceSelectionModelList.get(position))){
+                selecteditemlist.remove(serviceSelectionModelList.get(position));
+                Log.d("selecteditemlist", "multi_select: "+selecteditemlist);
             }else{
-                selecteditemlist.add(serviceSelectionModels.get(position));
-            }
-            if (selecteditemlist.size() > 0){
-                mActionMode.setTitle("Services : " + selecteditemlist.size());
-            }else{
-                mActionMode.setTitle("");
+                selecteditemlist.add(serviceSelectionModelList.get(position));
             }
             refreshAdapter();
-
-        }
     }
 
     public void refreshAdapter() {
         serviceSelectionAdapter.selectedItemsList=selecteditemlist;
-        serviceSelectionAdapter.serviceSelectionModelList = serviceSelectionModels;
+        serviceSelectionAdapter.serviceSelectionModelList = serviceSelectionModelList;
         serviceSelectionAdapter.notifyDataSetChanged();
     }
+    private void selectedItemsList(){
+        List<ServiceSelectionModel> list = null;
+        selectedItemsCount=serviceSelectionAdapter.getSelectedItemCount();
+        Log.d("selectedItemsCount", "selectedItemsList: "+selectedItemsCount);
 
+        if (selectedItemsCount == serviceSelectionModelList.size()){
+            list = serviceSelectionAdapter.getSelectedItem();
+            Log.d("list", "assignUsers: "+list);
 
+        }else{
+            list = serviceSelectionAdapter.getSelectedItem();
+            Log.d("selectedLeadsCount", "assignUsers: "+list);
 
-
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-          /*  //    Inflate a menu resource providing context menu items
-            MenuInflater inflater = mode.getMenuInflater();
-            inflater.inflate(R.menu.send_sms_contacts_select, menu);
-            context_menu = menu;*/
-            return true;
         }
 
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        if (list.size() > 0){
+            StringBuilder sb = new StringBuilder();
+            for (int index = 0; index < list.size(); index++){
+                ServiceSelectionModel model = list.get(index);
+                sb.append(model.getId()+",");
+            }
+            String output = sb.deleteCharAt(sb.lastIndexOf(",")).toString();
+            Log.d("LeadList", "assignUsers: "+output);
 
-            return false; // Return false if nothing is done
+            Intent intent = new Intent(ServiceSelectionActivity.this,ServiceScheduleActivity.class);
+            intent.putExtra("Service_Id",service_Id);
+            intent.putExtra("IntentFrom","serviceselection");
+            intent.putExtra("serviceSelectionId",output);
+            Log.d("intentvalues", "selectedItemsList: "+service_Id+","+output);
+            startActivity(intent);
+
+        }else{
+            Toast.makeText(ServiceSelectionActivity.this, "No List", Toast.LENGTH_SHORT).show();
         }
 
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-           /* switch (item.getItemId()) {
-                case R.id.action_select_contacts:
 
-                    try {
-                        convertSelectedContactsToJsonArray();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
 
-                    return true;
-
-                case R.id.action_select_all_contacts_for_activities:
-
-                    if (item.getTitle().toString().equalsIgnoreCase("Select all")){
-
-                        selectedContactsList =  contactsListAdapter.getSelectAllItems();
-                        Log.d("LeadList", "onActionItemClicked: "+selectedContactsList);
-
-                        if (selectedContactsList.size() > 0){
-                            mActionMode.setTitle("" + selectedContactsList.size());
-                        }else{
-                            mActionMode.setTitle("");
-                        }
-                        if (selectedContactsList.size() == contactsPojoList.size()){
-
-                            if (item.getTitle().toString().equalsIgnoreCase("Select all")){
-                                item.setTitle("Select None");
-                            }else{
-                                item.setTitle("Select all");
-                            }
-                        }
-                        item.setTitle("Select None");
-
-                    }else{
-                        item.setTitle("Select all");
-                        selectedContactsList = contactsListAdapter.deselectAll();
-
-                        mActionMode.setTitle("");
-
-                        if (mActionMode !=null){
-                            mActionMode.finish();
-                        }else{
-
-                        }
-                        isMultiSelect = false;
-                        selectedContactsList = new ArrayList<ContactsPojo>();
-
-                    }
-
-                default:
-                    return false;
-            }*/
-        return true;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            mActionMode = null;
-            isMultiSelect = false;
-            selecteditemlist = new ArrayList<ServiceSelectionModel>();
-            refreshAdapter();
-        }
-    };
+    }
 
 }

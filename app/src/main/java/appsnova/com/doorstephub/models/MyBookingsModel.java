@@ -12,6 +12,9 @@ public class MyBookingsModel {
         this.status = status;
     }
 
+    public MyBookingsModel() {
+    }
+
     public MyBookingsModel(String orderid, String username, String servicerequired, String subservice, String scheduleddate, String status) {
         this.orderid = orderid;
         this.username = username;

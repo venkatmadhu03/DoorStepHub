@@ -51,6 +51,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="phone"
                     android:textSize="@dimen/edittext_size"
+                    android:visibility="gone"
                     android:layout_below="@id/editText_name"
                     android:drawableStart="@drawable/phone"
                     android:drawablePadding="@dimen/drawable_padding"

@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/services"
+        android:visibility="gone"
         android:orientation="vertical"
         android:layout_below="@id/logo_container">
         <TextView
@@ -86,18 +87,18 @@
 
 
         <Button
+            android:id="@+id/button_continue"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.1"
-            android:id="@+id/button_continue"
-            android:text="Continue"
-            android:textColor="@color/colorWhite"
-            android:textAlignment="center"
-            android:textAllCaps="false"
             android:layout_below="@id/serviceselection_list"
             android:layout_marginTop="5dp"
+            android:layout_weight="0.1"
+            android:background="@drawable/serviceselection_button_bg"
             android:onClick="serviceselection"
-            android:background="@drawable/serviceselection_button_bg"/>
+            android:text="Continue"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite" />
     </LinearLayout>
 
 </RelativeLayout>
