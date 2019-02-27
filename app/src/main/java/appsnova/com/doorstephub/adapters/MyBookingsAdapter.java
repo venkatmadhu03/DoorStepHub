@@ -5,9 +5,12 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -15,8 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import appsnova.com.doorstephub.R;
 import appsnova.com.doorstephub.models.MyBookingsModel;
 
-public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.MyBookingsViewHolder> {
+public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.MyBookingsViewHolder> implements Filterable {
     List<MyBookingsModel> myBookingsModelList;
+    List<MyBookingsModel> mybookingsfilteredlist;
     ItemClickListener itemClickListener;
     Context context;
 
@@ -24,7 +28,8 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
     public MyBookingsAdapter(Context context,List<MyBookingsModel> myBookingsModelList,ItemClickListener itemClickListener) {
         this.myBookingsModelList = myBookingsModelList;
         this.itemClickListener = itemClickListener;
-        this.myBookingsModelList = myBookingsModelList;
+        this.mybookingsfilteredlist = myBookingsModelList;
+        this.context = context;
 
     }
 
@@ -75,11 +80,52 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
 
     }
 
-
-
     @Override
     public int getItemCount() {
         return myBookingsModelList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+
+                String charString = constraint.toString();
+
+                List<MyBookingsModel> filteredList = new ArrayList<>();
+
+                for (MyBookingsModel row : myBookingsModelList) {
+
+                    if(row.getOrderid()!=null){
+
+                        if (row.getUsername().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
+
+                    }
+                    /*   if ((row.getUsername() !=null ||
+                            !(row.getUsername().equalsIgnoreCase("null"))
+                            || !row.getUsername().isEmpty())){
+
+                        if (row.getUsername().toLowerCase().contains(charString.toLowerCase())){
+                            filteredList.add(row);
+                        }
+                    }*/
+                }
+                mybookingsfilteredlist = filteredList;
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mybookingsfilteredlist;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+
+                mybookingsfilteredlist = (List<MyBookingsModel>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public class MyBookingsViewHolder extends RecyclerView.ViewHolder {

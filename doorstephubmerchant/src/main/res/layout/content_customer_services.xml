@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_marginTop="30dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/image_cardview"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="8dp"
+        app:cardUseCompatPadding="true">
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/image_viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
+    </androidx.cardview.widget.CardView>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/SliderDots"
+        android:layout_below="@+id/image_cardview"
+        android:orientation="horizontal"
+        android:gravity="center_vertical|center_horizontal"
+        />
+
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/webviewcontainer"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/image_cardview">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/serviceheading"
+            android:text="@string/about_us"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/activity_vertical_margin"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/servicesubheading"
+            android:text="@string/subheading"
+            android:textSize="18sp"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/servicedescription"
+            android:text="@string/description"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center" />
+</LinearLayout>
+-->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/details_heading"
+        android:text="LATEST COMPLETED WORK STREAK"
+        android:textColor="@color/blue"
+        android:layout_below="@id/SliderDots"
+        android:layout_marginTop="8dp"
+        android:paddingStart="15dp"
+        />
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/workdetailscard"
+        android:layout_below="@+id/details_heading"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="5dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/card_mainheading"
+                android:text="Completed"
+                android:paddingStart="5dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/card_subheading"
+                android:text="Novenber 2018"
+                android:layout_below="@id/card_mainheading"
+                android:paddingStart="5dp"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/workprogress"
+                android:text="6/8 Project"
+                android:layout_below="@id/card_subheading"
+                android:paddingStart="5dp"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cardview"
+        android:layout_below="@id/workdetailscard"
+        android:layout_marginTop="5dp"
+        app:cardCornerRadius="8dp"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="5dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/workdetailscard"
+            android:layout_marginBottom="10dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ourservices_heading"
+                android:text="OUR SERVICES"
+                android:padding="5dp"
+                android:background="#075FC9"
+                android:textSize="20sp" />
+
+            <GridView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/grid_view"
+                android:layout_below="@id/ourservices_heading"
+                android:numColumns="3"
+                android:stretchMode="columnWidth"
+                android:horizontalSpacing="0dp"
+                android:verticalSpacing="0dp">
+            </GridView>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

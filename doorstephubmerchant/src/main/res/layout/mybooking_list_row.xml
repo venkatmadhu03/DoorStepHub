@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/mybookings_rowlayout">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/booking_detailscontainer">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mybooking_orderidtxt"
+        android:text="OrderId:" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/mybooking_status"
+        android:text="Status:"
+        android:layout_toRightOf="@id/mybooking_orderidtxt"
+        android:gravity="end"
+        android:textStyle="bold"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mybooking_nametxt"
+        android:text="Name:"
+        android:layout_below="@id/mybooking_orderidtxt"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mybooking_servicerequiredtxt"
+        android:text="Service Required:"
+        android:layout_below="@id/mybooking_nametxt"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mybooking_subservicetxt"
+        android:text="SubService:"
+        android:layout_below="@id/mybooking_servicerequiredtxt" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mybooking_scheduledatetxt"
+        android:text="Scheduled On:"
+        android:layout_below="@id/mybooking_subservicetxt" />
+</RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/mybookings_horizontaldivider"
+        android:background="#979494"
+        android:layout_below="@id/booking_detailscontainer"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"/>
+
+</RelativeLayout>

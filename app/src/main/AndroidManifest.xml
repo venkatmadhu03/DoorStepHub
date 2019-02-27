@@ -15,33 +15,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".ServiceSelectionActivity"
-            android:screenOrientation="portrait">
 
-        </activity>
         <activity
-            android:name=".AboutUsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".DiscountsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".FeedbackActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".MyBookingsActivity"
+            android:name=".activities.ServiceSelectionActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".HomeActivity"
+            android:name=".activities.AboutUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.DiscountsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.FeedbackActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.MyBookingsActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activities.HomeActivity"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,19 +48,17 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+        </activity>
         <activity
-            android:name=".ServiceScheduleActivity"
+            android:name=".activities.ServiceScheduleActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".MyBookingsResultActivity">
-
+        <activity android:name=".activities.MyBookingsResultActivity">
         </activity>
-
     </application>
 
 </manifest>

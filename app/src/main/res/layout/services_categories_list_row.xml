@@ -1,37 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/recycler_container">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/text_logo"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/ic_launcher_round"
+        android:elevation="5dp" />
+
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="150dp"
         app:cardCornerRadius="5dp"
         app:cardElevation="3dp"
         android:layout_marginStart="3dp"
         android:layout_marginEnd="3dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <appsnova.com.doorstephub.ownlibraries.MyTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/recycler_text"
-                android:text="hello"
-                android:textSize="20sp"
-                android:textAlignment="center"
+
+            <ImageView
+                android:id="@+id/image_background"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:gravity="center"
+                android:src="@drawable/background" />
+
+            <appsnova.com.doorstephub.ownlibraries.MyTextView
+                android:id="@+id/recycler_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_centerInParent="true"
-                app:textfont="Roboto-Bold.ttf"
-               />
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="-20dp"
+                android:gravity="center"
+                android:text="hello"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:textfont="Roboto-Bold.ttf" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
 
-</LinearLayout>
+</RelativeLayout>

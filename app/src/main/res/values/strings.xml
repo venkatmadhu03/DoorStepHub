@@ -18,4 +18,5 @@
     <string name="areas_expertise_text">Areas Of Expertise</string>
     <string name="service_required_for">Service Required For?</string>
     <string name="which_service_type_required">Which Service Type Required?</string>
+    <string name="title_activity_merchant__main">Merchant_MainActivity</string>
 </resources>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MyBookingsResultActivity">
+    tools:context=".activities.MyBookingsResultActivity">
 <androidx.cardview.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -100,6 +100,7 @@
         android:lines="8"
         android:maxLines="10"
         android:layout_margin="8dp"
+        android:padding="5dp"
         android:background="@drawable/edittext_background"
         android:textSize="14sp"
         android:scrollbars="vertical"
