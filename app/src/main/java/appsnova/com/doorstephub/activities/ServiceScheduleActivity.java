@@ -1,6 +1,13 @@
 package appsnova.com.doorstephub.activities;
 
+import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +38,7 @@ import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import appsnova.com.doorstephub.R;
 import appsnova.com.doorstephub.models.MyBookingsModel;
 import appsnova.com.doorstephub.utilities.NetworkUtils;
 import appsnova.com.doorstephub.utilities.SharedPref;
@@ -55,15 +63,15 @@ public class ServiceScheduleActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-
-        Transition enter_transition = TransitionInflater.from(this).inflateTransition(R.transition.slide_in);
+        /*Transition service_schedule_transition = TransitionInflater.from(this).inflateTransition(R.transition.slide_in);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setEnterTransition(enter_transition);
-        }
+            getWindow().setEnterTransition(service_schedule_transition);
+        }*/
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_schedule);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getting current time
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -78,7 +86,6 @@ public class ServiceScheduleActivity extends AppCompatActivity{
         sharedPref=new SharedPref(this);
         myBookingsModelList=new ArrayList<>();
 
-        setTitle("ServiceScheduleActivity");
         bundle=getIntent().getExtras();
         if (bundle!=null){
             service_id=bundle.getString("Service_Id");
@@ -115,25 +122,22 @@ public class ServiceScheduleActivity extends AppCompatActivity{
                 }
             }
         });
-
     }
+
 
     public void serviveschedulebutton(View view) {
         address=editText_housenum.getText().toString()+","+editText_colony.getText().toString()+","+editText_landmark.getText().toString()
                 +","+editText_city.getText().toString();
         Log.d("address", "serviveschedulebutton: "+address);
-        Toast.makeText(this, "Details Saved!", Toast.LENGTH_SHORT).show();
+       /* Toast.makeText(this, "Details Saved!", Toast.LENGTH_SHORT).show();*/
 
-        submitDetailsToServer();
+//        submitDetailsToServer();
 
-        if(editText_name.getText().toString().length()!=0 && editText_phone.getText().toString().length() != 0
-                && editText_date.getText().toString().length() != 0 && editText_housenum.getText().toString().length() != 0
+
+
+        if(editText_name.getText().toString().length()!=0 && editText_date.getText().toString().length() != 0 && editText_housenum.getText().toString().length() != 0
                 && editText_colony.getText().toString().length() != 0 && editText_city.getText().toString().length() != 0) {
-           // serviveschedulebutton.setEnabled(true);
-//            Toast.makeText(this, "Details Saved!", Toast.LENGTH_SHORT).show();
-//
-//            submitDetailsToServer();
-
+            submitDetailsToServer();
         }
         else{
 
@@ -167,19 +171,22 @@ public class ServiceScheduleActivity extends AppCompatActivity{
             }          //  serviveschedulebutton.setEnabled(false);
         }
 
-
-
     }
     private void submitDetailsToServer(){
-        Toast.makeText(this, "In api", Toast.LENGTH_SHORT).show();
         progressDialog.show();
         StringRequest stringRequest=new StringRequest(Request.Method.POST, UrlUtility.CREATE_REQUEST_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("submitdetailsResponse", "onResponse: "+response);
                 try {
+                 //   sharedPref.setStringValue("user_name",editText_name.getText().toString());
                     JSONObject jsonObject=new JSONObject(response);
                     statusCode=jsonObject.getInt("statusCode");
+                    if(statusCode == 200){
+                        Intent intent = new Intent(ServiceScheduleActivity.this,HomeActivity.class);
+                        startActivity(intent);
+                      finishAffinity();
+                    }
                     statusMessage=jsonObject.getString("statusMessage");
 
                     Toast.makeText(ServiceScheduleActivity.this, statusMessage, Toast.LENGTH_SHORT).show();
@@ -193,13 +200,14 @@ public class ServiceScheduleActivity extends AppCompatActivity{
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressDialog.dismiss();
+                Log.d("error", "onErrorResponse: "+error);
             }
         })
         {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params=new HashMap<>();
-                params.put("User_ID","65");
+                params.put("User_ID","65");//local = 70, remote=65
                 params.put("service_id",service_id);//first page id
                 params.put("service_subcat_id",service_selection_id);//second page id
                 params.put("requirement",editText_description.getText().toString());//description
@@ -240,6 +248,7 @@ public class ServiceScheduleActivity extends AppCompatActivity{
         }
         return super.onSupportNavigateUp();
     }
+
     private void openTimePickerDialog(){
         TimePickerDialog timePickerDialog = new TimePickerDialog(ServiceScheduleActivity.this, new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -252,4 +261,6 @@ public class ServiceScheduleActivity extends AppCompatActivity{
 
         timePickerDialog.show();
     }
+
+
 }

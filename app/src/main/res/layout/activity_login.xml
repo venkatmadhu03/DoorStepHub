@@ -124,8 +124,10 @@
                     android:text="Sign-Up"
                     android:layout_marginTop="5dp"
                     android:layout_gravity="center"
-                    android:background="#A5A3A3"
-                    android:textColor="#ffffff"/>
+                    android:background="@drawable/button_background"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    />
 
 
             </LinearLayout>

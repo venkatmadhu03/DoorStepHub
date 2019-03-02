@@ -2,7 +2,19 @@ package appsnova.com.doorstephub.models;
 
 public class ServiceCategoryModel {
 
-    String name,id,services_id;
+    String name;
+    String id;
+    String services_id;
+
+    public String getService_image() {
+        return service_image;
+    }
+
+    public void setService_image(String service_image) {
+        this.service_image = service_image;
+    }
+
+    String service_image;
 
     public String getId() {
         return id;

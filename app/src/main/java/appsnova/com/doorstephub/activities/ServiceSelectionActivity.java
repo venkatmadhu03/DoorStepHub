@@ -1,11 +1,15 @@
-package appsnova.com.doorstephub;
+package appsnova.com.doorstephub.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import appsnova.com.doorstephub.R;
+import appsnova.com.doorstephub.activities.RecyclerItemClickListener;
+import appsnova.com.doorstephub.activities.ServiceScheduleActivity;
 import appsnova.com.doorstephub.adapters.ServiceSelectionAdapter;
 import appsnova.com.doorstephub.models.ServiceSelectionModel;
 import appsnova.com.doorstephub.utilities.NetworkUtils;
@@ -14,11 +18,13 @@ import appsnova.com.doorstephub.utilities.UrlUtility;
 import appsnova.com.doorstephub.utilities.VolleySingleton;
 
 import android.app.ActivityOptions;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -46,6 +53,9 @@ import java.util.Map;
 public class ServiceSelectionActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
+    RelativeLayout servicetype_container;
+    TextView noSubserviceTv;
+
     ServiceSelectionAdapter serviceSelectionAdapter;
     List<ServiceSelectionModel> serviceSelectionModelList;
     List<ServiceSelectionModel> selecteditemlist;
@@ -59,15 +69,15 @@ public class ServiceSelectionActivity extends AppCompatActivity {
     SharedPref sharedPref;
     ProgressDialog progressDialog;
     int selectedItemsCount;
-    LinearLayout services;
+    CardView services;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        Transition enter_transition = TransitionInflater.from(this).inflateTransition(R.transition.explode);
+      /*  Transition service_selection_transition = TransitionInflater.from(this).inflateTransition(R.transition.explode);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setEnterTransition(enter_transition);
-        }
+            getWindow().setEnterTransition(service_selection_transition);
+        }*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_selection);
         services=findViewById(R.id.services);
@@ -82,17 +92,19 @@ public class ServiceSelectionActivity extends AppCompatActivity {
             service_name=bundle.getString("service_name");
             Log.d("service_Id", "onCreate: "+service_Id+","+service_name);
         }
-        if (service_name.contains("Computer Service and Repairs")){
+        if (service_name.contains("Computer")){
             services.setVisibility(View.VISIBLE);
         }else {
             services.setVisibility(View.GONE);
         }
 
-        setTitle("ServiveSelectionActivity");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         recyclerView = findViewById(R.id.serviceselection_list);
+        servicetype_container =findViewById(R.id.servicetype_container);
+        noSubserviceTv =findViewById(R.id.noSubserviceTv);
+
         serviceSelectionModelList = new ArrayList<>();
         selecteditemlist = new ArrayList<>();
         serviceSelectionAdapter = new ServiceSelectionAdapter(ServiceSelectionActivity.this, serviceSelectionModelList, selecteditemlist);
@@ -143,6 +155,8 @@ public class ServiceSelectionActivity extends AppCompatActivity {
                     statusMessage=jsonObject.getString("statusMessage");
                     JSONArray jsonArray=jsonObject.getJSONArray("response");
                     if (statusCode==200){
+                        noSubserviceTv.setVisibility(View.GONE);
+                        servicetype_container.setVisibility(View.VISIBLE);
                         for (int i=0;i<jsonArray.length();i++){
                             JSONObject jsonObject1=jsonArray.getJSONObject(i);
                             ServiceSelectionModel serviceSelectionModel=new ServiceSelectionModel();
@@ -150,11 +164,15 @@ public class ServiceSelectionActivity extends AppCompatActivity {
                             serviceSelectionModel.setName(jsonObject1.getString("name"));
                             serviceSelectionModel.setTitle(jsonObject1.getString("title"));
                             serviceSelectionModel.setDescription(jsonObject1.getString("description"));
+                            serviceSelectionModel.setService_selection_image(jsonObject1.getString("sub_service_image"));
                             serviceSelectionModelList.add(serviceSelectionModel);
                         }
                         Log.d("size", "onResponse: "+serviceSelectionModelList.size());
                         serviceSelectionAdapter.notifyDataSetChanged();
-
+                    }
+                    else{
+                        noSubserviceTv.setVisibility(View.VISIBLE);
+                        servicetype_container.setVisibility(View.GONE);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -211,6 +229,12 @@ public class ServiceSelectionActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        selecteditemlist.clear();
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             finishAfterTransition();
@@ -257,15 +281,19 @@ public class ServiceSelectionActivity extends AppCompatActivity {
             String output = sb.deleteCharAt(sb.lastIndexOf(",")).toString();
             Log.d("LeadList", "assignUsers: "+output);
 
-            Intent intent = new Intent(ServiceSelectionActivity.this,ServiceScheduleActivity.class);
+            Intent intent = new Intent(ServiceSelectionActivity.this, ServiceScheduleActivity.class);
             intent.putExtra("Service_Id",service_Id);
             intent.putExtra("IntentFrom","serviceselection");
             intent.putExtra("serviceSelectionId",output);
             Log.d("intentvalues", "selectedItemsList: "+service_Id+","+output);
-            startActivity(intent);
+          /*  if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                ActivityOptions activityOptions = (ActivityOptions) ActivityOptions.makeSceneTransitionAnimation(ServiceSelectionActivity.this);
+                startActivity(intent,activityOptions.toBundle());
+            }*/
+
 
         }else{
-            Toast.makeText(ServiceSelectionActivity.this, "No List", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ServiceSelectionActivity.this, "Please Select Any Service..", Toast.LENGTH_SHORT).show();
         }
 
 

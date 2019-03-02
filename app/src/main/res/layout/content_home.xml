@@ -7,14 +7,14 @@
     android:orientation="vertical"
     android:layout_marginTop="70dp"
     >
-    <appsnova.com.doorstephub.ownlibraries.MyTextView
+    <!--<appsnova.com.doorstephub.ownlibraries.MyTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/areas_expertise_text"
         android:textAlignment="center"
         android:textSize="20sp"
         android:layout_marginBottom="10dp"
-        android:textColor="#000000"/>
+        android:textColor="#000000"/>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/servicesCategoryRecyclerView"

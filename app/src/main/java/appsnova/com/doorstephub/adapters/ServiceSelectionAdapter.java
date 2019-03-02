@@ -14,13 +14,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import appsnova.com.doorstephub.R;
-import appsnova.com.doorstephub.ServiceScheduleActivity;
 import appsnova.com.doorstephub.models.ServiceSelectionModel;
 
 public class ServiceSelectionAdapter   extends RecyclerView.Adapter<ServiceSelectionAdapter.ServiceSelectionViewHolder> {
@@ -42,7 +43,8 @@ public class ServiceSelectionAdapter   extends RecyclerView.Adapter<ServiceSelec
 
         final ServiceSelectionModel serviceSelectionModel = serviceSelectionModelList.get(i);
         holder.servicetext.setText(serviceSelectionModel.getName());
-
+        Picasso.get().load(serviceSelectionModel.getService_selection_image()).
+                placeholder(R.drawable.placeholder).error(R.drawable.error).into(holder.service_background);
         Log.d("selecteditemlistsize", String.valueOf(selectedItemsList.size()));
         if(selectedItemsList.size()>0){
             if(selectedItemsList.contains(serviceSelectionModel)){
@@ -55,18 +57,13 @@ public class ServiceSelectionAdapter   extends RecyclerView.Adapter<ServiceSelec
 
         }
 
-
         holder.servicerelativelayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
             }
 
-
         });
-
-
 
     }
 

@@ -1,60 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/mybookings_rowlayout">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp">
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/booking_detailscontainer">
+    android:id="@+id/booking_detailscontainer"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:paddingStart="5dp"
+    android:paddingEnd="5dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/mybooking_orderidtxt"
+        android:textSize="16sp"
         android:text="OrderId:"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:layout_marginBottom="3dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/mybooking_status"
         android:text="Status"
+        android:textSize="16sp"
         android:gravity="end"
         android:layout_toRightOf="@id/mybooking_orderidtxt"
-        android:textStyle="bold"/>
-    <TextView
+        android:textStyle="bold"
+        android:layout_marginBottom="3dp"/>
+   <!-- <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/mybooking_nametxt"
         android:text="Name:"
-        android:layout_below="@id/mybooking_orderidtxt"/>
+        android:layout_below="@id/mybooking_orderidtxt"/>-->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/mybooking_servicerequiredtxt"
-        android:text="Service Required:"
-        android:layout_below="@id/mybooking_nametxt"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/mybooking_subservicetxt"
-        android:text="SubService:"
-        android:layout_below="@id/mybooking_servicerequiredtxt" />
+        android:id="@+id/mybooking_service_description"
+        android:text="Service Description:"
+        android:textSize="16sp"
+        android:layout_below="@id/mybooking_status"
+        android:maxLines="2"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/mybooking_scheduledatetxt"
         android:text="Scheduled On:"
-        android:layout_below="@id/mybooking_subservicetxt" />
+        android:textSize="16sp"
+        android:layout_below="@id/mybooking_service_description"
+        android:textStyle="bold"
+        android:layout_marginBottom="3dp"/>
 </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:id="@+id/mybookings_horizontaldivider"
-        android:background="#979494"
-        android:layout_below="@id/booking_detailscontainer"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="15dp"/>
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

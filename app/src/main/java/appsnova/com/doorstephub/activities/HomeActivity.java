@@ -1,21 +1,18 @@
-package appsnova.com.doorstephub;
+package appsnova.com.doorstephub.activities;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
+import android.transition.Explode;
 import android.util.Log;
-import android.view.View;
-
 import com.google.android.material.navigation.NavigationView;
-
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -23,22 +20,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import appsnova.com.doorstephub.R;
 import appsnova.com.doorstephub.adapters.HomeAdapter;
 import appsnova.com.doorstephub.models.ServiceCategoryModel;
 import appsnova.com.doorstephub.utilities.NetworkUtils;
 import appsnova.com.doorstephub.utilities.SharedPref;
 import appsnova.com.doorstephub.utilities.UrlUtility;
 import appsnova.com.doorstephub.utilities.VolleySingleton;
-
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.AnticipateOvershootInterpolator;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +45,9 @@ public class HomeActivity extends AppCompatActivity
     RecyclerView servicesCategoryRecyclerView;
     int statusCode;
     String statusMessage;
-    
+    /*Time delay for back press*/
+    private static final int TIME_DELAY = 2000;
+    private static long back_pressed;
     //create Utils Objects
     NetworkUtils networkUtils;
     SharedPref sharedPref;
@@ -115,6 +113,7 @@ public class HomeActivity extends AppCompatActivity
                             serviceCategoryModel.setId(jsonObject1.getString("id"));
                             serviceCategoryModel.setName(jsonObject1.getString("name"));
                             serviceCategoryModel.setServices_id(jsonObject1.getString("services_id"));
+                            serviceCategoryModel.setService_image(jsonObject1.getString("service_image"));
                             serviceCategoryModelList.add(serviceCategoryModel);
                         }
                         homeAdapter.notifyDataSetChanged();
@@ -133,27 +132,6 @@ public class HomeActivity extends AppCompatActivity
         });
         VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
         VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
-       /* ServiceCategoryModel data =new ServiceCategoryModel("Networking Issues");
-        serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Printer Repair");
-        serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Hardware Issues");
-        serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Software Installation");
-        serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("System upgradation");
-        serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Data Backup");
-        serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("System Slow");
-        serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("Power Problems");
-        serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("General Service");
-        serviceCategoryModelList.add(data);
-        data =new ServiceCategoryModel("AMC Services");
-        serviceCategoryModelList.add(data);
-        homeAdapter.notifyDataSetChanged();*/
 
     } //end of getServicesListFromServer
     @Override
@@ -162,8 +140,29 @@ public class HomeActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (back_pressed + TIME_DELAY > System.currentTimeMillis()) {
+                super.onBackPressed();
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                intent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                startActivity(intent);
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "Press once again to exit!",
+                        Toast.LENGTH_SHORT).show();
+            }
+            back_pressed = System.currentTimeMillis();
         }
+       /* Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);*/
+       //finishAffinity();
+
     } //onBackPressed
 
 

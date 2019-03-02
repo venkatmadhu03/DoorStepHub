@@ -203,8 +203,10 @@
                     android:focusable="false"
                     android:text="Submit"
                     android:layout_marginTop="10dp"
+                    android:textStyle="bold"
                     android:onClick="serviveschedulebutton"
-                    android:background="@drawable/serviceselection_button_bg"/>
+                    android:background="@drawable/button_background"
+                    android:textColor="@color/colorWhite"/>
 
             </RelativeLayout>
         </ScrollView>

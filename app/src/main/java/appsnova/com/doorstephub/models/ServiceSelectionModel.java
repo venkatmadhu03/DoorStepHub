@@ -3,6 +3,15 @@ package appsnova.com.doorstephub.models;
 public class ServiceSelectionModel {
     String name;
     String id;
+    String service_selection_image;
+
+    public String getService_selection_image() {
+        return service_selection_image;
+    }
+
+    public void setService_selection_image(String service_selection_image) {
+        this.service_selection_image = service_selection_image;
+    }
 
     public String getId() {
         return id;

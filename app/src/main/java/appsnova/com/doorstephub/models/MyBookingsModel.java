@@ -2,7 +2,7 @@ package appsnova.com.doorstephub.models;
 
 public class MyBookingsModel {
 
-    String orderid,username,servicerequired,subservice,scheduleddate,status;
+    String orderid,username,service_description,scheduleddate,status;
 
     public String getStatus() {
         return status;
@@ -15,11 +15,10 @@ public class MyBookingsModel {
     public MyBookingsModel() {
     }
 
-    public MyBookingsModel(String orderid, String username, String servicerequired, String subservice, String scheduleddate, String status) {
+    public MyBookingsModel(String orderid, String username, String service_description, String scheduleddate, String status) {
         this.orderid = orderid;
         this.username = username;
-        this.servicerequired = servicerequired;
-        this.subservice = subservice;
+        this.service_description = service_description;
         this.scheduleddate = scheduleddate;
         this.status = status;
     }
@@ -40,20 +39,12 @@ public class MyBookingsModel {
         this.username = username;
     }
 
-    public String getServicerequired() {
-        return servicerequired;
+    public String getService_description() {
+        return service_description;
     }
 
-    public void setServicerequired(String servicerequired) {
-        this.servicerequired = servicerequired;
-    }
-
-    public String getSubservice() {
-        return subservice;
-    }
-
-    public void setSubservice(String subservice) {
-        this.subservice = subservice;
+    public void setService_description(String service_description) {
+        this.service_description = service_description;
     }
 
     public String getScheduleddate() {

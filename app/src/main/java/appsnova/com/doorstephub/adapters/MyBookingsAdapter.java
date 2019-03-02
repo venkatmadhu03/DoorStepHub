@@ -54,22 +54,23 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
         MyBookingsModel myBookingsModel = myBookingsModelList.get(position);
 
         holder.mybooking_orderidtxt.setText("Order ID:"+myBookingsModel.getOrderid());
-        holder.mybooking_nametxt.setText("Name:"+myBookingsModel.getUsername());
-        holder.mybooking_servicerequiredtxt.setText("Service Required:"+myBookingsModel.getServicerequired());
-        holder.mybooking_subservicetxt.setText("Sub Service:"+myBookingsModel.getSubservice());
+        holder.mybooking_service_description.setText("Service Description:"+myBookingsModel.getService_description());
+       // holder.mybooking_subservicetxt.setText("Sub Service:"+myBookingsModel.getSubservice());
         holder.mybooking_scheduleddatetxt.setText("Scheduled On:"+myBookingsModel.getScheduleddate());
         holder.mybooking_status.setText(myBookingsModel.getStatus());
 
-        if(myBookingsModel.getStatus().equalsIgnoreCase("completed")){
+        if(myBookingsModel.getStatus().equalsIgnoreCase("Open")){
             holder.mybooking_status.setTextColor(Color.GREEN);
         }
-        else if(myBookingsModel.getStatus().equalsIgnoreCase("rejected")){
+        else if(myBookingsModel.getStatus().equalsIgnoreCase("Rejected")){
             holder.mybooking_status.setTextColor(Color.RED);
+        }
+        else if(myBookingsModel.getStatus().equalsIgnoreCase("Close")){
+            holder.mybooking_status.setTextColor(Color.YELLOW);
         }
         else
         {
             holder.mybooking_status.setTextColor(Color.BLUE);
-
         }
 
            /* for(int i=0;i<myBookingsModelList.size();i++){
@@ -130,18 +131,14 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
 
     public class MyBookingsViewHolder extends RecyclerView.ViewHolder {
         RelativeLayout mybookings_rowlayout;
-        View mybookings_horizontaldivider;
-        TextView mybooking_orderidtxt,mybooking_nametxt,mybooking_servicerequiredtxt,mybooking_subservicetxt,
+        TextView mybooking_orderidtxt,mybooking_service_description,mybooking_subservicetxt,
                 mybooking_scheduleddatetxt,mybooking_status;
         public MyBookingsViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mybookings_rowlayout = itemView.findViewById(R.id.mybookings_rowlayout);
-            mybookings_horizontaldivider = itemView.findViewById(R.id.mybookings_horizontaldivider);
             mybooking_orderidtxt = itemView.findViewById(R.id.mybooking_orderidtxt);
-            mybooking_nametxt = itemView.findViewById(R.id.mybooking_nametxt);
-            mybooking_servicerequiredtxt = itemView.findViewById(R.id.mybooking_servicerequiredtxt);
-            mybooking_subservicetxt = itemView.findViewById(R.id.mybooking_subservicetxt);
+            mybooking_service_description = itemView.findViewById(R.id.mybooking_service_description);
             mybooking_scheduleddatetxt = itemView.findViewById(R.id.mybooking_scheduledatetxt);
             mybooking_status = itemView.findViewById(R.id.mybooking_status);
 

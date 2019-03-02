@@ -18,46 +18,58 @@
 
         <activity
             android:name=".activities.ServiceSelectionActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:label="Select Sub Service"
+            android:theme="@style/ActionBar">
         </activity>
         <activity
             android:name=".activities.AboutUsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionBar"/>
         <activity
             android:name=".activities.DiscountsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.FeedbackActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionBar"/>
         <activity
             android:name=".activities.MyBookingsActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:label="Your Orders"
+            android:theme="@style/ActionBar">
         </activity>
         <activity
             android:name=".activities.HomeActivity"
-            android:label="@string/title_activity_home"
+            android:label="Select Service"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".activities.LoginActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionBar">
         </activity>
         <activity
             android:name=".activities.ServiceScheduleActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:label="Personal Details"
+            android:theme="@style/ActionBar">
         </activity>
-        <activity android:name=".activities.MyBookingsResultActivity">
+        <activity android:name=".activities.MyBookingsResultActivity"
+            android:screenOrientation="portrait"
+            android:label="Order Data"
+            android:theme="@style/ActionBar">
         </activity>
     </application>
 

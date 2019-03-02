@@ -8,8 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import appsnova.com.doorstephub.R;
 import appsnova.com.doorstephub.adapters.MyBookingsAdapter;
 import appsnova.com.doorstephub.models.MyBookingsModel;
-
+import appsnova.com.doorstephub.utilities.NetworkUtils;
+import appsnova.com.doorstephub.utilities.SharedPref;
+import appsnova.com.doorstephub.utilities.UrlUtility;
+import appsnova.com.doorstephub.utilities.VolleySingleton;
 import android.app.ActivityOptions;
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -17,27 +21,46 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Toast;
-
+import android.widget.TextView;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MyBookingsActivity extends AppCompatActivity {
+
+    NetworkUtils networkUtils;
+    SharedPref sharedPref;
     RecyclerView mybookings_list;
     List<MyBookingsModel> myBookingsModels;
     MyBookingsAdapter myBookingsAdapter;
     SearchView searchView ;
+    int status_code;
+    ProgressDialog progressDialog;
+    String status_message;
+    TextView noBookingsTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_bookings);
+
+        noBookingsTextView = findViewById(R.id.noBookingsTextView);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             Slide enter_transition = new Slide();
@@ -48,18 +71,23 @@ public class MyBookingsActivity extends AppCompatActivity {
         }
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        networkUtils = new NetworkUtils(this);
+        sharedPref = new SharedPref(this);
+        progressDialog = UrlUtility.showProgressDialog(this);
+
         mybookings_list = findViewById(R.id.mybooking_list);
         myBookingsModels = new ArrayList<MyBookingsModel>();
         myBookingsAdapter = new MyBookingsAdapter(MyBookingsActivity.this, myBookingsModels, new MyBookingsAdapter.ItemClickListener() {
             @Override
             public void onClickItem(View v, int pos) {
-                Toast.makeText(MyBookingsActivity.this, myBookingsModels.get(pos).getUsername(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(MyBookingsActivity.this, myBookingsModels.get(pos).getUsername(), Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(MyBookingsActivity.this, MyBookingsResultActivity.class);
                 intent.putExtra("selectedorderid",myBookingsModels.get(pos).getOrderid());
                 intent.putExtra("selectedorderusername",myBookingsModels.get(pos).getUsername());
-                intent.putExtra("selectedservicerequired",myBookingsModels.get(pos).getServicerequired());
-                intent.putExtra("selectedsubservice",myBookingsModels.get(pos).getSubservice());
+                intent.putExtra("selectedservicedescription",myBookingsModels.get(pos).getService_description());
                 intent.putExtra("scheduleddate",myBookingsModels.get(pos).getScheduleddate());
+
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     ActivityOptions activityOptions =ActivityOptions.makeSceneTransitionAnimation(MyBookingsActivity.this);
                     startActivity(intent,activityOptions.toBundle());
@@ -70,26 +98,25 @@ public class MyBookingsActivity extends AppCompatActivity {
         mybookings_list.setLayoutManager(linearLayoutManager);
         mybookings_list.setItemAnimator(new DefaultItemAnimator());
         mybookings_list.setAdapter(myBookingsAdapter);
-        mybookingsdetails();
 
+        if (networkUtils.checkConnection()){
+
+            mybookingsdetails();
+        }
+
+       // myBookingsAdapter.notifyDataSetChanged();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mybookingsmenu,menu);
        // MenuItem searchitem= menu.findItem(R.id.searchview);
-
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) menu.findItem(R.id.searchview)
-                .getActionView();
+        searchView = (SearchView) menu.findItem(R.id.searchview).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
-        searchView.setBackgroundResource(R.drawable.gray_border);
         searchView.setQueryHint(Html.fromHtml("<font color = #000000>  Enter to Search </font>"));
-
         searchView.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
-
-
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -131,53 +158,57 @@ public class MyBookingsActivity extends AppCompatActivity {
 
     public void mybookingsdetails()
     {
-        MyBookingsModel bookingsModel = new MyBookingsModel("#834536",
-                "Harbhajan Singh","Microwave Open Service and Repairs","Grill Microwave","10/6/2018 6:17:14PM","Completed");
-        myBookingsModels.add(bookingsModel);
+        progressDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.GET_BOOKINGS_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("MyBookingResponse", "onResponse: "+response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    status_code = jsonObject.getInt("statusCode");
+                    status_message = jsonObject.getString("statusMessage");
+                    JSONArray jsonArray = jsonObject.getJSONArray("response");
+                    if (status_code==200) {
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                            MyBookingsModel myBookingsModel = new MyBookingsModel();
+                            myBookingsModel.setOrderid(jsonObject1.getString("id"));
+                            myBookingsModel.setService_description(jsonObject1.getString("requirement"));
+                            myBookingsModel.setScheduleddate(jsonObject1.getString("enquiry_date"));
+                            myBookingsModel.setStatus(jsonObject1.getString("enquiry_status_value"));
+                            myBookingsModels.add(myBookingsModel);
 
-        bookingsModel = new MyBookingsModel("#834544",
-                "Bharath","Refrigerator Service and Repairs","Single Door Fridge repair","15/6/2018 7:17:14PM","Rejected");
-        myBookingsModels.add(bookingsModel);
-
-        bookingsModel = new MyBookingsModel("#834545",
-                "Swamy","Painting Service","Commercial","20/6/2018 8:17:14PM","Cancel");
-        myBookingsModels.add(bookingsModel);
-
-        bookingsModel = new MyBookingsModel("#834548",
-                "Singh","Computer Service and Repairs","Desktop","01/8/2018 9:17:14PM","Completed");
-        myBookingsModels.add(bookingsModel);
-
-        bookingsModel = new MyBookingsModel("#834544",
-                "Bharath","Refrigerator Service and Repairs","Single Door Fridge repair","15/6/2018 7:17:14PM","Rejected");
-        myBookingsModels.add(bookingsModel);
-
-        bookingsModel = new MyBookingsModel("#834545",
-                "Swamy","Painting Service","Commercial","20/6/2018 8:17:14PM","Cancel");
-        myBookingsModels.add(bookingsModel);
-
-        bookingsModel = new MyBookingsModel("#834548",
-                "Singh","Computer Service and Repairs","Desktop","01/8/2018 9:17:14PM","Completed");
-        myBookingsModels.add(bookingsModel);
-
-        bookingsModel = new MyBookingsModel("#834548",
-                "Singh","Computer Service and Repairs","Desktop","01/8/2018 9:17:14PM","Rejected");
-        myBookingsModels.add(bookingsModel);
-
-        bookingsModel = new MyBookingsModel("#834544",
-                "Bharath","Refrigerator Service and Repairs","Single Door Fridge repair","15/6/2018 7:17:14PM","Cancel");
-        myBookingsModels.add(bookingsModel);
-
-        bookingsModel = new MyBookingsModel("#834545",
-                "Swamy","Painting Service","Commercial","20/6/2018 8:17:14PM","Completed");
-        myBookingsModels.add(bookingsModel);
-
-        bookingsModel = new MyBookingsModel("#834548",
-                "Singh","Computer Service and Repairs","Desktop","01/8/2018 9:17:14PM","Cancel");
-        myBookingsModels.add(bookingsModel);
+                        }
+                        Log.d("mybookingslist", "onResponse: "+myBookingsModels.size());
+                        myBookingsAdapter.notifyDataSetChanged();
+                    }
+                    else
+                    {
+                        noBookingsTextView.setVisibility(View.VISIBLE);
+                    }
 
 
-        myBookingsAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                progressDialog.dismiss();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            progressDialog.dismiss();
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params = new HashMap<>();
+                params.put("User_ID","65");
+                return params;
+            }
+        };
+        VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
+        VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
 
     }
-
 }

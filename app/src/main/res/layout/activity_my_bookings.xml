@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/AppTheme.NoActionBar"
-    tools:context=".activities.MyBookingsActivity">
+    tools:context=".activities.MyBookingsActivity"
+    android:background="@color/Ltgray">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mybooking_list"
@@ -18,4 +19,12 @@
         android:layout_marginBottom="10dp">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/noBookingsTextView"
+        android:text="No Enquiries Found"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
 </RelativeLayout>
