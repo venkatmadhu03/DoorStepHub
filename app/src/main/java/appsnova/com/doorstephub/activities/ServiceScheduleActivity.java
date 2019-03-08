@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -17,21 +18,15 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,10 +58,10 @@ public class ServiceScheduleActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        /*Transition service_schedule_transition = TransitionInflater.from(this).inflateTransition(R.transition.slide_in);
+        Transition service_schedule_transition = TransitionInflater.from(this).inflateTransition(R.transition.slide_in);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setEnterTransition(service_schedule_transition);
-        }*/
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_schedule);
@@ -103,6 +98,25 @@ public class ServiceScheduleActivity extends AppCompatActivity{
         editText_landmark = findViewById(R.id.edittext_landmark);
         editText_city = findViewById(R.id.edittext_city);
 
+        editText_date.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getRawX() >= (editText_date.getRight() - editText_date.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        // your action here
+                        editText_date.setText("");
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
         serviveschedulebutton = findViewById(R.id.serviveschedulebutton);
         serviceschedule_checkbox = findViewById(R.id.serviceschedule_checkbox);
         editText_date.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +125,7 @@ public class ServiceScheduleActivity extends AppCompatActivity{
                 datePickerDialog();
             }
         });
+
         serviceschedule_checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -119,9 +134,11 @@ public class ServiceScheduleActivity extends AppCompatActivity{
                 }
                 else{
                     serviveschedulebutton.setEnabled(false);
+                    Toast.makeText(ServiceScheduleActivity.this, "Please Agree to Terms And Conditions..", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
     }
 
 
@@ -137,7 +154,13 @@ public class ServiceScheduleActivity extends AppCompatActivity{
 
         if(editText_name.getText().toString().length()!=0 && editText_date.getText().toString().length() != 0 && editText_housenum.getText().toString().length() != 0
                 && editText_colony.getText().toString().length() != 0 && editText_city.getText().toString().length() != 0) {
-            submitDetailsToServer();
+            if(serviceschedule_checkbox.isChecked()){
+                submitDetailsToServer();
+            }
+            else{
+                Toast.makeText(ServiceScheduleActivity.this, "Please Agree to Terms And Conditions..", Toast.LENGTH_SHORT).show();
+            }
+
         }
         else{
 
@@ -168,7 +191,10 @@ public class ServiceScheduleActivity extends AppCompatActivity{
             if(editText_city.getText().toString().length() == 0)
             {
                 editText_city.setError("City is Required");
-            }          //  serviveschedulebutton.setEnabled(false);
+            }
+
+
+            //  serviveschedulebutton.setEnabled(false);
         }
 
     }
@@ -183,9 +209,8 @@ public class ServiceScheduleActivity extends AppCompatActivity{
                     JSONObject jsonObject=new JSONObject(response);
                     statusCode=jsonObject.getInt("statusCode");
                     if(statusCode == 200){
-                        Intent intent = new Intent(ServiceScheduleActivity.this,HomeActivity.class);
+                        Intent intent = new Intent(ServiceScheduleActivity.this,ThankYouPage.class);
                         startActivity(intent);
-                      finishAffinity();
                     }
                     statusMessage=jsonObject.getString("statusMessage");
 

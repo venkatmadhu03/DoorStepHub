@@ -31,6 +31,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,7 +57,6 @@ public class ServiceSelectionActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RelativeLayout servicetype_container;
     TextView noSubserviceTv;
-
     ServiceSelectionAdapter serviceSelectionAdapter;
     List<ServiceSelectionModel> serviceSelectionModelList;
     List<ServiceSelectionModel> selecteditemlist;
@@ -70,17 +71,22 @@ public class ServiceSelectionActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     int selectedItemsCount;
     CardView services;
-
+    RadioButton rb_desktop,rb_laptop;
+    RadioGroup radioGroup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-      /*  Transition service_selection_transition = TransitionInflater.from(this).inflateTransition(R.transition.explode);
+        Transition service_selection_transition = TransitionInflater.from(this).inflateTransition(R.transition.explode);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setEnterTransition(service_selection_transition);
-        }*/
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_selection);
         services=findViewById(R.id.services);
+        radioGroup = findViewById(R.id.services_radiogroup);
+        rb_desktop = findViewById(R.id.rb_desktop);
+        rb_laptop = findViewById(R.id.rb_laptop);
+
 
         //intialie Utils Objects
         networkUtils = new NetworkUtils(this);
@@ -128,10 +134,7 @@ public class ServiceSelectionActivity extends AppCompatActivity {
                 if (!isMultiSelect) {
                     isMultiSelect = true;
                 }
-
-
                 multi_select(position);
-
             }
 
             @Override
@@ -204,8 +207,20 @@ public class ServiceSelectionActivity extends AppCompatActivity {
 
 
     public void serviceselection(View view) {
+        if (service_name.contains("Computer")){
+            services.setVisibility(View.VISIBLE);
 
-        selectedItemsList();
+            if(rb_desktop.isChecked()||rb_laptop.isChecked()){
+                selectedItemsList();
+            }
+            else{
+                Toast.makeText(this, "Please Select Type Of Device", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else {
+            services.setVisibility(View.GONE);
+            selectedItemsList();
+        }
     }
 
     @Override
@@ -285,12 +300,12 @@ public class ServiceSelectionActivity extends AppCompatActivity {
             intent.putExtra("Service_Id",service_Id);
             intent.putExtra("IntentFrom","serviceselection");
             intent.putExtra("serviceSelectionId",output);
+           // startActivity(intent);
             Log.d("intentvalues", "selectedItemsList: "+service_Id+","+output);
-          /*  if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 ActivityOptions activityOptions = (ActivityOptions) ActivityOptions.makeSceneTransitionAnimation(ServiceSelectionActivity.this);
                 startActivity(intent,activityOptions.toBundle());
-            }*/
-
+            }
 
         }else{
             Toast.makeText(ServiceSelectionActivity.this, "Please Select Any Service..", Toast.LENGTH_SHORT).show();

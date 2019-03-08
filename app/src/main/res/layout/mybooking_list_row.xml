@@ -21,8 +21,14 @@
     android:paddingBottom="5dp"
     android:paddingStart="5dp"
     android:paddingEnd="5dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/booking_details"
+        android:orientation="horizontal">
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:id="@+id/mybooking_orderidtxt"
         android:textSize="16sp"
@@ -30,7 +36,8 @@
         android:textStyle="bold"
         android:layout_marginBottom="3dp"/>
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:id="@+id/mybooking_status"
         android:text="Status"
@@ -39,6 +46,7 @@
         android:layout_toRightOf="@id/mybooking_orderidtxt"
         android:textStyle="bold"
         android:layout_marginBottom="3dp"/>
+    </LinearLayout>
    <!-- <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,7 +59,7 @@
         android:id="@+id/mybooking_service_description"
         android:text="Service Description:"
         android:textSize="16sp"
-        android:layout_below="@id/mybooking_status"
+        android:layout_below="@id/booking_details"
         android:maxLines="2"
         />
     <TextView

@@ -11,11 +11,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.AnticipateInterpolator;
-
+import android.widget.Toast;
 
 
 public class LoginActivity extends AppCompatActivity {
-
+    private static final int TIME_DELAY = 2000;
+    private static long back_pressed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,9 +24,6 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
 
         setContentView(R.layout.activity_login);
-
-        setUpWindowTransitions();
-
     }
 
     public void loginsuccessfull(View view) {
@@ -33,27 +31,27 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+        finish();
     }
 
+    @Override
+    public void onBackPressed() {
 
-    public void setUpWindowTransitions()
-    {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-
-            Slide slide_transition = new Slide();
-            slide_transition.setDuration(1000);
-            slide_transition.setSlideEdge(Gravity.BOTTOM);
-            slide_transition.setInterpolator(new AnticipateInterpolator());
-
-            getWindow().setReenterTransition(slide_transition);
-
-            getWindow().setExitTransition(slide_transition);
-
-            getWindow().setAllowReturnTransitionOverlap(false);
-
+        if (back_pressed + TIME_DELAY > System.currentTimeMillis()) {
+            super.onBackPressed();
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            intent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+            startActivity(intent);
         }
-
+        else {
+            Toast.makeText(getApplicationContext(), "Press once again to exit!",
+                    Toast.LENGTH_SHORT).show();
+        }
+        back_pressed = System.currentTimeMillis();
     }
-
-
 }

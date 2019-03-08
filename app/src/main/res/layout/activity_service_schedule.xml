@@ -72,6 +72,7 @@
                     android:textSize="@dimen/edittext_size"
                     android:layout_below="@id/edittext_phone"
                     android:drawableStart="@drawable/calendar"
+                    android:drawableEnd="@drawable/close"
                     android:drawablePadding="@dimen/drawable_padding"
                     android:background="@drawable/edittext_background"
                     android:paddingTop="@dimen/edittextpadding_top"
@@ -80,7 +81,8 @@
                     android:paddingEnd="@dimen/edittextpadding_end"
                     android:layout_marginBottom="@dimen/edittext_marginbottom"
                     android:layout_marginLeft="@dimen/edittextmarginleft"
-                    android:layout_marginRight="@dimen/edittextmarginright"/>
+                    android:layout_marginRight="@dimen/edittextmarginright"
+                    android:focusable="false"/>
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

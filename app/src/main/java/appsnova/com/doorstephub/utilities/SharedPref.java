@@ -45,4 +45,5 @@ public class SharedPref {
         return preferences.getBoolean(keyName, false);
     }
 
+
 }

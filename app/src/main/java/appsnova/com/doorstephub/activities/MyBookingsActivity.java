@@ -29,6 +29,8 @@ import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -62,9 +64,11 @@ public class MyBookingsActivity extends AppCompatActivity {
 
         noBookingsTextView = findViewById(R.id.noBookingsTextView);
 
+        Toast.makeText(this, "Under Development", Toast.LENGTH_SHORT).show();
+
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             Slide enter_transition = new Slide();
-            enter_transition.setSlideEdge(Gravity.START);
+            enter_transition.setSlideEdge(Gravity.LEFT);
             enter_transition.setDuration(600);
             enter_transition.setInterpolator(new AnticipateOvershootInterpolator());
             getWindow().setEnterTransition(enter_transition);

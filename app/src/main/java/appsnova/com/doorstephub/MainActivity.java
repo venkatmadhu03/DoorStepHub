@@ -1,15 +1,24 @@
 package appsnova.com.doorstephub;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
+import appsnova.com.doorstephub.activities.HomeActivity;
+import appsnova.com.doorstephub.activities.LoginActivity;
+import appsnova.com.doorstephub.activities.SplashScreenActivity;
 import appsnova.com.doorstephub.adapters.IntroSliderAdapter;
+import appsnova.com.doorstephub.utilities.SharedPref;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,11 +31,30 @@ public class MainActivity extends AppCompatActivity {
 
     private int mCureentPage;
 
+    SharedPref sharedPref;
+
+    //for onbackpress delay for 2seconds
+    private static final int TIME_DELAY = 2000;
+    private static long back_pressed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
 
+        sharedPref = new SharedPref(MainActivity.this);
+        if(!sharedPref.getStringValue("isFirstOpen").isEmpty()){
+            startActivity(new Intent(this, LoginActivity.class));
+            return;
+        }
+        else{
+           sharedPref.setStringValue("isFirstOpen","1");
+        }
         viewpager=(ViewPager)findViewById(R.id.viewpager);
         dotsLinearLayout=(LinearLayout)findViewById(R.id.dotsLinearLayout);
 
@@ -102,6 +130,13 @@ public class MainActivity extends AppCompatActivity {
                 backBtn.setVisibility(View.VISIBLE);
 
                 nextBtn.setText("FINISH");
+                nextBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                       Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                       startActivity(intent);
+                    }
+                });
                 backBtn.setText("BACK");
 
             }
@@ -121,4 +156,24 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        if (back_pressed + TIME_DELAY > System.currentTimeMillis()) {
+            super.onBackPressed();
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            intent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "Press once again to exit!",
+                    Toast.LENGTH_SHORT).show();
+        }
+        back_pressed = System.currentTimeMillis();
+    }
 }

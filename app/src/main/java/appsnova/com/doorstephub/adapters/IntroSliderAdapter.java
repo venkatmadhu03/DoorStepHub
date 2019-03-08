@@ -20,10 +20,10 @@ public class IntroSliderAdapter extends PagerAdapter {
     //Array
     public int[] list_images={
 
-            R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_background
+            R.drawable.intro_image1,
+            R.drawable.intro_image2,
+            R.drawable.intro_image3,
+            R.drawable.intro_image4
     };
 
     public String[] list_title={
@@ -41,14 +41,14 @@ public class IntroSliderAdapter extends PagerAdapter {
             "Within few minutes of your request, \n you will receive a call from our \n professional we follow-up on the \n customer call.",
             "We send our expertsat your \n proximate location within time, \n that's our exclusivity."
     };
-    public int[] list_color={
+  /*  public int[] list_color={
 
             Color.rgb(193, 66, 44),
             Color.rgb(193, 172, 44),
             Color.rgb(193, 41, 249),
             Color.rgb(68, 83, 242)
 
-    };
+    };*/
 
 
     public IntroSliderAdapter(Context context) {
@@ -59,7 +59,6 @@ public class IntroSliderAdapter extends PagerAdapter {
     public int getCount() {
         return list_title.length;
     }
-
     @Override
     public boolean isViewFromObject(View view, Object obj) {
         return view==(LinearLayout)obj;
@@ -73,14 +72,14 @@ public class IntroSliderAdapter extends PagerAdapter {
 
         LinearLayout linearLayout = view.findViewById(R.id.slidelinearlayout);
         ImageView img = view.findViewById(R.id.slideimg);
-        TextView txt1 = view.findViewById(R.id.slidetitle);
-        TextView txt2 = view.findViewById(R.id.slidedescription);
+        //TextView txt1 = view.findViewById(R.id.slidetitle);
+        //TextView txt2 = view.findViewById(R.id.slidedescription);
 
 
         img.setImageResource(list_images[position]);
-        txt1.setText(list_title[position]);
-        txt2.setText(list_description[position]);
-        linearLayout.setBackgroundColor(list_color[position]);
+       // txt1.setText(list_title[position]);
+       // txt2.setText(list_description[position]);
+       // linearLayout.setBackgroundColor(list_color[position]);
 
         container.addView(view);
 
@@ -91,4 +90,6 @@ public class IntroSliderAdapter extends PagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((LinearLayout)object);
     }
+
+
 }

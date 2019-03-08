@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AnticipateInterpolator;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -77,13 +79,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Explode explode = new Explode();
                     explode.setDuration(600);
-                    explode.setInterpolator(new AnticipateOvershootInterpolator());
+                    explode.setInterpolator(new AccelerateDecelerateInterpolator());
                     ((Activity) context).getWindow().setEnterTransition(explode);
                     ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(((Activity) context));
                     context.startActivity(intent,activityOptions.toBundle());
-
                 }
-
 //                context.startActivity(new Intent(context, ServiceSelectionActivity.class));
             }
         });

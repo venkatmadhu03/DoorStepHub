@@ -105,9 +105,9 @@ public class MyBookingsResultActivity extends AppCompatActivity {
                     Toast.makeText(MyBookingsResultActivity.this, getResources().getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
                 }
 
-                /*if(feedback.getText().toString()!=null){
+                if(feedback.getText().toString()!=null){
                     Toast.makeText(MyBookingsResultActivity.this, "Thank You For Your FeedBack..", Toast.LENGTH_SHORT).show();
-                }*/
+                }
             }
         });
 

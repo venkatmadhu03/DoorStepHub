@@ -88,7 +88,6 @@ public class HomeActivity extends AppCompatActivity
         servicesCategoryRecyclerView.setAdapter(homeAdapter);
         if (networkUtils.checkConnection()){
             getServicesListFromServer();
-
         }
 
     } //onCreate

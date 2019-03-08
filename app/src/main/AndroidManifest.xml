@@ -12,31 +12,40 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/final_logo_doorstephub"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".activities.SplashScreenActivity"
+                  android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.ThankYouPage">
+        </activity>
         <activity
             android:name=".activities.ServiceSelectionActivity"
-            android:screenOrientation="portrait"
             android:label="Select Sub Service"
+            android:screenOrientation="portrait"
             android:theme="@style/ActionBar">
         </activity>
         <activity
             android:name=".activities.AboutUsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar"/>
+            android:theme="@style/ActionBar" />
         <activity
             android:name=".activities.DiscountsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.FeedbackActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar"/>
+            android:theme="@style/ActionBar" />
         <activity
             android:name=".activities.MyBookingsActivity"
-            android:screenOrientation="portrait"
             android:label="Your Orders"
+            android:screenOrientation="portrait"
             android:theme="@style/ActionBar">
         </activity>
         <activity
@@ -49,26 +58,22 @@
             android:name=".activities.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar">
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".activities.ServiceScheduleActivity"
-            android:screenOrientation="portrait"
             android:label="Personal Details"
+            android:screenOrientation="portrait"
             android:theme="@style/ActionBar">
         </activity>
-        <activity android:name=".activities.MyBookingsResultActivity"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".activities.MyBookingsResultActivity"
             android:label="Order Data"
+            android:screenOrientation="portrait"
             android:theme="@style/ActionBar">
         </activity>
     </application>
