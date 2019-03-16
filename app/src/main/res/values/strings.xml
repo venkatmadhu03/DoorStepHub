@@ -5,7 +5,7 @@
 
     <string name="enter_login_id_hint"> Enter Mobile Number</string>
     <string name="enter_otp_hint">Enter OTP</string>
-    <string name="dont_have_account">Don\'t have a Account?? "\n" Login with Mobile Number</string>
+    <string name="dont_have_account">"\t" "\t" Don\'t have a Account?? "\n" Login with Mobile Number</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

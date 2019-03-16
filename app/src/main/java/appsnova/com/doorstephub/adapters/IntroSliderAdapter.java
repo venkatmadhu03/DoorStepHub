@@ -75,7 +75,6 @@ public class IntroSliderAdapter extends PagerAdapter {
         //TextView txt1 = view.findViewById(R.id.slidetitle);
         //TextView txt2 = view.findViewById(R.id.slidedescription);
 
-
         img.setImageResource(list_images[position]);
        // txt1.setText(list_title[position]);
        // txt2.setText(list_description[position]);

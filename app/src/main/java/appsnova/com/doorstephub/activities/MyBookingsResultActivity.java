@@ -146,6 +146,8 @@ public class MyBookingsResultActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 progressDialog.dismiss();
                 Toast.makeText(MyBookingsResultActivity.this, "Error Occured!!", Toast.LENGTH_SHORT).show();
+                Log.d("feedbackerror", "onErrorResponse: "+error);
+
             }
         })
 

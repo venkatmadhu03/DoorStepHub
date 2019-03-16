@@ -11,12 +11,15 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.AnticipateInterpolator;
+import android.widget.EditText;
 import android.widget.Toast;
 
 
 public class LoginActivity extends AppCompatActivity {
     private static final int TIME_DELAY = 2000;
     private static long back_pressed;
+
+    EditText mobilenumber_ET,otp_ET;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,14 +27,31 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
 
         setContentView(R.layout.activity_login);
+
+        mobilenumber_ET = findViewById(R.id.mobilenumber_edittext);
+        otp_ET = findViewById(R.id.otp_edittext);
+
+
     }
 
     public void loginsuccessfull(View view) {
 
-        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-        finish();
+
+        if(mobilenumber_ET.getText().toString().length()>10 || mobilenumber_ET.getText().toString().length()<10){
+            Toast.makeText(this, "Please Enter Valid MobileNumber", Toast.LENGTH_SHORT).show();
+        }
+        if(otp_ET.getText().toString().length()<4){
+            Toast.makeText(this, "Please Enter Valid OTP", Toast.LENGTH_SHORT).show();
+        }
+        else{
+
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+            finish();
+
+        }
+
     }
 
     @Override

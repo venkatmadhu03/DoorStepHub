@@ -18,4 +18,19 @@
         <item name="spinBars">true</item>
         <item name="color">@color/colorWhite</item>
     </style>
+    <style name="CheckBoxTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <!--<item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>-->
+    </style>
+
+    <style name="Widget.DSH.TextInputLayout" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="hintTextAppearance">@style/TextAppearance.DSH.TextInputLayout.HintText</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+    <style name="TextAppearance.DSH.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
 </resources>
