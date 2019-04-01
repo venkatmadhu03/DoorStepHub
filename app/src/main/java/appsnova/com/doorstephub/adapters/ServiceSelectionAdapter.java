@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import appsnova.com.doorstephub.R;
 import appsnova.com.doorstephub.models.ServiceSelectionModel;
 
-public class ServiceSelectionAdapter   extends RecyclerView.Adapter<ServiceSelectionAdapter.ServiceSelectionViewHolder> {
+public class ServiceSelectionAdapter extends RecyclerView.Adapter<ServiceSelectionAdapter.ServiceSelectionViewHolder> {
     Context context;
     public List<ServiceSelectionModel> serviceSelectionModelList;
     public List<ServiceSelectionModel> selectedItemsList;

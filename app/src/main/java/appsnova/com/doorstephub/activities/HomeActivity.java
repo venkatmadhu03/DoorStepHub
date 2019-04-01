@@ -66,6 +66,9 @@ public class HomeActivity extends AppCompatActivity
         
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       // toolbar.setTitleMarginStart(280);
+        toolbar.setTitleMargin(280,40,0,10);
+       // toolbar.setTitleMargin((int) getResources().getDimension(R.dimen.tabtextmargin_start),(int) getResources().getDimension(R.dimen.tabtextmargin_top),0,5);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

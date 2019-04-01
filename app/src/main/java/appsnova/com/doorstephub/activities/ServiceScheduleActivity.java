@@ -32,7 +32,9 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 import appsnova.com.doorstephub.R;
 import appsnova.com.doorstephub.models.MyBookingsModel;
 import appsnova.com.doorstephub.utilities.NetworkUtils;
@@ -66,7 +68,12 @@ public class ServiceScheduleActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_schedule);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        new ActionBar.LayoutParams(250,90);
+        //android.app.ActionBar.LayoutParams layoutParams = new android.app.ActionBar.LayoutParams(250,90);
+        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_background));
         //getting current time
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -97,7 +104,7 @@ public class ServiceScheduleActivity extends AppCompatActivity{
         editText_colony = findViewById(R.id.edittext_colony);
         editText_landmark = findViewById(R.id.edittext_landmark);
         editText_city = findViewById(R.id.edittext_city);
-
+/*
         editText_date.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -115,7 +122,7 @@ public class ServiceScheduleActivity extends AppCompatActivity{
                 }
                 return false;
             }
-        });
+        });*/
 
         serviveschedulebutton = findViewById(R.id.serviveschedulebutton);
         serviceschedule_checkbox = findViewById(R.id.serviceschedule_checkbox);
@@ -192,7 +199,6 @@ public class ServiceScheduleActivity extends AppCompatActivity{
             {
                 editText_city.setError("City is Required");
             }
-
 
             //  serviveschedulebutton.setEnabled(false);
         }
@@ -286,6 +292,9 @@ public class ServiceScheduleActivity extends AppCompatActivity{
 
         timePickerDialog.show();
     }
+
+
+
 
 
 }

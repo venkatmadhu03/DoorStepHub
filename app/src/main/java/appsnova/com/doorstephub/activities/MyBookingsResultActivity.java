@@ -30,6 +30,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 import appsnova.com.doorstephub.R;
@@ -66,7 +67,12 @@ public class MyBookingsResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_bookings_result);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        new ActionBar.LayoutParams(250,90);
+        //android.app.ActionBar.LayoutParams layoutParams = new android.app.ActionBar.LayoutParams(250,90);
+        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_background));
 
         progressDialog = UrlUtility.showProgressDialog(this);
         networkUtils = new NetworkUtils(this);

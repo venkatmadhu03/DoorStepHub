@@ -22,5 +22,7 @@
     <dimen name="drawable_padding">8dp</dimen>
     <dimen name="loginpage_logo_margintop">5dp</dimen>
     <dimen name="signup_textview_margintop">10dp</dimen>
+    <dimen name="tabtextmargin_start">280dp</dimen>
+    <dimen name="tabtextmargin_top">60dp</dimen>
 
 </resources>

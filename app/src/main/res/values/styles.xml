@@ -12,6 +12,7 @@
     <item name="colorPrimary">#c31432</item>
     <item name="colorPrimaryDark">#240b36</item>
 </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -58,5 +59,14 @@
     <style name="TextAppearance.DSH.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="android:textColor">@color/colorWhite</item>
     </style>
+
+    <!-- ActionBar styles -->
+    <style name="MyActionBar" parent="AppTheme">
+        <item name="actionBarItemBackground">@drawable/tabbackground</item>
+
+        <!-- Support library compatibility -->
+        <item name="background">@drawable/tabbackground</item>
+    </style>
+
 
 </resources>

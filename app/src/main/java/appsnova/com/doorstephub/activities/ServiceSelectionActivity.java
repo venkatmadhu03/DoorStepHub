@@ -1,6 +1,7 @@
 package appsnova.com.doorstephub.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -87,6 +88,13 @@ public class ServiceSelectionActivity extends AppCompatActivity {
         rb_desktop = findViewById(R.id.rb_desktop);
         rb_laptop = findViewById(R.id.rb_laptop);
 
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        new ActionBar.LayoutParams(250,90);
+        //android.app.ActionBar.LayoutParams layoutParams = new android.app.ActionBar.LayoutParams(250,90);
+        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_background));
+
 
         //intialie Utils Objects
         networkUtils = new NetworkUtils(this);
@@ -105,7 +113,7 @@ public class ServiceSelectionActivity extends AppCompatActivity {
         }
 
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         recyclerView = findViewById(R.id.serviceselection_list);
         servicetype_container =findViewById(R.id.servicetype_container);

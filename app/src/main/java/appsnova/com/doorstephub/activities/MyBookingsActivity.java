@@ -1,5 +1,6 @@
 package appsnova.com.doorstephub.activities;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -73,7 +74,12 @@ public class MyBookingsActivity extends AppCompatActivity {
             enter_transition.setInterpolator(new AnticipateOvershootInterpolator());
             getWindow().setEnterTransition(enter_transition);
         }
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        new ActionBar.LayoutParams(250,90);
+        //android.app.ActionBar.LayoutParams layoutParams = new android.app.ActionBar.LayoutParams(250,90);
+        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_background));
 
         networkUtils = new NetworkUtils(this);
         sharedPref = new SharedPref(this);

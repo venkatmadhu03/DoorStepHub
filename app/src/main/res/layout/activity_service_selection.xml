@@ -17,6 +17,7 @@
             android:id="@+id/logo"
             android:src="@mipmap/ic_launcher_round"/>
     </LinearLayout>-->
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

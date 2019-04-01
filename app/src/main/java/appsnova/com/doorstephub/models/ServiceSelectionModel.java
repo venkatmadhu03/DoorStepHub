@@ -54,11 +54,11 @@ public class ServiceSelectionModel {
     public void setName(String name) {
         this.name = name;
     }
+
     public void setSelected(boolean selected) {
         isSelected = selected;
 
     }
-
 
     public boolean isSelected() {
         return isSelected;
