@@ -161,7 +161,7 @@ public class MyBookingsResultActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params = new HashMap<>();
-                params.put("User_ID", "65");
+                params.put("User_ID", "70");
                 params.put("enquiry_id",service_order_id);
                 return params;
             }
@@ -203,7 +203,7 @@ public class MyBookingsResultActivity extends AppCompatActivity {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     HashMap<String,String> params = new HashMap<>();
-                    params.put("User_ID","65");
+                    params.put("User_ID","70");
                     params.put("enquiry_id",service_order_id);
                     params.put("rating", String.valueOf(ratingBar.getRating()));
                     params.put("feedback",feedback.getText().toString());

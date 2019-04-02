@@ -52,7 +52,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
-
     public void loginsuccessfull(View view) {
 
 
@@ -62,18 +61,12 @@ public class LoginActivity extends AppCompatActivity {
         if(otp_ET.getText().toString().length()<4){
             Toast.makeText(this, "Please Enter Valid OTP", Toast.LENGTH_SHORT).show();
         }
-
-        sendingRequestForOTP();
-//            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-//            startActivity(intent);
+          //  sendingRequestForOTP();
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
             overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-            finish();
-
-
-
     }
-
-    private void sendingRequestForOTP() {
+   /* private void sendingRequestForOTP() {
         String password="";
         String path = "login.bulksmsgateway.in/sendmessage.php?user=doorstephub&password="+password+
                 "&mobile="+mobilenumber_ET.getText().toString()+"&message=&"+"&sender=DSLHUB"+"&type=3";
@@ -97,10 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Please Enter OTP", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
-    }
+    }*/
 
     @Override
     public void onBackPressed() {

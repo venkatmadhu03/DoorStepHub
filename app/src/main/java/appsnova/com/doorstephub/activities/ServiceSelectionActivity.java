@@ -111,10 +111,6 @@ public class ServiceSelectionActivity extends AppCompatActivity {
         }else {
             services.setVisibility(View.GONE);
         }
-
-
-
-
         recyclerView = findViewById(R.id.serviceselection_list);
         servicetype_container =findViewById(R.id.servicetype_container);
         noSubserviceTv =findViewById(R.id.noSubserviceTv);
@@ -199,7 +195,7 @@ public class ServiceSelectionActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params=new HashMap<>();
-                params.put("User_ID","65");
+                params.put("User_ID","70");
                 params.put("service_subcat_id",service_Id);
 
                 JSONObject jsonObject=new JSONObject(params);

@@ -74,7 +74,6 @@ public class ServiceSelectionAdapter extends RecyclerView.Adapter<ServiceSelecti
 
     }
 
-
     @Override
     public int getItemCount() {
         return serviceSelectionModelList.size();

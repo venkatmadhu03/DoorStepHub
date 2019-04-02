@@ -238,7 +238,7 @@ public class ServiceScheduleActivity extends AppCompatActivity{
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params=new HashMap<>();
-                params.put("User_ID","65");//local = 70, remote=65
+                params.put("User_ID","70");//local = 70, remote=65
                 params.put("service_id",service_id);//first page id
                 params.put("service_subcat_id",service_selection_id);//second page id
                 params.put("requirement",editText_description.getText().toString());//description

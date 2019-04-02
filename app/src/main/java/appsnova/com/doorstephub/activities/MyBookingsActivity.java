@@ -213,7 +213,7 @@ public class MyBookingsActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params = new HashMap<>();
-                params.put("User_ID","65");
+                params.put("User_ID","70");
                 return params;
             }
         };
