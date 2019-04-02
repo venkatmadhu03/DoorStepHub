@@ -29,6 +29,13 @@ public class ServiceSelectionAdapter extends RecyclerView.Adapter<ServiceSelecti
     public List<ServiceSelectionModel> serviceSelectionModelList;
     public List<ServiceSelectionModel> selectedItemsList;
 
+
+    public ServiceSelectionAdapter(Context context, List<ServiceSelectionModel> serviceSelectionModelList,List<ServiceSelectionModel> selectedItemList) {
+        this.serviceSelectionModelList = serviceSelectionModelList;
+        this.context = context;
+        this.selectedItemsList = selectedItemList;
+    }
+
     @NonNull
     @Override
     public ServiceSelectionViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, final int i) {
@@ -67,11 +74,6 @@ public class ServiceSelectionAdapter extends RecyclerView.Adapter<ServiceSelecti
 
     }
 
-    public ServiceSelectionAdapter(Context context, List<ServiceSelectionModel> serviceSelectionModelList,List<ServiceSelectionModel> selectedItemList) {
-        this.serviceSelectionModelList = serviceSelectionModelList;
-        this.context = context;
-        this.selectedItemsList = selectedItemList;
-    }
 
     @Override
     public int getItemCount() {

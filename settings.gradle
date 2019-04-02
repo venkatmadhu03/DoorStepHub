@@ -1,1 +1,1 @@
-include ':app', ':doorstephubmerchant', ':doorstephubmerchant2', ':doorstephubmerchant'
+include ':app'

@@ -62,14 +62,14 @@ public class LoginActivity extends AppCompatActivity {
         if(otp_ET.getText().toString().length()<4){
             Toast.makeText(this, "Please Enter Valid OTP", Toast.LENGTH_SHORT).show();
         }
-        else{
-            sendingRequestForOTP();
+
+        sendingRequestForOTP();
 //            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
 //            startActivity(intent);
             overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
             finish();
 
-        }
+
 
     }
 
