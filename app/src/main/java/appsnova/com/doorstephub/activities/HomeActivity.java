@@ -30,11 +30,14 @@ import appsnova.com.doorstephub.utilities.UrlUtility;
 import appsnova.com.doorstephub.utilities.VolleySingleton;
 import android.view.MenuItem;
 import android.view.animation.AnticipateOvershootInterpolator;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +48,7 @@ public class HomeActivity extends AppCompatActivity
     RecyclerView servicesCategoryRecyclerView;
     int statusCode;
     String statusMessage;
+    TextView nav_userId;
     /*Time delay for back press*/
     private static final int TIME_DELAY = 2000;
     private static long back_pressed;
@@ -65,6 +69,7 @@ public class HomeActivity extends AppCompatActivity
         progressDialog=UrlUtility.showProgressDialog(this);
         
         setContentView(R.layout.activity_home);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
        // toolbar.setTitleMarginStart(280);
         toolbar.setTitleMargin(280,40,0,10);
@@ -82,6 +87,7 @@ public class HomeActivity extends AppCompatActivity
         servicesCategoryRecyclerView = findViewById(R.id.servicesCategoryRecyclerView);
         serviceCategoryModelList = new ArrayList<ServiceCategoryModel>();
         homeAdapter = new HomeAdapter(serviceCategoryModelList, this);
+
 
         GridLayoutManager layoutManager = new GridLayoutManager(this,2);
        // layoutManager.setOrientation(RecyclerView.VERTICAL);

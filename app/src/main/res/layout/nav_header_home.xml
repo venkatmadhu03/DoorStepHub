@@ -24,16 +24,17 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/nav_userwelcome"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Example"
+        android:text="Welcome"
         android:textColor="@color/colorWhite"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/nav_userid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="example@example.com"
+        android:text=""
         android:textColor="@color/colorWhite"/>
 
 </LinearLayout>

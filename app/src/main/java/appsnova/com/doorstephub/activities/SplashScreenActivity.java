@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -32,7 +33,12 @@ SharedPref sharedPref;
             @Override
             public void run() {
                 if(!sharedPref.getStringValue("isFirstOpen").isEmpty()){
-                    startActivity(new Intent(SplashScreenActivity.this,LoginActivity.class));
+                    if(!sharedPref.getStringValue("MobileNumber").isEmpty()){
+                        Log.d("sharedprefValue", "run: "+sharedPref.getStringValue("MobileNumber"));
+                        startActivity(new Intent(SplashScreenActivity.this,HomeActivity.class));
+                    }else{
+                        startActivity(new Intent(SplashScreenActivity.this,LoginActivity.class));
+                    }
                 }
                 else{
                     startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));

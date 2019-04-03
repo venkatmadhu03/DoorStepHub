@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -49,7 +50,12 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPref = new SharedPref(MainActivity.this);
         if(!sharedPref.getStringValue("isFirstOpen").isEmpty()){
-            startActivity(new Intent(this, LoginActivity.class));
+            if(!sharedPref.getStringValue("MobileNumber").isEmpty()){
+                Log.d("sharedprefValue", "run: "+sharedPref.getStringValue("MobileNumber"));
+                startActivity(new Intent(MainActivity.this,HomeActivity.class));
+            }else{
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            }
             return;
         }
         else{

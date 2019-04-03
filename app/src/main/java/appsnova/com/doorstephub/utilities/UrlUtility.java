@@ -15,7 +15,7 @@ import appsnova.com.doorstephub.R;
 public class UrlUtility {
 
     //public  static final String BASE_URL="https://doorstephub.com/api/index.php/";
-    public  static final String BASE_URL="http://10.10.10.212/CodeIgniter/index.php/";
+    public  static final String BASE_URL="http://10.10.10.142/api/index.php/";
     public static final String SERVICES_LIST_URL=BASE_URL+"Services/ServicesList";
     public static final String SUB_SERVICES_LIST_URL=BASE_URL+"Services/SubServicesList";
     public static final String SUBMIT_DETAILS_URL=BASE_URL+"Services/SubServicesList";
@@ -23,6 +23,8 @@ public class UrlUtility {
     public static final String GET_BOOKINGS_URL=BASE_URL+"Bookings/GetBookings";
     public static final String GET_FEEDBACK_URL=BASE_URL+"Bookings/GetFeedback";
     public static final String FEEDBACK_URL=BASE_URL+"Bookings/Feedback";
+    public static final String LOGIN_URL =BASE_URL+"User/Login";
+    public static final String VERIFY_OTP_URL =BASE_URL+"User/VerifyOTP";
     public static ProgressDialog showProgressDialog(Context mContext) {
 
         ProgressDialog progressDialog = new ProgressDialog(mContext);

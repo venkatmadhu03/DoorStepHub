@@ -187,7 +187,6 @@ public class MyBookingsActivity extends AppCompatActivity {
                             myBookingsModel.setScheduleddate(jsonObject1.getString("enquiry_date"));
                             myBookingsModel.setStatus(jsonObject1.getString("enquiry_status_value"));
                             myBookingsModels.add(myBookingsModel);
-
                         }
                         Log.d("mybookingslist", "onResponse: "+myBookingsModels.size());
                         myBookingsAdapter.notifyDataSetChanged();
