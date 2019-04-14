@@ -195,7 +195,7 @@ public class ServiceSelectionActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params=new HashMap<>();
-                params.put("User_ID","70");
+                params.put("User_ID",sharedPref.getStringValue("user_id"));
                 params.put("service_subcat_id",service_Id);
 
                 JSONObject jsonObject=new JSONObject(params);

@@ -26,6 +26,7 @@ public class ThankYouPage extends AppCompatActivity {
             @Override
             public void run() {
                 Intent intent  =new Intent(ThankYouPage.this,HomeActivity.class);
+                intent.putExtra("INTENT_FROM", "Thankyou");
                 startActivity(intent);
                 finishAffinity();
             }

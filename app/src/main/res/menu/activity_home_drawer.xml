@@ -16,7 +16,7 @@
             android:id="@+id/nav_mybookings"
             android:icon="@drawable/nav_mybookings"
             android:title="My Bookings" />
-      <!--  <item
+       <!-- <item
             android:id="@+id/nav_feedback"
             android:icon="@drawable/nav_feedback"
             android:title="FeedBack" />-->
@@ -40,10 +40,10 @@
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
                 android:title="Share" />
-            <!--<item
-                android:id="@+id/nav_send"
+            <item
+                android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />-->
+                android:title="Logout" />
         </menu>
     </item>
 

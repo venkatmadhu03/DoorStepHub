@@ -149,6 +149,7 @@ public class LoginActivity extends AppCompatActivity {
                        if(verificationStatusCode==200){
                            JSONObject jsonObject1 = jsonObject.getJSONObject("response");
                            sharedPref.setStringValue("MobileNumber",jsonObject1.getString("mobile"));
+                           sharedPref.setStringValue("user_id", jsonObject1.getString("id"));
                            Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
                            startActivity(intent);
                        }

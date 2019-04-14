@@ -83,7 +83,7 @@
                     android:drawableTint="#9B2863"
                     android:hint="Enter OTP Number"
                     android:imeOptions="actionDone"
-                    android:maxLength="4"
+                    android:maxLength="6"
                     android:inputType="number"
                     android:paddingStart="8dp"
                     android:paddingTop="8dp"

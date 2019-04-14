@@ -13,6 +13,8 @@ import com.android.volley.toolbox.StringRequest;
 import android.transition.Explode;
 import android.util.Log;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -29,6 +31,7 @@ import appsnova.com.doorstephub.utilities.SharedPref;
 import appsnova.com.doorstephub.utilities.UrlUtility;
 import appsnova.com.doorstephub.utilities.VolleySingleton;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,15 +50,18 @@ public class HomeActivity extends AppCompatActivity
     //create View Objects
     RecyclerView servicesCategoryRecyclerView;
     int statusCode;
-    String statusMessage;
+    String statusMessage, intent_from;
     TextView nav_userId;
     /*Time delay for back press*/
     private static final int TIME_DELAY = 2000;
     private static long back_pressed;
+
     //create Utils Objects
     NetworkUtils networkUtils;
     SharedPref sharedPref;
     ProgressDialog progressDialog;
+    Bundle bundle;
+
     List<ServiceCategoryModel> serviceCategoryModelList;
     HomeAdapter homeAdapter;
     @Override
@@ -67,7 +73,14 @@ public class HomeActivity extends AppCompatActivity
         networkUtils = new NetworkUtils(this);
         sharedPref = new SharedPref(this);
         progressDialog=UrlUtility.showProgressDialog(this);
-        
+        bundle = getIntent().getExtras();
+        View view = new View(this);
+        if (bundle !=null){
+            intent_from = bundle.getString("INTENT_FROM");
+            if (intent_from.equalsIgnoreCase("Thankyou")){
+                Snackbar.make(view, "Booking request received!! track your order from my bookings page", Snackbar.LENGTH_SHORT).show();
+            }
+        }
         setContentView(R.layout.activity_home);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -222,9 +235,11 @@ public class HomeActivity extends AppCompatActivity
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
         }
-       /* else if (id == R.id.nav_send) {
-
-        }*/
+        else if (id == R.id.nav_logout) {
+            sharedPref.removeSession("user_id");
+            sharedPref.removeSession("MobileNumber");
+            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

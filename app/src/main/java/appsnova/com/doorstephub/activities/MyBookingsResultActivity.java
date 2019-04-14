@@ -36,6 +36,7 @@ import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 import appsnova.com.doorstephub.R;
 import appsnova.com.doorstephub.models.MyBookingsModel;
 import appsnova.com.doorstephub.utilities.NetworkUtils;
+import appsnova.com.doorstephub.utilities.SharedPref;
 import appsnova.com.doorstephub.utilities.UrlUtility;
 import appsnova.com.doorstephub.utilities.VolleySingleton;
 
@@ -53,6 +54,7 @@ public class MyBookingsResultActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
     NetworkUtils networkUtils;
+    SharedPref sharedPref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -76,6 +78,7 @@ public class MyBookingsResultActivity extends AppCompatActivity {
 
         progressDialog = UrlUtility.showProgressDialog(this);
         networkUtils = new NetworkUtils(this);
+        sharedPref = new SharedPref(this);
         bundle= getIntent().getExtras();
 
         //initialize views
@@ -203,7 +206,7 @@ public class MyBookingsResultActivity extends AppCompatActivity {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     HashMap<String,String> params = new HashMap<>();
-                    params.put("User_ID","70");
+                    params.put("User_ID",sharedPref.getStringValue("user_id"));
                     params.put("enquiry_id",service_order_id);
                     params.put("rating", String.valueOf(ratingBar.getRating()));
                     params.put("feedback",feedback.getText().toString());

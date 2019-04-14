@@ -22,8 +22,7 @@ public class IntroSliderAdapter extends PagerAdapter {
 
             R.drawable.intro_image1,
             R.drawable.intro_image2,
-            R.drawable.intro_image3,
-            R.drawable.intro_image4
+            R.drawable.intro_image3
     };
 
     public String[] list_title={
