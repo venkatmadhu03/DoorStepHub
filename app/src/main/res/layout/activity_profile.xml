@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#18255C">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_Profiledetails"
+                android:paddingStart="@dimen/textviewpadding_start"
+                android:paddingTop="@dimen/textviewpadding_top"
+                android:paddingEnd="@dimen/textviewpadding_end"
+                android:paddingBottom="@dimen/textviewpadding_bottom"
+                android:text="@string/profile_details"
+                android:textColor="@color/colorWhite"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+
+            <EditText
+                android:id="@+id/textView_name"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView_Profiledetails"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/edittextmarginleft"
+                android:layout_marginTop="10dp"
+                android:hint="Name"
+                android:textColorHint="@color/colorWhite"
+                android:layout_marginRight="@dimen/edittextmarginright"
+                android:layout_marginBottom="@dimen/edittext_marginbottom"
+                android:background="@drawable/edittext_round_background"
+                android:textColor="@color/colorWhite"
+                android:paddingStart="@dimen/edittextpadding_start"
+                android:paddingTop="@dimen/edittextpadding_top"
+                android:paddingEnd="@dimen/edittextpadding_end"
+                android:paddingBottom="@dimen/edittextpadding_bottom"
+                android:textSize="@dimen/edittext_size" />
+
+            <EditText
+                android:id="@+id/textview_Phone"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView_name"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/edittextmarginleft"
+                android:layout_marginRight="@dimen/edittextmarginright"
+                android:layout_marginBottom="@dimen/edittext_marginbottom"
+                android:background="@drawable/edittext_round_background"
+                android:drawablePadding="@dimen/drawable_padding"
+                android:hint="Phone"
+                android:textColorHint="@color/colorWhite"
+                android:textColor="@color/colorWhite"
+                android:paddingStart="@dimen/edittextpadding_start"
+                android:paddingTop="@dimen/edittextpadding_top"
+                android:paddingEnd="@dimen/edittextpadding_end"
+                android:paddingBottom="@dimen/edittextpadding_bottom"
+                android:textSize="@dimen/edittext_size"
+                android:visibility="visible"
+                android:clickable="false"
+                android:focusable="false"
+                />
+
+            <EditText
+                android:id="@+id/textviewdate"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textview_Phone"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/edittextmarginleft"
+                android:layout_marginRight="@dimen/edittextmarginright"
+                android:layout_marginBottom="@dimen/edittext_marginbottom"
+                android:background="@drawable/edittext_round_background"
+                android:drawablePadding="@dimen/drawable_padding"
+                android:focusable="false"
+                android:hint="Calendar"
+                android:textColorHint="@color/colorWhite"
+                android:textColor="@color/colorWhite"
+                android:imeOptions="actionNext"
+                android:paddingStart="@dimen/edittextpadding_start"
+                android:paddingTop="@dimen/edittextpadding_top"
+                android:paddingEnd="@dimen/edittextpadding_end"
+                android:paddingBottom="@dimen/edittextpadding_bottom"
+                android:textSize="@dimen/edittext_size"
+                android:clickable="false" />
+
+            <EditText
+                android:id="@+id/textview_description"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textviewdate"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/edittextmarginleft"
+                android:layout_marginRight="@dimen/edittextmarginright"
+                android:layout_marginBottom="@dimen/edittext_marginbottom"
+                android:background="@drawable/edittext_round_background"
+                android:drawablePadding="@dimen/drawable_padding"
+                android:gravity="top|start"
+                android:hint="Description"
+                android:textColorHint="@color/colorWhite"
+                android:textColor="@color/colorWhite"
+                android:maxHeight="100dp"
+                android:maxLines="5"
+                android:paddingStart="@dimen/edittextpadding_start"
+                android:paddingTop="@dimen/edittextpadding_top"
+                android:paddingEnd="@dimen/edittextpadding_end"
+                android:paddingBottom="@dimen/edittextpadding_bottom"
+                android:textSize="@dimen/edittext_size" />
+
+           <!-- <EditText
+                android:id="@+id/textview_city"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textview_description"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/edittextmarginleft"
+                android:layout_marginRight="@dimen/edittextmarginright"
+                android:layout_marginBottom="@dimen/edittext_marginbottom"
+                android:background="@drawable/edittext_round_background"
+                android:drawablePadding="@dimen/drawable_padding"
+                android:hint="City"
+                android:textColorHint="@color/colorWhite"
+                android:textColor="@color/colorWhite"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:paddingStart="@dimen/edittextpadding_start"
+                android:paddingTop="@dimen/edittextpadding_top"
+                android:paddingEnd="@dimen/edittextpadding_end"
+                android:paddingBottom="@dimen/edittextpadding_bottom"
+                android:textSize="@dimen/edittext_size" />-->
+
+            <Button
+                android:id="@+id/profileUpdatebtn"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textview_description"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/submit_button_background"
+                android:clickable="false"
+                android:focusable="false"
+                android:onClick="serviveschedulebutton"
+                android:text="Update"
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -50,8 +50,6 @@ public class MyBookingsResultActivity extends AppCompatActivity {
     String statusMessage;
     String service_order_id="";
     TextView selectedorderid,selected_servicerequired,selected_scheduled_date;
-
-
     ProgressDialog progressDialog;
     NetworkUtils networkUtils;
     SharedPref sharedPref;
@@ -65,7 +63,6 @@ public class MyBookingsResultActivity extends AppCompatActivity {
             getWindow().setEnterTransition(enter_transition);
         }
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_bookings_result);
 
@@ -78,7 +75,7 @@ public class MyBookingsResultActivity extends AppCompatActivity {
 
         progressDialog = UrlUtility.showProgressDialog(this);
         networkUtils = new NetworkUtils(this);
-        sharedPref = new SharedPref(this);
+        sharedPref=  new SharedPref(MyBookingsResultActivity.this);
         bundle= getIntent().getExtras();
 
         //initialize views
@@ -104,7 +101,6 @@ public class MyBookingsResultActivity extends AppCompatActivity {
             Toast.makeText(this, getResources().getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
         }
 
-
         feedback_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,10 +108,6 @@ public class MyBookingsResultActivity extends AppCompatActivity {
                     sendfeedback();
                 }else{
                     Toast.makeText(MyBookingsResultActivity.this, getResources().getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
-                }
-
-                if(feedback.getText().toString()!=null){
-                    Toast.makeText(MyBookingsResultActivity.this, "Thank You For Your FeedBack..", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -128,7 +120,7 @@ public class MyBookingsResultActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 try {
-                    Log.d("getFeedback", "onResponse: "+response);
+                    Log.d("GetFeedbackResponse", "onResponse: "+response);
                     JSONObject jsonObject = new JSONObject(response);
                     statusCode = jsonObject.getInt("statusCode");
                     statusMessage = jsonObject.getString("statusMessage");
@@ -140,9 +132,10 @@ public class MyBookingsResultActivity extends AppCompatActivity {
                         feedback.setFocusable(false);
                         feedback.setEnabled(false);
                         ratingBar.setEnabled(false);
-                       // ratingBar.setFocusable(false);
+                        ratingBar.setFocusable(false);
                         ratingBar.setClickable(false);
-                        feedback_submit.setVisibility(View.GONE);
+                       // feedback_submit.setVisibility(View.GONE);
+                        feedback_submit.setEnabled(false);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -154,7 +147,7 @@ public class MyBookingsResultActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressDialog.dismiss();
-                Toast.makeText(MyBookingsResultActivity.this, "Error Occured!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyBookingsResultActivity.this, "FeedBack Not Available", Toast.LENGTH_SHORT).show();
                 Log.d("feedbackerror", "onErrorResponse: "+error);
 
             }
@@ -164,7 +157,7 @@ public class MyBookingsResultActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params = new HashMap<>();
-                params.put("User_ID", "70");
+                params.put("User_ID", sharedPref.getStringValue("User_Id"));
                 params.put("enquiry_id",service_order_id);
                 return params;
             }
@@ -174,39 +167,34 @@ public class MyBookingsResultActivity extends AppCompatActivity {
 
     }
     public void sendfeedback(){
-
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.FEEDBACK_URL, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.FEEDBACK_URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
 
                     try {
-                        Log.d("FeedbackResponse", "onResponse: "+response);
+                        Log.d("SubmitFeedbackResponse", "onResponse: "+response);
                         JSONObject jsonObject = new JSONObject(response);
                         statusCode = jsonObject.getInt("statusCode");
                         if(statusCode ==200) {
-                            Toast.makeText(MyBookingsResultActivity.this, jsonObject.getString("statusMessage"), Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            Toast.makeText(MyBookingsResultActivity.this, "No Data Found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyBookingsResultActivity.this, "Thank You For Your FeedBack..", Toast.LENGTH_SHORT).show();
+                          //  Toast.makeText(MyBookingsResultActivity.this, jsonObject.getString("statusMessage"), Toast.LENGTH_SHORT).show();
                         }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
+                    Toast.makeText(MyBookingsResultActivity.this, "Error Occured!!"+error, Toast.LENGTH_SHORT).show();
                 }
             })
             {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     HashMap<String,String> params = new HashMap<>();
-                    params.put("User_ID",sharedPref.getStringValue("user_id"));
+                    params.put("User_ID",sharedPref.getStringValue("User_Id"));
                     params.put("enquiry_id",service_order_id);
                     params.put("rating", String.valueOf(ratingBar.getRating()));
                     params.put("feedback",feedback.getText().toString());

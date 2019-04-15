@@ -15,11 +15,17 @@
         android:roundIcon="@drawable/final_logo_doorstephub"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.SplashScreenActivity"
-                  android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".activities.TermsConditionsActivity">
+        </activity>
+        <activity android:name=".activities.ProfileActivity">
+        </activity>
+        <activity
+            android:name=".activities.SplashScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -36,7 +42,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/ActionBar" />
         <activity
-            android:name=".activities.DiscountsActivity"
+            android:name=".activities.PrivacyPolicyActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.FeedbackActivity"
@@ -50,7 +56,7 @@
         </activity>
         <activity
             android:name=".activities.HomeActivity"
-            android:label="Select Service"
+            android:label="@string/homeActivityTag"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

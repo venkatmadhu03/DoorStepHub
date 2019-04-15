@@ -91,7 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:text="FEEDBACK:"
+        android:text="FEEDBACK"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="18sp"

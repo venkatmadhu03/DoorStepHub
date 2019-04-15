@@ -25,9 +25,13 @@
             android:icon="@drawable/nav_setting"
             android:title="Setting" />-->
         <item
-            android:id="@+id/nav_discounts"
-            android:icon="@drawable/nav_discounts"
-            android:title="Discounts" />
+            android:id="@+id/nav_Pivacy_policy"
+            android:icon="@drawable/nav_privacypolicy"
+            android:title="Privacy Policy" />
+        <item
+            android:id="@+id/nav_Termscond"
+            android:icon="@drawable/termsandconditions"
+            android:title="Terms &amp; Conditions" />
         <item
             android:id="@+id/nav_Aboutus"
             android:icon="@drawable/nav_aboutus"

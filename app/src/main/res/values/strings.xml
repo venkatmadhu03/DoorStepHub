@@ -19,4 +19,6 @@
     <string name="service_required_for">Service Required For?</string>
     <string name="which_service_type_required">Which Service Type Required?</string>
     <string name="title_activity_merchant__main">Merchant_MainActivity</string>
+    <string name="profile_details">Profile Details</string>
+    <string name="homeActivityTag">We bring your home"\n"appliances Back to Life</string>
 </resources>

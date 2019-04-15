@@ -65,6 +65,8 @@ public class MyBookingsActivity extends AppCompatActivity {
 
         noBookingsTextView = findViewById(R.id.noBookingsTextView);
 
+        Toast.makeText(this, "Under Development", Toast.LENGTH_SHORT).show();
+
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             Slide enter_transition = new Slide();
             enter_transition.setSlideEdge(Gravity.LEFT);
@@ -175,10 +177,8 @@ public class MyBookingsActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(response);
                     status_code = jsonObject.getInt("statusCode");
                     status_message = jsonObject.getString("statusMessage");
-                    if (jsonObject.has("response")){
-                        JSONArray jsonArray = jsonObject.getJSONArray("response");
-                        noBookingsTextView.setVisibility(View.GONE);
-                        mybookings_list.setVisibility(View.VISIBLE);
+                    JSONArray jsonArray = jsonObject.getJSONArray("response");
+                    if (status_code==200) {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                             MyBookingsModel myBookingsModel = new MyBookingsModel();
@@ -190,10 +190,12 @@ public class MyBookingsActivity extends AppCompatActivity {
                         }
                         Log.d("mybookingslist", "onResponse: "+myBookingsModels.size());
                         myBookingsAdapter.notifyDataSetChanged();
-                    }else{
-                        noBookingsTextView.setVisibility(View.VISIBLE);
-                        mybookings_list.setVisibility(View.GONE);
                     }
+                    else
+                    {
+                        noBookingsTextView.setVisibility(View.VISIBLE);
+                    }
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -203,7 +205,6 @@ public class MyBookingsActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("MyBookings", "onErrorResponse: "+error.toString());
             progressDialog.dismiss();
             }
         })
@@ -211,7 +212,7 @@ public class MyBookingsActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params = new HashMap<>();
-                params.put("User_ID",sharedPref.getStringValue("user_id"));
+                params.put("User_ID",sharedPref.getStringValue("User_Id"));
                 return params;
             }
         };

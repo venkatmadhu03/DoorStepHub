@@ -1,20 +1,17 @@
 package appsnova.com.doorstephub.activities;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
+
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
-import android.transition.Explode;
 import android.util.Log;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -32,38 +29,36 @@ import appsnova.com.doorstephub.utilities.UrlUtility;
 import appsnova.com.doorstephub.utilities.VolleySingleton;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     
     //create View Objects
     RecyclerView servicesCategoryRecyclerView;
-    int statusCode;
-    String statusMessage, intent_from;
-    TextView nav_userId;
+    int statusCode,profile_StatusCode;
+    String statusMessage,profile_StatusMessage;
+    TextView navusername,nav_usermobilenumber;
     /*Time delay for back press*/
     private static final int TIME_DELAY = 2000;
     private static long back_pressed;
-
     //create Utils Objects
     NetworkUtils networkUtils;
     SharedPref sharedPref;
     ProgressDialog progressDialog;
-    Bundle bundle;
-
     List<ServiceCategoryModel> serviceCategoryModelList;
     HomeAdapter homeAdapter;
+    String navheader;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,19 +68,12 @@ public class HomeActivity extends AppCompatActivity
         networkUtils = new NetworkUtils(this);
         sharedPref = new SharedPref(this);
         progressDialog=UrlUtility.showProgressDialog(this);
-        bundle = getIntent().getExtras();
-        View view = new View(this);
-        if (bundle !=null){
-            intent_from = bundle.getString("INTENT_FROM");
-            if (intent_from.equalsIgnoreCase("Thankyou")){
-                Snackbar.make(view, "Booking request received!! track your order from my bookings page", Snackbar.LENGTH_SHORT).show();
-            }
-        }
+        
         setContentView(R.layout.activity_home);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
        // toolbar.setTitleMarginStart(280);
-        toolbar.setTitleMargin(280,40,0,10);
+       // toolbar.setTitleMargin(40,40,0,10);
        // toolbar.setTitleMargin((int) getResources().getDimension(R.dimen.tabtextmargin_start),(int) getResources().getDimension(R.dimen.tabtextmargin_top),0,5);
         setSupportActionBar(toolbar);
 
@@ -96,6 +84,20 @@ public class HomeActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        navusername= headerView.findViewById(R.id.nav_username);
+        nav_usermobilenumber= headerView.findViewById(R.id.nav_usermobilenumber);
+
+        getProfile();
+
+
+          /*if(navheader==null || navheader.equals("")){
+            nav_usermobilenumber.setText("To Doorstep Hub");
+        }
+        else{
+            nav_usermobilenumber.setText(navheader);
+        }*/
+
         navigationView.setNavigationItemSelectedListener(this);
         servicesCategoryRecyclerView = findViewById(R.id.servicesCategoryRecyclerView);
         serviceCategoryModelList = new ArrayList<ServiceCategoryModel>();
@@ -113,6 +115,45 @@ public class HomeActivity extends AppCompatActivity
         }
 
     } //onCreate
+
+    private void getProfile() {
+        progressDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.GET_PROFILE_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("GetProfileResponse", "onResponse: "+response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    profile_StatusCode = jsonObject.getInt("statusCode");
+                    profile_StatusMessage = jsonObject.getString("statusMessage");
+                    if(profile_StatusCode ==200){
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("response");
+                        navusername.setText(jsonObject1.getString("name"));
+                        nav_usermobilenumber.setText(jsonObject1.getString("mobile"));
+                        sharedPref.setStringValue("calendar",jsonObject1.getString("log_date_created"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                progressDialog.dismiss();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(HomeActivity.this, "Error Loading Profile!!", Toast.LENGTH_SHORT).show();
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params = new HashMap<>();
+                params.put("Mobile_Number",sharedPref.getStringValue("MobileNumber"));
+                return params;
+            }
+        };
+        VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
+        VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
+    }
 
     //get Services List from server
     public void getServicesListFromServer(){
@@ -213,9 +254,16 @@ public class HomeActivity extends AppCompatActivity
        /* else if (id == R.id.nav_setting) {
 
         }*/
-        else if (id == R.id.nav_discounts) {
+        else if (id == R.id.nav_Pivacy_policy) {
             if (networkUtils.checkConnection()){
-                startActivity(new Intent(this, DiscountsActivity.class));
+                startActivity(new Intent(this, PrivacyPolicyActivity.class));
+            }else{
+                UrlUtility.showCustomToast(getResources().getString(R.string.no_connection), this);
+            }
+        }
+        else if (id == R.id.nav_Termscond) {
+            if (networkUtils.checkConnection()){
+                startActivity(new Intent(this, TermsConditionsActivity.class));
             }else{
                 UrlUtility.showCustomToast(getResources().getString(R.string.no_connection), this);
             }
@@ -235,14 +283,18 @@ public class HomeActivity extends AppCompatActivity
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
         }
-        else if (id == R.id.nav_logout) {
-            sharedPref.removeSession("user_id");
-            sharedPref.removeSession("MobileNumber");
-            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-        }
+       /* else if (id == R.id.nav_send) {
+
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     } //onNavigationItemSelected
+
+    public void profileDetails(View view) {
+
+        Intent intent = new Intent(HomeActivity.this,ProfileActivity.class);
+        startActivity(intent);
+    }
 }

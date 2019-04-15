@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     NetworkUtils networkUtils;
     ProgressDialog progressDialog;
     SharedPref sharedPref;
+    Intent intent;
 
     EditText mobilenumber_ET,otp_ET;
     @Override
@@ -104,6 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 progressDialog.dismiss();
+                                Log.d("OTPErrorResponse", "onErrorResponse: "+error);
                                 Toast.makeText(LoginActivity.this, "OOPS SomeThing Went Wrong..", Toast.LENGTH_SHORT).show();
                             }
                         }) {
@@ -127,7 +129,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
     }
     public void loginsuccessfull(View view) {
 
@@ -149,10 +150,12 @@ public class LoginActivity extends AppCompatActivity {
                        if(verificationStatusCode==200){
                            JSONObject jsonObject1 = jsonObject.getJSONObject("response");
                            sharedPref.setStringValue("MobileNumber",jsonObject1.getString("mobile"));
-                           sharedPref.setStringValue("user_id", jsonObject1.getString("id"));
-                           Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
+                           sharedPref.setStringValue("User_Id",jsonObject1.getString("id"));
+                           intent = new Intent(LoginActivity.this,HomeActivity.class);
+                           intent.putExtra("userid",mobilenumber_ET.getText().toString());
                            startActivity(intent);
                        }
+
 
                    } catch (JSONException e) {
                        e.printStackTrace();
@@ -178,8 +181,6 @@ public class LoginActivity extends AppCompatActivity {
             VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
             VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
         }
-
-
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
    /* private void sendingRequestForOTP() {

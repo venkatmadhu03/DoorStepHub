@@ -33,14 +33,14 @@ public class AboutUsActivity extends AppCompatActivity {
             getWindow().setEnterTransition(enter_transition);
         }
 
-        setTitle("AboutUS");
+        setTitle("About US");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         aboutus_progressBar = findViewById(R.id.aboutus_progressbar);
         aboutus_webview = findViewById(R.id.webview_aboutus);
 
-        aboutus_webview.loadUrl("https://doorstephub.com/");
+        aboutus_webview.loadUrl("https://www.doorstephub.com/About_us");
         aboutus_webview.getSettings().setJavaScriptEnabled(true);
         aboutus_webview.getSettings().setDisplayZoomControls(true);
         aboutus_webview.getSettings().setSupportZoom(true);

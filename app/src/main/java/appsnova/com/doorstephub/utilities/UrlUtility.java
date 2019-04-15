@@ -25,6 +25,8 @@ public class UrlUtility {
     public static final String FEEDBACK_URL=BASE_URL+"Bookings/Feedback";
     public static final String LOGIN_URL =BASE_URL+"User/Login";
     public static final String VERIFY_OTP_URL =BASE_URL+"User/VerifyOTP";
+    public  static  final String GET_PROFILE_URL = BASE_URL+"User/UserProfile";
+    public  static  final String UPDATE_PROFILE_URL = BASE_URL+"User/UpdateProfile";
     public static ProgressDialog showProgressDialog(Context mContext) {
 
         ProgressDialog progressDialog = new ProgressDialog(mContext);

@@ -63,6 +63,9 @@ public class ServiceSelectionAdapter extends RecyclerView.Adapter<ServiceSelecti
             }
 
         }
+        if(selectedItemsList.size()==0){
+            holder.selected_item.setVisibility(View.GONE);
+        }
 
         holder.servicerelativelayout.setOnClickListener(new View.OnClickListener() {
             @Override
