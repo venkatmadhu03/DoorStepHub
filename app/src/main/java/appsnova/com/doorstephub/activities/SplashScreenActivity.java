@@ -32,9 +32,10 @@ SharedPref sharedPref;
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                Log.d("sharedprefValue", "run: "+sharedPref.getStringValue("isFirstOpen"));
                 if(!sharedPref.getStringValue("isFirstOpen").isEmpty()){
                     if(!sharedPref.getStringValue("MobileNumber").isEmpty() &&
-                            !sharedPref.getStringValue("user_id").isEmpty()){
+                            !sharedPref.getStringValue("User_Id").isEmpty()){
                         Log.d("sharedprefValue", "run: "+sharedPref.getStringValue("MobileNumber"));
                         startActivity(new Intent(SplashScreenActivity.this,HomeActivity.class));
                     }else{

@@ -57,6 +57,8 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
         holder.mybooking_service_description.setText("Service Description:"+myBookingsModel.getService_description());
        // holder.mybooking_subservicetxt.setText("Sub Service:"+myBookingsModel.getSubservice());
         holder.mybooking_scheduleddatetxt.setText("Scheduled On:"+myBookingsModel.getScheduleddate());
+
+
         holder.mybooking_status.setText(myBookingsModel.getStatus());
 
         if(myBookingsModel.getStatus().equalsIgnoreCase("Open")){
@@ -131,7 +133,8 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
 
     public class MyBookingsViewHolder extends RecyclerView.ViewHolder {
         RelativeLayout mybookings_rowlayout;
-        TextView mybooking_orderidtxt,mybooking_service_description,mybooking_subservicetxt,
+        TextView mybooking_orderidtxt,mybooking_service_description,mybooking_SelectedService,
+                mybooking_SelectedSubService,
                 mybooking_scheduleddatetxt,mybooking_status;
         public MyBookingsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -139,10 +142,10 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
             mybookings_rowlayout = itemView.findViewById(R.id.mybookings_rowlayout);
             mybooking_orderidtxt = itemView.findViewById(R.id.mybooking_orderidtxt);
             mybooking_service_description = itemView.findViewById(R.id.mybooking_service_description);
+            mybooking_SelectedService = itemView.findViewById(R.id.mybooking_SelectedService);
+            mybooking_SelectedSubService = itemView.findViewById(R.id.mybooking_SelectedSubService);
             mybooking_scheduleddatetxt = itemView.findViewById(R.id.mybooking_scheduledatetxt);
             mybooking_status = itemView.findViewById(R.id.mybooking_status);
-
-
         }
     }
     public interface ItemClickListener {

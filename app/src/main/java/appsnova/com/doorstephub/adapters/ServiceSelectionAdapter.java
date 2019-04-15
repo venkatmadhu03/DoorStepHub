@@ -51,7 +51,7 @@ public class ServiceSelectionAdapter extends RecyclerView.Adapter<ServiceSelecti
         final ServiceSelectionModel serviceSelectionModel = serviceSelectionModelList.get(i);
         holder.servicetext.setText(serviceSelectionModel.getName());
         Picasso.get().load(serviceSelectionModel.getService_selection_image()).
-                placeholder(R.drawable.placeholder).error(R.drawable.error).into(holder.service_background);
+                placeholder(R.drawable.dhub_placeholder).error(R.drawable.error).into(holder.service_background);
         Log.d("selecteditemlistsize", String.valueOf(selectedItemsList.size()));
         if(selectedItemsList.size()>0){
             if(selectedItemsList.contains(serviceSelectionModel)){

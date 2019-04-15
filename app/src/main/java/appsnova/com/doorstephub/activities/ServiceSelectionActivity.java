@@ -295,17 +295,18 @@ public class ServiceSelectionActivity extends AppCompatActivity {
             StringBuilder sb = new StringBuilder();
             for (int index = 0; index < list.size(); index++){
                 ServiceSelectionModel model = list.get(index);
-                sb.append(model.getId()+",");
+                sb.append(model.getName()+",");
             }
-            String output = sb.deleteCharAt(sb.lastIndexOf(",")).toString();
-            Log.d("LeadList", "assignUsers: "+output);
+            //String output = sb.deleteCharAt(sb.lastIndexOf(",")).toString();
+            Log.d("LeadList", "assignUsers: "+sb.toString());
 
             Intent intent = new Intent(ServiceSelectionActivity.this, ServiceScheduleActivity.class);
             intent.putExtra("Service_Id",service_Id);
+            intent.putExtra("Service_Name",service_name);
             intent.putExtra("IntentFrom","serviceselection");
-            intent.putExtra("serviceSelectionId",output);
+            intent.putExtra("serviceSelectionId",sb.toString());
            // startActivity(intent);
-            Log.d("intentvalues", "selectedItemsList: "+service_Id+","+output);
+            Log.d("intentvalues", "selectedItemsList: "+service_name+","+sb.toString());
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 ActivityOptions activityOptions = (ActivityOptions) ActivityOptions.makeSceneTransitionAnimation(ServiceSelectionActivity.this);
                 startActivity(intent,activityOptions.toBundle());

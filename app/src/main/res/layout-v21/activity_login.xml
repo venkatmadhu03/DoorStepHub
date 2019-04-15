@@ -68,7 +68,7 @@
                     android:paddingEnd="8dp"
                     android:paddingBottom="8dp"
                     android:textColorHint="#132A9E"
-                    android:fontFamily="cursive"/>
+                    android:fontFamily="@font/varela"/>
 
                 <EditText
                     android:id="@+id/otp_edittext"
@@ -81,7 +81,7 @@
                     android:drawableStart="@drawable/otp_lock"
                     android:drawablePadding="@dimen/drawable_padding"
                     android:drawableTint="#9B2863"
-                    android:hint="Enter OTP Number"
+                    android:hint="OTP Number"
                     android:imeOptions="actionDone"
                     android:maxLength="6"
                     android:inputType="number"
@@ -90,7 +90,7 @@
                     android:paddingEnd="8dp"
                     android:paddingBottom="8dp"
                     android:textColorHint="#9B2863"
-                    android:fontFamily="cursive" />
+                    android:fontFamily="@font/varela" />
 
                 <RadioButton
                     android:id="@+id/remember_me_RB"

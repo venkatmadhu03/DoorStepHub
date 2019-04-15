@@ -9,7 +9,9 @@ import appsnova.com.doorstephub.utilities.UrlUtility;
 import appsnova.com.doorstephub.utilities.VolleySingleton;
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -35,7 +37,6 @@ import org.json.JSONObject;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
-
 
 public class LoginActivity extends AppCompatActivity {
     private static final int TIME_DELAY = 2000;
@@ -81,45 +82,68 @@ public class LoginActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if (s.length() == 10) {
-                        if (networkUtils.checkConnection()) {
-                        progressDialog.show();
-                        StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.LOGIN_URL, new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                Log.d("LoginResponse", "onResponse: "+response);
+                    final AlertDialog.Builder confirm_Number = new AlertDialog.Builder(LoginActivity.this);
+                    confirm_Number.setMessage("Are You Sure To Send OTP to this Number?"+mobilenumber_ET.getText().toString());
+                   /* confirm_Number.setItems(new CharSequence[]{"Change Number?"}, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                                try {
-                                    JSONObject jsonObject = new JSONObject(response);
-                                    statuscode = jsonObject.getInt("statusCode");
-                                    statusmessage = jsonObject.getString("statusMessage");
-                                    if(statuscode==200){
-                                        Toast.makeText(LoginActivity.this, "OTP Has Been Sent Your MobileNumber", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+                    });*/
+
+                    confirm_Number.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (networkUtils.checkConnection()) {
+                                progressDialog.show();
+                                StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.LOGIN_URL, new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        Log.d("LoginResponse", "onResponse: "+response);
+
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(response);
+                                            statuscode = jsonObject.getInt("statusCode");
+                                            statusmessage = jsonObject.getString("statusMessage");
+                                            if(statuscode==200){
+                                                Toast.makeText(LoginActivity.this, "OTP Has Been Sent Your MobileNumber", Toast.LENGTH_SHORT).show();
+                                            }
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        progressDialog.dismiss();
                                     }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        progressDialog.dismiss();
+                                        Log.d("OTPErrorResponse", "onErrorResponse: "+error);
+                                        Toast.makeText(LoginActivity.this, "OOPS SomeThing Went Wrong..", Toast.LENGTH_SHORT).show();
+                                    }
+                                }) {
+                                    @Override
+                                    protected Map<String, String> getParams() throws AuthFailureError {
+                                        HashMap<String, String> params = new HashMap<>();
+                                        params.put("Mobile_Number", mobilenumber_ET.getText().toString());
+                                        return params;
+                                    }
+                                };
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                progressDialog.dismiss();
+                                VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
+                                VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
                             }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                progressDialog.dismiss();
-                                Log.d("OTPErrorResponse", "onErrorResponse: "+error);
-                                Toast.makeText(LoginActivity.this, "OOPS SomeThing Went Wrong..", Toast.LENGTH_SHORT).show();
-                            }
-                        }) {
-                            @Override
-                            protected Map<String, String> getParams() throws AuthFailureError {
-                                HashMap<String, String> params = new HashMap<>();
-                                params.put("Mobile_Number", mobilenumber_ET.getText().toString());
-                                return params;
-                            }
-                        };
+                        }
+                    });
 
-                        VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
-                        VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
-                    }
+                    confirm_Number.setNegativeButton("Change Number", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                        }
+                    });
+                    confirm_Number.show();
                 }
             }
 
@@ -154,6 +178,9 @@ public class LoginActivity extends AppCompatActivity {
                            intent = new Intent(LoginActivity.this,HomeActivity.class);
                            intent.putExtra("userid",mobilenumber_ET.getText().toString());
                            startActivity(intent);
+                       }
+                       else{
+                           Toast.makeText(LoginActivity.this, "Plz Enter the Correct OTP", Toast.LENGTH_SHORT).show();
                        }
 
 

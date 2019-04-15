@@ -15,6 +15,16 @@
         android:textSize="20sp"
         android:layout_marginBottom="10dp"
         android:textColor="#000000"/>-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/homeActivityTag"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:textColor="@color/colorWhite"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:fontFamily="@font/varela"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/servicesCategoryRecyclerView"
@@ -22,6 +32,6 @@
         android:layout_height="match_parent"
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="30dp">
     </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>

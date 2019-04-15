@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="160dp"
@@ -16,10 +15,10 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="8dp"
         android:layout_centerHorizontal="true">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/container">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/container">
     <ImageView
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -27,15 +26,16 @@
         android:src="@drawable/background"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp"/>
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:id="@+id/selected_item"
-                android:src="@drawable/tick_mark"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:visibility="gone"/>
-        <TextView
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/selected_item"
+        android:src="@drawable/tick_mark"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/servicerow_text"
@@ -48,14 +48,12 @@
         android:textAlignment="center"
         android:textSize="16sp"
         android:textColor="@color/colorBlack"
-        android:textStyle="bold"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:paddingStart="5dp"
-        android:paddingEnd="5dp"
-       />
+        android:paddingEnd="5dp"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

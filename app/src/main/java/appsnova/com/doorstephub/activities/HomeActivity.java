@@ -73,7 +73,7 @@ public class HomeActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
        // toolbar.setTitleMarginStart(280);
-       // toolbar.setTitleMargin(40,40,0,10);
+        toolbar.setTitleMargin(440,80,0,10);
        // toolbar.setTitleMargin((int) getResources().getDimension(R.dimen.tabtextmargin_start),(int) getResources().getDimension(R.dimen.tabtextmargin_top),0,5);
         setSupportActionBar(toolbar);
 
@@ -130,7 +130,7 @@ public class HomeActivity extends AppCompatActivity
                         JSONObject jsonObject1 = jsonObject.getJSONObject("response");
                         navusername.setText(jsonObject1.getString("name"));
                         nav_usermobilenumber.setText(jsonObject1.getString("mobile"));
-                        sharedPref.setStringValue("calendar",jsonObject1.getString("log_date_created"));
+                        sharedPref.setStringValue("email",jsonObject1.getString("email"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -236,24 +236,13 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-        } /*else if (id == R.id.nav_message) {
-
-        }*/ else if (id == R.id.nav_mybookings) {
-            if (networkUtils.checkConnection()){
+        }  else if (id == R.id.nav_mybookings) {
+            if (networkUtils.checkConnection()) {
                 startActivity(new Intent(this, MyBookingsActivity.class));
-            }else{
+            } else {
                 UrlUtility.showCustomToast(getResources().getString(R.string.no_connection), this);
             }
-        }/*else if (id == R.id.nav_feedback) {
-            if (networkUtils.checkConnection()){
-                startActivity(new Intent(this, FeedbackActivity.class));
-            }else{
-                UrlUtility.showCustomToast(getResources().getString(R.string.no_connection), this);
-            }
-        }*/
-       /* else if (id == R.id.nav_setting) {
-
-        }*/
+        }
         else if (id == R.id.nav_Pivacy_policy) {
             if (networkUtils.checkConnection()){
                 startActivity(new Intent(this, PrivacyPolicyActivity.class));
@@ -276,16 +265,21 @@ public class HomeActivity extends AppCompatActivity
             }
         }
         else if (id == R.id.nav_share) {
+            String sharetext = "Hey check out my app at: https://play.google.com/store/apps/details?id="+this.getPackageName();
+            Log.d("sharetext", "onNavigationItemSelected: "+sharetext);
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT,
-                    "Hey check out my app at: https://play.google.com/store/apps/details?id=com.google.android.apps.plus");
+            sendIntent.putExtra(Intent.EXTRA_TEXT,sharetext);
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
         }
-       /* else if (id == R.id.nav_send) {
 
-        }*/
+        else if (id == R.id.nav_logout) {
+            sharedPref.removeSession("MobileNumber");
+            sharedPref.removeSession("User_Id");
+            Intent intent = new Intent(HomeActivity.this,LoginActivity.class);
+            startActivity(intent);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -293,7 +287,6 @@ public class HomeActivity extends AppCompatActivity
     } //onNavigationItemSelected
 
     public void profileDetails(View view) {
-
         Intent intent = new Intent(HomeActivity.this,ProfileActivity.class);
         startActivity(intent);
     }

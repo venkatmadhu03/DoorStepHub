@@ -7,7 +7,7 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/nav_home"
-            android:title="Home" />
+            android:title="Home"/>
      <!--   <item
             android:id="@+id/nav_message"
             android:icon="@drawable/nav_message"
@@ -25,6 +25,10 @@
             android:icon="@drawable/nav_setting"
             android:title="Setting" />-->
         <item
+            android:id="@+id/nav_Aboutus"
+            android:icon="@drawable/nav_aboutus"
+            android:title="About Us"/>
+        <item
             android:id="@+id/nav_Pivacy_policy"
             android:icon="@drawable/nav_privacypolicy"
             android:title="Privacy Policy" />
@@ -32,23 +36,17 @@
             android:id="@+id/nav_Termscond"
             android:icon="@drawable/termsandconditions"
             android:title="Terms &amp; Conditions" />
-        <item
-            android:id="@+id/nav_Aboutus"
-            android:icon="@drawable/nav_aboutus"
-            android:title="AboutUs" />
-    </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_logout"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Logout" />
-        </menu>
-    </item>
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_menu_share"
+            android:title="Share" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Logout" />
+
+
+    </group>
 
 </menu>

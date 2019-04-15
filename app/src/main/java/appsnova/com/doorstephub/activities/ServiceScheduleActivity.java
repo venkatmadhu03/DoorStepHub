@@ -1,8 +1,11 @@
 package appsnova.com.doorstephub.activities;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -43,14 +46,14 @@ import appsnova.com.doorstephub.utilities.UrlUtility;
 import appsnova.com.doorstephub.utilities.VolleySingleton;
 
 public class ServiceScheduleActivity extends AppCompatActivity{
-    EditText editText_name,editText_phone,editText_date,
+    EditText editText_name,editText_phone,editText_SelectedService,editText_SelectedSubService,editText_date,
             editText_description,editText_housenum,editText_colony,editText_landmark,editText_city;
     Button serviveschedulebutton;
     CheckBox serviceschedule_checkbox;
     NetworkUtils networkUtils;
     ProgressDialog progressDialog;
     SharedPref sharedPref;
-    String address="",service_id="",intent_from="",service_selection_id="",date="",dateInPicker="",timeInPicker="";
+    String address="",service_id="",service_name="",intent_from="",service_selection_id="",date="",dateInPicker="",timeInPicker="";
     Bundle bundle;
     int statusCode;
     String statusMessage;
@@ -91,19 +94,31 @@ public class ServiceScheduleActivity extends AppCompatActivity{
         bundle=getIntent().getExtras();
         if (bundle!=null){
             service_id=bundle.getString("Service_Id");
+            service_name = bundle.getString("Service_Name");
             intent_from=bundle.getString("IntentFrom");
             service_selection_id=bundle.getString("serviceSelectionId");
+
             Log.d("bundlevalues", "onCreate: "+service_id+","+intent_from+","+service_selection_id);
         }
 
         editText_name = findViewById(R.id.editText_name);
         editText_phone = findViewById(R.id.edittext_phone);
+        editText_SelectedService = findViewById(R.id.editText_selectedservice);
+        editText_SelectedSubService = findViewById(R.id.editText_selectedsubservice);
         editText_description = findViewById(R.id.edittext_description);
         editText_date = findViewById(R.id.edittext_date);
         editText_housenum = findViewById(R.id.edittext_housenumber);
         editText_colony = findViewById(R.id.edittext_colony);
         editText_landmark = findViewById(R.id.edittext_landmark);
         editText_city = findViewById(R.id.edittext_city);
+
+
+
+        editText_phone.setText(sharedPref.getStringValue("MobileNumber"));
+        editText_SelectedService.setText(service_name);
+        editText_SelectedSubService.setText(service_selection_id);
+
+
 /*
         editText_date.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -143,6 +158,24 @@ public class ServiceScheduleActivity extends AppCompatActivity{
                     serviveschedulebutton.setEnabled(false);
                     Toast.makeText(ServiceScheduleActivity.this, "Please Agree to Terms And Conditions..", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        serviceschedule_checkbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(ServiceScheduleActivity.this);
+                builder.setMessage(getResources().getString(R.string.terms_and_conditions_message));
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                        serviceschedule_checkbox.setEnabled(true);
+
+                    }
+                });
+                builder.setCancelable(true);
+                builder.show();
             }
         });
 

@@ -12,23 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AnticipateInterpolator;
-import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
+import android.widget.TextView;
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
 import androidx.annotation.NonNull;
-import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 import androidx.recyclerview.widget.RecyclerView;
 import appsnova.com.doorstephub.R;
 import appsnova.com.doorstephub.activities.ServiceSelectionActivity;
 import appsnova.com.doorstephub.models.ServiceCategoryModel;
 import appsnova.com.doorstephub.ownlibraries.MyTextView;
-
-import static java.security.AccessController.getContext;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
     List<ServiceCategoryModel> serviceCategoryModelList;
@@ -53,7 +47,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         ServiceCategoryModel myData = serviceCategoryModelList.get(i);
         myViewHolder.recycler_text.setText(myData.getName());
         Picasso.get().load(myData.getService_image()).
-                placeholder(R.drawable.placeholder).error(R.drawable.error).into(myViewHolder.text_logo);
+                placeholder(R.drawable.dhub_placeholder).error(R.drawable.error).into(myViewHolder.text_logo);
 
 
        /* Random r = new Random();

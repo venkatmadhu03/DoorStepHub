@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import appsnova.com.doorstephub.R;
 
-public class MyTextView extends TextView {
+public class MyTextView extends TextView{
     public MyTextView(Context context) {
         super(context);
         init(context,null);
@@ -35,7 +35,7 @@ public class MyTextView extends TextView {
                 Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), fontName);
                 setTypeface(myTypeface);
             }else{
-                Typeface myTypeface =Typeface.createFromAsset(context.getAssets(),"Roboto-Black.ttf");
+                Typeface myTypeface =Typeface.createFromAsset(context.getAssets(),"Righteous.ttf");
                 setTypeface(myTypeface);
             }
         } catch (Exception e) {
