@@ -7,15 +7,29 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
     }
+
+    signingConfigs {
+        release {
+            storeFile file("G:/StrikerSoftMobileApp/keypathdsh/doorstephub.jks")
+            storePassword 'doorstephub'
+            keyAlias 'doorstephub'
+            keyPassword 'doorstephub'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
         }
     }
     sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/valuesxxhdpi'] } }
