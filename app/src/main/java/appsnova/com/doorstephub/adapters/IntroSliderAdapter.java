@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import appsnova.com.doorstephub.R;
@@ -73,7 +75,8 @@ public class IntroSliderAdapter extends PagerAdapter {
         //TextView txt1 = view.findViewById(R.id.slidetitle);
         //TextView txt2 = view.findViewById(R.id.slidedescription);
 
-        img.setImageResource(list_images[position]);
+        Picasso.get().load(list_images[position]).placeholder(R.drawable.dhub_placeholder).into(img);
+       // img.setImageResource(list_images[position]);
        // txt1.setText(list_title[position]);
        // txt2.setText(list_description[position]);
        // linearLayout.setBackgroundColor(list_color[position]);

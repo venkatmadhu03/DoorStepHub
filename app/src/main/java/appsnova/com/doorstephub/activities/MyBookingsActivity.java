@@ -127,7 +127,7 @@ public class MyBookingsActivity extends AppCompatActivity {
         searchView = (SearchView) menu.findItem(R.id.searchview).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
-        searchView.setQueryHint(Html.fromHtml("<font color = #000000>  Enter to Search </font>"));
+        searchView.setQueryHint(Html.fromHtml("<font color = #ffffff>  Enter to Search </font>"));
         searchView.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -142,11 +142,14 @@ public class MyBookingsActivity extends AppCompatActivity {
                 // filter recycler view when text is changed
                 if (myBookingsModels.size() != 0){
                     myBookingsAdapter.getFilter().filter(newText);
+                    myBookingsAdapter.notifyDataSetChanged();
+
                 }else{
                     myBookingsAdapter.getFilter().filter(newText);
+                    myBookingsAdapter.notifyDataSetChanged();
                 }
 
-                return false;
+                return true;
 
             }
         });

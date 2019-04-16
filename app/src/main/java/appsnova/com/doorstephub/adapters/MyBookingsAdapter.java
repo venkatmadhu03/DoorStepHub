@@ -51,7 +51,7 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
 
     @Override
     public void onBindViewHolder(@NonNull MyBookingsViewHolder holder, int position) {
-        MyBookingsModel myBookingsModel = myBookingsModelList.get(position);
+        MyBookingsModel myBookingsModel = mybookingsfilteredlist.get(position);
 
         holder.mybooking_orderidtxt.setText("Order ID:"+myBookingsModel.getOrderid());
         holder.mybooking_service_description.setText("Service Description:"+myBookingsModel.getService_description());
@@ -86,7 +86,7 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
 
     @Override
     public int getItemCount() {
-        return myBookingsModelList.size();
+        return mybookingsfilteredlist.size();
     }
 
     @Override
@@ -103,19 +103,13 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
 
                     if(row.getOrderid()!=null){
 
-                        if (row.getUsername().toLowerCase().contains(charString.toLowerCase())) {
+                        if (row.getSelectedService().toLowerCase().contains(charString.toLowerCase()) ||
+                                row.getSelectedSubService().toLowerCase().contains(charString.toLowerCase()) ||
+                                row.getOrderid().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }
 
                     }
-                    /*   if ((row.getUsername() !=null ||
-                            !(row.getUsername().equalsIgnoreCase("null"))
-                            || !row.getUsername().isEmpty())){
-
-                        if (row.getUsername().toLowerCase().contains(charString.toLowerCase())){
-                            filteredList.add(row);
-                        }
-                    }*/
                 }
                 mybookingsfilteredlist = filteredList;
                 FilterResults filterResults = new FilterResults();
