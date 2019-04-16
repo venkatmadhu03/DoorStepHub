@@ -49,7 +49,7 @@ public class MyBookingsResultActivity extends AppCompatActivity {
     int statusCode;
     String statusMessage;
     String service_order_id="";
-    TextView selectedorderid,selected_servicerequired,selected_scheduled_date;
+    TextView selectedorderid,service,subservice,selected_servicerequired,selected_scheduled_date;
     ProgressDialog progressDialog;
     NetworkUtils networkUtils;
     SharedPref sharedPref;
@@ -83,6 +83,8 @@ public class MyBookingsResultActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.rating_bar);
         feedback_submit = findViewById(R.id.feedback_submit);
         selectedorderid  = findViewById(R.id.selected_orderid);
+        service = findViewById(R.id.selected_service);
+        subservice = findViewById(R.id.selected_subservice);
         selected_servicerequired = findViewById(R.id.selected_servicerequired);
         selected_scheduled_date = findViewById(R.id.selectedscheduled_date);
 
@@ -90,6 +92,8 @@ public class MyBookingsResultActivity extends AppCompatActivity {
         if(bundle!=null){
             service_order_id =bundle.getString("selectedorderid");
             selectedorderid.setText("Order ID:"+bundle.getString("selectedorderid"));
+            service.setText("Service:"+bundle.getString("service"));
+            subservice.setText("Sub Service:"+bundle.getString("subservice"));
             selected_servicerequired.setText("Service Description:"+bundle.getString("selectedservicedescription"));
             selected_scheduled_date.setText("Scheduled On:"+bundle.getString("scheduleddate"));
         }

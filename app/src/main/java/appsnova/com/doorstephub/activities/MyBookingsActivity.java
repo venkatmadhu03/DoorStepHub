@@ -94,6 +94,8 @@ public class MyBookingsActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(MyBookingsActivity.this, MyBookingsResultActivity.class);
                 intent.putExtra("selectedorderid",myBookingsModels.get(pos).getOrderid());
+                intent.putExtra("service",myBookingsModels.get(pos).getSelectedService());
+                intent.putExtra("subservice",myBookingsModels.get(pos).getSelectedSubService());
                 intent.putExtra("selectedorderusername",myBookingsModels.get(pos).getUsername());
                 intent.putExtra("selectedservicedescription",myBookingsModels.get(pos).getService_description());
                 intent.putExtra("scheduleddate",myBookingsModels.get(pos).getScheduleddate());
@@ -183,6 +185,8 @@ public class MyBookingsActivity extends AppCompatActivity {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                             MyBookingsModel myBookingsModel = new MyBookingsModel();
                             myBookingsModel.setOrderid(jsonObject1.getString("id"));
+                            myBookingsModel.setSelectedService(jsonObject1.getString("service_name"));
+                            myBookingsModel.setSelectedSubService(jsonObject1.getString("sub_service_name"));
                             myBookingsModel.setService_description(jsonObject1.getString("requirement"));
                             myBookingsModel.setScheduleddate(jsonObject1.getString("enquiry_date"));
                             myBookingsModel.setStatus(jsonObject1.getString("enquiry_status_value"));

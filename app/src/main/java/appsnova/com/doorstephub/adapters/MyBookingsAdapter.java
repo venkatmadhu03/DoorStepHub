@@ -55,7 +55,8 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
 
         holder.mybooking_orderidtxt.setText("Order ID:"+myBookingsModel.getOrderid());
         holder.mybooking_service_description.setText("Service Description:"+myBookingsModel.getService_description());
-       // holder.mybooking_subservicetxt.setText("Sub Service:"+myBookingsModel.getSubservice());
+        holder.mybooking_SelectedService.setText("Service:"+myBookingsModel.getSelectedService());
+        holder.mybooking_SelectedSubService.setText("Sub Service:"+myBookingsModel.getSelectedSubService());
         holder.mybooking_scheduleddatetxt.setText("Scheduled On:"+myBookingsModel.getScheduleddate());
 
 

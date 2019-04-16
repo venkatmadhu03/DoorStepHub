@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     } //end of onCreate
 
     public void adddots(int i){
-        mdots=new TextView[4];
+        mdots=new TextView[3];
         dotsLinearLayout.removeAllViews();
 
         for (int x=0;x<mdots.length;x++){

@@ -30,7 +30,6 @@ public class IntroSliderAdapter extends PagerAdapter {
             "Good Service Makes the difference",
             "Easiest Way To Get Doorstep Services",
             "Timely Service",
-            "Take A Cup Of Tea! And Stay Relaxed"
     };
 
     public String[] list_description={
