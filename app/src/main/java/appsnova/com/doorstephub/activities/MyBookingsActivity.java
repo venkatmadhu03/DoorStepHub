@@ -144,6 +144,7 @@ public class MyBookingsActivity extends AppCompatActivity {
                     myBookingsAdapter.getFilter().filter(newText);
                     myBookingsAdapter.notifyDataSetChanged();
 
+
                 }else{
                     myBookingsAdapter.getFilter().filter(newText);
                     myBookingsAdapter.notifyDataSetChanged();
