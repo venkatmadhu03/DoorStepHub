@@ -118,6 +118,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No Sub Service Found"
+        android:textColor="@color/colorWhite"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:id="@+id/noSubserviceTv"
         android:visibility="visible"
         android:layout_centerInParent="true"/>

@@ -182,7 +182,7 @@ public class MyBookingsResultActivity extends AppCompatActivity {
                         if(statusCode ==200) {
                             Toast.makeText(MyBookingsResultActivity.this, "Thank You For Your FeedBack..", Toast.LENGTH_SHORT).show();
                             finish();
-                            //  Toast.makeText(MyBookingsResultActivity.this, jsonObject.getString("statusMessage"), Toast.LENGTH_SHORT).show();
+                            //  Toast.makeText(MyBookingsResultVendorActivity.this, jsonObject.getString("statusMessage"), Toast.LENGTH_SHORT).show();
                         }
 
                     } catch (JSONException e) {

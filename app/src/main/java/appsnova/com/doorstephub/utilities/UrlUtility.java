@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.StringRequest;
+
 import appsnova.com.doorstephub.R;
 
 public class UrlUtility {
@@ -27,6 +29,11 @@ public class UrlUtility {
     public static final String VERIFY_OTP_URL =BASE_URL+"User/VerifyOTP";
     public  static  final String GET_PROFILE_URL = BASE_URL+"User/UserProfile";
     public  static  final String UPDATE_PROFILE_URL = BASE_URL+"User/UpdateProfile";
+    //VENDOR API'S
+    public  static final String VENDOR_LOGIN_URL = BASE_URL+"User/VendorLogin";
+    public static  final String VENDOR_GETPROFILE_URL = BASE_URL+"User/VendorGetProfile";
+    public static  final String VENDOR_UPDATEPROFILE_URL = BASE_URL+"User/VendorUpdateProfile";
+
     public static ProgressDialog showProgressDialog(Context mContext) {
 
         ProgressDialog progressDialog = new ProgressDialog(mContext);

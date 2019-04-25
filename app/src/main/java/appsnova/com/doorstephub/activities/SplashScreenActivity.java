@@ -39,7 +39,8 @@ SharedPref sharedPref;
                         Log.d("sharedprefValue", "run: "+sharedPref.getStringValue("MobileNumber"));
                         startActivity(new Intent(SplashScreenActivity.this,HomeActivity.class));
                     }else{
-                        startActivity(new Intent(SplashScreenActivity.this,LoginActivity.class));
+                        //startActivity(new Intent(SplashScreenActivity.this,LoginActivity.class));
+                        startActivity(new Intent(SplashScreenActivity.this,Vendor_MerchantActivity.class));
                     }
                 }
                 else{

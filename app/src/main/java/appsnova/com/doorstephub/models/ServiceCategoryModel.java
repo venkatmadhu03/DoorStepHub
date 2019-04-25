@@ -5,16 +5,14 @@ public class ServiceCategoryModel {
     String name;
     String id;
     String services_id;
-
-    public String getService_image() {
-        return service_image;
-    }
-
-    public void setService_image(String service_image) {
-        this.service_image = service_image;
-    }
-
     String service_image;
+
+    public ServiceCategoryModel() {
+    }
+
+    public ServiceCategoryModel(String name) {
+        this.name = name;
+    }
 
     public String getId() {
         return id;
@@ -32,18 +30,19 @@ public class ServiceCategoryModel {
         this.services_id = services_id;
     }
 
-    public ServiceCategoryModel() {
-    }
-
-    public ServiceCategoryModel(String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getService_image() {
+        return service_image;
+    }
+
+    public void setService_image(String service_image) {
+        this.service_image = service_image;
     }
 }

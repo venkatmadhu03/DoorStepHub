@@ -90,7 +90,7 @@ public class MyBookingsActivity extends AppCompatActivity {
         myBookingsAdapter = new MyBookingsAdapter(MyBookingsActivity.this, myBookingsModels, new MyBookingsAdapter.ItemClickListener() {
             @Override
             public void onClickItem(View v, int pos) {
-              //  Toast.makeText(MyBookingsActivity.this, myBookingsModels.get(pos).getUsername(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(MyBookingsVendorActivity.this, myBookingsModels.get(pos).getUsername(), Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(MyBookingsActivity.this, MyBookingsResultActivity.class);
                 intent.putExtra("selectedorderid",myBookingsModels.get(pos).getOrderid());

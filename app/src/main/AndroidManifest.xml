@@ -5,26 +5,29 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:name=".utilities.VolleySingleton"
         android:allowBackup="true"
-        android:largeHeap="true"
         android:hardwareAccelerated="false"
         android:icon="@drawable/applogo"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@drawable/applogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.Vendor_MerchantActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.TermsConditionsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar" >
-        </activity>
+            android:theme="@style/ActionBar"/>
         <activity
             android:name=".activities.ProfileActivity"
-            android:label="My Profile">
-        </activity>
+            android:label="My Profile"/>
         <activity
             android:name=".activities.SplashScreenActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -34,15 +37,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.ThankYouPage">
-        </activity>
+        <activity android:name=".activities.ThankYouPage"/>
         <activity
             android:name=".activities.ServiceSelectionActivity"
             android:label="Select Sub Service"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar">
-        </activity>
+            android:theme="@style/ActionBar"/>
         <activity
             android:name=".activities.AboutUsActivity"
             android:screenOrientation="portrait"
@@ -59,36 +59,66 @@
             android:name=".activities.MyBookingsActivity"
             android:label="Your Orders"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar">
-        </activity>
+            android:theme="@style/ActionBar"/>
         <activity
             android:name=".activities.HomeActivity"
             android:label="Select Service"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar">
-        </activity>
+            android:theme="@style/ActionBar"/>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.ServiceScheduleActivity"
             android:label="Personal Details"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar">
-        </activity>
+            android:theme="@style/ActionBar"/>
         <activity
             android:name=".activities.MyBookingsResultActivity"
             android:label="Order Data"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar">
-        </activity>
+            android:theme="@style/ActionBar"/>
+
+        <!-- VENDOR ACTIVITIES -->
+
+        <activity
+            android:name=".activities.vendor.MainActivityVendor"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="Vendor MainActivity"/>
+        <activity
+            android:name=".activities.vendor.VendorHomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionBar"
+            android:label="Vendor HomeActivity"/>
+        <activity
+            android:name=".activities.vendor.VendorMyProfileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionBar"
+            android:label="Vendor MyProfile Activity"/>
+        <activity
+            android:name=".activities.vendor.ServicePartnersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.vendor.MyBookingsVendorActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionBar"
+            android:label="Vendor MyBookingsActivity"/>
+        <activity
+            android:name=".activities.vendor.MyBookingsResultVendorActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionBar"
+            android:label="Vendor MyBookingsResult Activity"/>
+        <activity
+            android:name=".activities.vendor.AboutUsVendorActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionBar"
+            android:label="Vendor AboutUs Activity"/>
     </application>
 
 </manifest>

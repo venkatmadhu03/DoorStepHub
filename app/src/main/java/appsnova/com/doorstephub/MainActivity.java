@@ -18,6 +18,8 @@ import androidx.viewpager.widget.ViewPager;
 import appsnova.com.doorstephub.activities.HomeActivity;
 import appsnova.com.doorstephub.activities.LoginActivity;
 import appsnova.com.doorstephub.activities.SplashScreenActivity;
+import appsnova.com.doorstephub.activities.Vendor_MerchantActivity;
+import appsnova.com.doorstephub.activities.vendor.VendorHomeActivity;
 import appsnova.com.doorstephub.adapters.IntroSliderAdapter;
 import appsnova.com.doorstephub.utilities.SharedPref;
 
@@ -54,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("sharedprefValue", "run: "+sharedPref.getStringValue("MobileNumber"));
                 startActivity(new Intent(MainActivity.this,HomeActivity.class));
             }else{
-                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                startActivity(new Intent(MainActivity.this, Vendor_MerchantActivity.class));
+                //startActivity(new Intent(MainActivity.this,LoginActivity.class));
             }
             return;
         }
@@ -139,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                 nextBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                       Intent intent = new Intent(MainActivity.this,Vendor_MerchantActivity.class);
                        startActivity(intent);
                     }
                 });

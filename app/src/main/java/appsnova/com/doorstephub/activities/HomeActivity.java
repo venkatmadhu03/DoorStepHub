@@ -100,7 +100,7 @@ public class HomeActivity extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
         servicesCategoryRecyclerView = findViewById(R.id.servicesCategoryRecyclerView);
-        serviceCategoryModelList = new ArrayList<ServiceCategoryModel>();
+      //  serviceCategoryModelList = new ArrayList<ServiceCategoryModel>();
         homeAdapter = new HomeAdapter(serviceCategoryModelList, this);
 
 
@@ -226,7 +226,6 @@ public class HomeActivity extends AppCompatActivity
        //finishAffinity();
 
     } //onBackPressed
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

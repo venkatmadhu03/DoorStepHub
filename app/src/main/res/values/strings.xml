@@ -2,7 +2,6 @@
     <string name="app_name">Doorstep Hub</string>
     <string name="no_connection">Not Connected to Internet or Slow Connection detected</string>
     <string name="progress_message">Please wait while we connect</string>
-
     <string name="enter_login_id_hint"> Enter Mobile Number</string>
     <string name="enter_otp_hint">Enter OTP</string>
     <string name="dont_have_account">"\t" "\t" Don\'t have a Account?? "\n" Login with Mobile Number</string>
@@ -29,4 +28,15 @@ Our electrical services offer comprehensive services including Interior Design, 
 
 We provide a 30-day guarantee on all our services provided with the reference of the booking ID and the booking date of the services of the customers. During this period of 30 days, if the customer finds a problem with our services, then he can get our services again free of cost.
 </string>
+
+    <!--VENDOR APP String Resources-->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_customer_services">CustomerServicesActivity</string>
+    <string name="about_us">About Us</string>
+    <string name="description">Doorstep Hub is recognized as the fastest startup company in Hyderabad.We help clients get trusted professionals for alltheir service needs.We have professionals for all their
+    service needs.We have passionate,young peaople who work smart to make a difference in people\'s lives bymeeting their service needs at their doorstep.Be it getting a plumbing job done,we provide best working carpenters,getting to done,
+    we provide best working carpenters,getting to done repair works for kitchen equipment,computers, and electronic goods,we are a sure shot destination for your
+    service needs.We strive to be the best service providers and believe in treating our customes and business partners with honesty,
+    courtesy and respect.</string>
+    <string name="subheading">We are Doorstep Hub</string>
 </resources>
