@@ -164,10 +164,9 @@ public class VendorMyProfileActivity extends AppCompatActivity {
     private void getProfileDetailsFromServer() {
         progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.VENDOR_GETPROFILE_URL, new Response.Listener<String>() {
-            @SuppressLint("LongLogTag")
             @Override
             public void onResponse(String response) {
-                Log.d("VendorGetProfileResponse", "onResponse: "+response);
+                Log.d("VendorProfile", "onResponse: "+response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     statusCode = jsonObject.getString("statusCode");
@@ -196,7 +195,7 @@ public class VendorMyProfileActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params = new HashMap<>();
-                params.put("User_ID","21");
+                params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
                 return params;
             }
         };
@@ -213,7 +212,7 @@ public class VendorMyProfileActivity extends AppCompatActivity {
         TextView spinner_title = dialog.findViewById(R.id.spinner_title);
         spinner_title.setText("Select Services:");
       //  dialog.setTitle("Select Services");
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         //  dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCanceledOnTouchOutside(true);
         RecyclerView spinnercontent = dialog.findViewById(R.id.spinner_content);
@@ -223,7 +222,7 @@ public class VendorMyProfileActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(VendorMyProfileActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         spinnercontent.setLayoutManager(layoutManager);
-        spinnercontent.setItemAnimator(new DefaultItemAnimator());
+        //spinnercontent.setItemAnimator(new DefaultItemAnimator());
 
         SpinnerPojoVendor mydatacontent = new SpinnerPojoVendor("Computer Repairs");
         mydata_list.add(mydatacontent);
@@ -313,7 +312,7 @@ public class VendorMyProfileActivity extends AppCompatActivity {
         final Dialog dialog = new Dialog(VendorMyProfileActivity.this);
         dialog.setContentView(R.layout.spinner_dialog_vendor);
       //  dialog.setTitle("Select Services");
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+     //   dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         TextView spinner_title = dialog.findViewById(R.id.spinner_title);
         spinner_title.setText("Select Locations:");
         //  dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -444,31 +443,31 @@ public class VendorMyProfileActivity extends AppCompatActivity {
         alertdialog.show();
     }
 
-   /* public void getAddressproof(View view) {
-        final AlertDialog.Builder alertdialog = new AlertDialog.Builder(this);
-        alertdialog.setItems(new CharSequence[]{"Aaadhar Card", "Voter Id", "Residential Proof"}, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+                       /* public void getAddressproof(View view) {
+                            final AlertDialog.Builder alertdialog = new AlertDialog.Builder(this);
+                            alertdialog.setItems(new CharSequence[]{"Aaadhar Card", "Voter Id", "Residential Proof"}, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-            }
-        });
+                                }
+                            });
 
-        alertdialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+                            alertdialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                alertdialog.setCancelable(true);
+                                    alertdialog.setCancelable(true);
 
-            }
-        });
-        alertdialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                alertdialog.setCancelable(true);
-            }
-        });
-        alertdialog.show();
-    }*/
+                                }
+                            });
+                            alertdialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    alertdialog.setCancelable(true);
+                                }
+                            });
+                            alertdialog.show();
+                        }*/
 
    public void uploadButtonOptions(){
        AlertDialog.Builder alertdialog = new AlertDialog.Builder(this);

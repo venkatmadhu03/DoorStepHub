@@ -114,7 +114,7 @@
                 android:layout_marginBottom="8dp"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
+   <!-- <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="240dp"
         android:id="@+id/cardview"
@@ -146,6 +146,16 @@
                 android:layout_below="@id/ourservices_heading">
             </androidx.recyclerview.widget.RecyclerView>
         </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/leads_status_RV"
+        android:layout_below="@+id/workdetailscard">
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+
 </RelativeLayout>
 </androidx.core.widget.NestedScrollView>

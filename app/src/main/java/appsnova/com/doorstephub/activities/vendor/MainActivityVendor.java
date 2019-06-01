@@ -45,11 +45,13 @@ import java.util.TimerTask;
 import appsnova.com.doorstephub.MainActivity;
 import appsnova.com.doorstephub.R;
 import appsnova.com.doorstephub.activities.HomeActivity;
+import appsnova.com.doorstephub.activities.LoginActivity;
 import appsnova.com.doorstephub.activities.ThankYouPage;
 import appsnova.com.doorstephub.adapters.vendor.CategoryListRecyclerViewAdapter;
 import appsnova.com.doorstephub.adapters.vendor.ViewPagerAdapter;
 import appsnova.com.doorstephub.models.vendor.CategoryListPOJO;
 import appsnova.com.doorstephub.utilities.NetworkUtils;
+import appsnova.com.doorstephub.utilities.SharedPref;
 import appsnova.com.doorstephub.utilities.UrlUtility;
 import appsnova.com.doorstephub.utilities.VolleySingleton;
 
@@ -62,8 +64,8 @@ public class MainActivityVendor extends AppCompatActivity
     private ImageView[] dots;
     NetworkUtils networkUtils;
     GridView gridView;
-    RecyclerView category_recyclerView;
     ProgressDialog progressDialog;
+    SharedPref sharedPref;
     TextView walletBalance_valueTV,security_depositvalueTV,walletBalanceTV,securityDepositTV;
     String statusCode,statusMessage;
     private static int currentPage = 0;
@@ -88,7 +90,7 @@ public class MainActivityVendor extends AppCompatActivity
         setSupportActionBar(toolbar);
 
     //    gridView = findViewById(R.id.grid_view);
-        category_recyclerView = findViewById(R.id.category_RV);
+       // category_recyclerView = findViewById(R.id.category_RV);
         categoryListPOJOList = new ArrayList<>();
         categoryListRecyclerViewAdapter = new CategoryListRecyclerViewAdapter(MainActivityVendor.this,categoryListPOJOList);
     //   ca = new CustomAdapter();
@@ -96,6 +98,7 @@ public class MainActivityVendor extends AppCompatActivity
     //   gridView.setAdapter(ca);
         networkUtils = new NetworkUtils(MainActivityVendor.this);
         progressDialog = UrlUtility.showProgressDialog(MainActivityVendor.this);
+        sharedPref = new SharedPref(MainActivityVendor.this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerlayout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -108,9 +111,9 @@ public class MainActivityVendor extends AppCompatActivity
         security_depositvalueTV= headerView.findViewById(R.id.securityDeposit_valueTV);
         walletBalanceTV= headerView.findViewById(R.id.wallet_balance_TV);
         securityDepositTV = headerView.findViewById(R.id.securityDeposit_TV);
-        if (networkUtils.checkConnection()){
-            getCategoryListFromServer();
-        }
+        /*if (networkUtils.checkConnection()){
+           // getCategoryListFromServer();
+        }*/
         getProfileDetailsFromServer();
 
         navigationView.setNavigationItemSelectedListener(this);
@@ -179,29 +182,12 @@ public class MainActivityVendor extends AppCompatActivity
 
             }
         });
-        category_recyclerView.setAdapter(categoryListRecyclerViewAdapter);
+       /* category_recyclerView.setAdapter(categoryListRecyclerViewAdapter);
         category_recyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivityVendor.this,2);
-        category_recyclerView.setLayoutManager(gridLayoutManager);
+        category_recyclerView.setLayoutManager(gridLayoutManager);*/
     }
 
-    private void getCategoryListFromServer() {
-        categoryListPOJO = new CategoryListPOJO("Computer Services and Repairs",R.drawable.vendor_upload_image);
-        categoryListPOJOList.add(categoryListPOJO);
-        categoryListPOJO = new CategoryListPOJO("Hardware Repairs",R.drawable.vendor_upload_image);
-        categoryListPOJOList.add(categoryListPOJO);
-        categoryListPOJO = new CategoryListPOJO("Software Repairs",R.drawable.vendor_upload_image);
-        categoryListPOJOList.add(categoryListPOJO);
-        categoryListPOJO = new CategoryListPOJO("Refrigirator Repairs",R.drawable.vendor_upload_image);
-        categoryListPOJOList.add(categoryListPOJO);
-        categoryListPOJO = new CategoryListPOJO("AC Repairs",R.drawable.vendor_upload_image);
-        categoryListPOJOList.add(categoryListPOJO);
-        categoryListPOJO = new CategoryListPOJO("Tv Repairs",R.drawable.vendor_upload_image);
-        categoryListPOJOList.add(categoryListPOJO);
-
-        categoryListRecyclerViewAdapter.notifyDataSetChanged();
-
-    }
 
     @Override
     public void onBackPressed() {
@@ -234,6 +220,12 @@ public class MainActivityVendor extends AppCompatActivity
         }
         else if (id == R.id.nav_wallet) {
 
+        }
+        else if (id == R.id.nav_logout) {
+            sharedPref.removeSession("mobile");
+            sharedPref.removeSession("Vendor_User_id");
+            Intent intent = new Intent(MainActivityVendor.this, VendorHomeActivity.class);
+            startActivity(intent);
         }
         else if(id == R.id.nav_ref_earn){
             Intent sendIntent = new Intent();

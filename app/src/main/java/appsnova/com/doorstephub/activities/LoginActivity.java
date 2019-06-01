@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.transition.Slide;
 import android.util.Log;
@@ -83,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (s.length() == 10) {
                     final AlertDialog.Builder confirm_Number = new AlertDialog.Builder(LoginActivity.this);
-                    confirm_Number.setMessage("Are You Sure To Send OTP to this Number?"+mobilenumber_ET.getText().toString());
+                    confirm_Number.setMessage("Are You Sure To Send OTP to this Number?"+Html.fromHtml("<font><b>" + mobilenumber_ET.getText().toString() + "</b></font>"));
                    /* confirm_Number.setItems(new CharSequence[]{"Change Number?"}, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -175,6 +176,7 @@ public class LoginActivity extends AppCompatActivity {
                            JSONObject jsonObject1 = jsonObject.getJSONObject("response");
                            sharedPref.setStringValue("MobileNumber",jsonObject1.getString("mobile"));
                            sharedPref.setStringValue("User_Id",jsonObject1.getString("id"));
+                           Log.d("User_Id", "onResponse: "+jsonObject1.getString("id"));
                            intent = new Intent(LoginActivity.this,HomeActivity.class);
                            intent.putExtra("userid",mobilenumber_ET.getText().toString());
                            startActivity(intent);

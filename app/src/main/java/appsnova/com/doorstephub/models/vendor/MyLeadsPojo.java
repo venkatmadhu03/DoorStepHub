@@ -1,12 +1,23 @@
 package appsnova.com.doorstephub.models.vendor;
 
 public class MyLeadsPojo {
-    String name,city,description;
+    String name,service,description;
 
-    public MyLeadsPojo(String name, String city, String description) {
+    public MyLeadsPojo(String name, String service, String description) {
         this.name = name;
-        this.city = city;
+        this.service = service;
         this.description = description;
+    }
+
+    public String getService() {
+        return service;
+    }
+
+    public void setService(String service) {
+        this.service = service;
+    }
+
+    public MyLeadsPojo() {
     }
 
     public String getName() {
@@ -17,13 +28,6 @@ public class MyLeadsPojo {
         this.name = name;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
 
     public String getDescription() {
         return description;

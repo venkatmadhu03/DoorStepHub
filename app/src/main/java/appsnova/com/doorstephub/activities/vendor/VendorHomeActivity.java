@@ -9,24 +9,18 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 //import com.example.saideepthi.doorstephubmerchant.MainActivityVendor;
 //import com.example.saideepthi.doorstephubmerchant.R;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import appsnova.com.doorstephub.R;
 import appsnova.com.doorstephub.utilities.NetworkUtils;
 import appsnova.com.doorstephub.utilities.SharedPref;
@@ -103,8 +97,10 @@ public class VendorHomeActivity extends AppCompatActivity {
 
                                 sharedPref.setStringValue("user_role", user_role);
                                 sharedPref.setStringValue("role_id", role_id);
-                                sharedPref.setStringValue("id", id);
+                                sharedPref.setStringValue("Vendor_User_id", id);
                                 sharedPref.setStringValue("mobile", mobile);
+
+                                Log.d("Vendor_User_ID", "onResponse:"+"User_Id:"+id);
 
                                 Intent intent = new Intent(VendorHomeActivity.this, MainActivityVendor.class);
                                 startActivity(intent);

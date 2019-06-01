@@ -37,7 +37,7 @@ public class Completed_RecyclerView_Adapter  extends RecyclerView.Adapter<Comple
     public void onBindViewHolder(@NonNull CompletedViewHolder completedViewHolder, int i) {
         MyLeadsPojo myLeadsPojo = myCompletedLeadsPojoList.get(i);
         completedViewHolder.textView_completedname.setText("Name:"+myLeadsPojo.getName());
-        completedViewHolder.textView_completedcity.setText("City:"+myLeadsPojo.getCity());
+        completedViewHolder.textView_completedcity.setText("City:"+myLeadsPojo.getService());
         completedViewHolder.textView_completed_description.setText("Description:"+myLeadsPojo.getDescription());
         completedViewHolder.button_completedpay.setOnClickListener(new View.OnClickListener() {
             @Override

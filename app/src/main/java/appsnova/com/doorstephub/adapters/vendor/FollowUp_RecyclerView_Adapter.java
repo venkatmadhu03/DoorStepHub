@@ -40,7 +40,7 @@ public class FollowUp_RecyclerView_Adapter extends RecyclerView.Adapter<FollowUp
     public void onBindViewHolder(@NonNull AcceptedViewHolder acceptedViewHolder, int i) {
         MyLeadsPojo myLeadsPojo = myaccepetedLeadsPojoList.get(i);
         acceptedViewHolder.textView_acceptedname.setText("Name:"+myLeadsPojo.getName());
-        acceptedViewHolder.textView_acceptedcity.setText("City:"+myLeadsPojo.getCity());
+        acceptedViewHolder.textView_acceptedcity.setText("City:"+myLeadsPojo.getService());
         acceptedViewHolder.textView_accepteddescription.setText("Description:"+myLeadsPojo.getDescription());
         acceptedViewHolder.button_accepetedcall.setOnClickListener(new View.OnClickListener() {
             @Override
