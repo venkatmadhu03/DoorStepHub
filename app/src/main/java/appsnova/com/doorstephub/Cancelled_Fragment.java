@@ -1,20 +1,19 @@
 package appsnova.com.doorstephub;
 
 import android.app.ProgressDialog;
-import android.os.Bundle;;
-import android.text.PrecomputedText;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -32,24 +31,21 @@ import java.util.List;
 import java.util.Map;
 
 import appsnova.com.doorstephub.adapters.vendor.Answer_Recyclerview_Adapter;
+import appsnova.com.doorstephub.adapters.vendor.Cancelled_Recyclerview_Adapter;
 import appsnova.com.doorstephub.models.vendor.MyLeadsPojo;
 import appsnova.com.doorstephub.utilities.SharedPref;
 import appsnova.com.doorstephub.utilities.UrlUtility;
 import appsnova.com.doorstephub.utilities.VolleySingleton;
 
 
-public class Answered_Fragment extends Fragment {
+public class Cancelled_Fragment extends Fragment {
     List<MyLeadsPojo> myLeadsPojoList  =new ArrayList<>();
     ProgressDialog progressDialog;
     SharedPref sharedPref;
     int statusCode;
     String statusMessage;
-    RecyclerView answered_Leads_RV;
-    Answer_Recyclerview_Adapter answer_recyclerview_adapter;
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    RecyclerView cancelled_Leads_RV;
+   Cancelled_Recyclerview_Adapter cancelled_recyclerview_adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,29 +53,19 @@ public class Answered_Fragment extends Fragment {
         progressDialog = UrlUtility.showProgressDialog(getActivity());
         sharedPref = new SharedPref(getActivity());
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_answer, container, false);
-
+        return inflater.inflate(R.layout.fragment_cancelled, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        answered_Leads_RV= view.findViewById(R.id.answered_recycler_view);
-        answer_recyclerview_adapter= new Answer_Recyclerview_Adapter(myLeadsPojoList,getContext());
-        getBooking_DetailsFromServer();
-               /*myLeadsPojo = new MyLeadsPojo("Sai","Hyderabad","Description about sai");
-        myLeadsPojoList.add(myLeadsPojo);
-        myLeadsPojo = new MyLeadsPojo("Sree","Bangalore","Description about sree");
-        myLeadsPojoList.add(myLeadsPojo);
-        myLeadsPojo = new MyLeadsPojo("Teja","Chennai","Description about teja");
-        myLeadsPojoList.add(myLeadsPojo);
-        myLeadsPojo = new MyLeadsPojo("Rao","Mumbai","Description about rao");
-        myLeadsPojoList.add(myLeadsPojo);
-        myLeadsPojo = new MyLeadsPojo("Ram","Vizag","Description about ram");
-        myLeadsPojoList.add(myLeadsPojo);*/
+
+        cancelled_Leads_RV= view.findViewById(R.id.cancelled_recycler_view);
+        cancelled_recyclerview_adapter= new Cancelled_Recyclerview_Adapter(myLeadsPojoList,getContext());
+        getCancelled_DetailsFromServer();
     }
 
-    private void getBooking_DetailsFromServer() {
+    private void getCancelled_DetailsFromServer() {
         progressDialog.show();
 //        Toast.makeText(getActivity(), "InsideMethod", Toast.LENGTH_SHORT).show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.VENDOR_GETBOOKINGS_URL, new Response.Listener<String>() {
@@ -100,16 +86,21 @@ public class Answered_Fragment extends Fragment {
                             myLeadsPojo.setName(jsonObject1.getString("user_name"));
                             myLeadsPojo.setService(jsonObject1.getString("name"));
                             myLeadsPojo.setDescription(jsonObject1.getString("requirement"));
+                            if(jsonObject1.has("cancellation_reason")){
+                                myLeadsPojo.setCancelled_reason(jsonObject1.getString("cancellation_reason"));
+                            }
+
+
                             sharedPref.setStringValue("vendor_booking_status",jsonObject1.getString("status_name"));
                             sharedPref.setStringValue("vendor_booking_id",jsonObject1.getString("booking_id"));
                             myLeadsPojoList.add(myLeadsPojo);
 
                         }
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                        answered_Leads_RV.setLayoutManager(linearLayoutManager);
+                        cancelled_Leads_RV.setLayoutManager(linearLayoutManager);
                         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
-                        answered_Leads_RV.setAdapter(answer_recyclerview_adapter);
-                        answer_recyclerview_adapter.notifyDataSetChanged();
+                        cancelled_Leads_RV.setAdapter(cancelled_recyclerview_adapter);
+                        cancelled_recyclerview_adapter.notifyDataSetChanged();
                     }
 
                 } catch (JSONException e) {
@@ -131,11 +122,12 @@ public class Answered_Fragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params = new HashMap<>();
                 params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
-                params.put("status_name","Answered");
+                params.put("status_name","Cancelled");
                 return params;
             }
         };
         VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
         VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
     }
+
 }

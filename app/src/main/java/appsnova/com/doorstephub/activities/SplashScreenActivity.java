@@ -3,6 +3,7 @@ package appsnova.com.doorstephub.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import appsnova.com.doorstephub.MainActivity;
 import appsnova.com.doorstephub.R;
+import appsnova.com.doorstephub.activities.vendor.MainActivityVendor;
 import appsnova.com.doorstephub.utilities.SharedPref;
 
 import android.content.Intent;
@@ -38,7 +39,11 @@ SharedPref sharedPref;
                             !sharedPref.getStringValue("User_Id").isEmpty()){
                         Log.d("sharedprefValue", "run: "+sharedPref.getStringValue("MobileNumber"));
                         startActivity(new Intent(SplashScreenActivity.this,HomeActivity.class));
-                    }else{
+                    }else if(!sharedPref.getStringValue("vendor_mobile_number").isEmpty() &&
+                            !sharedPref.getStringValue("vendor_password").isEmpty()){
+                        startActivity(new Intent(SplashScreenActivity.this, MainActivityVendor.class));
+                    }
+                    else{
                         //startActivity(new Intent(SplashScreenActivity.this,LoginActivity.class));
                         startActivity(new Intent(SplashScreenActivity.this,Vendor_MerchantActivity.class));
                     }
@@ -64,3 +69,24 @@ SharedPref sharedPref;
     }
 
 }
+
+/*
+
+if(!sharedPref.getStringValue("isFirstOpen").isEmpty()){
+            if(!sharedPref.getStringValue("MobileNumber").isEmpty() &&
+                    !sharedPref.getStringValue("User_Id").isEmpty()){
+                Log.d("sharedprefValue", "run: "+sharedPref.getStringValue("MobileNumber"));
+                startActivity(new Intent(Vendor_MerchantActivity.this,HomeActivity.class));
+            }else if(!sharedPref.getStringValue("vendor_mobile_number").isEmpty() &&
+                    !sharedPref.getStringValue("vendor_password").isEmpty()){
+                //startActivity(new Intent(SplashScreenActivity.this,LoginActivity.class));
+                startActivity(new Intent(Vendor_MerchantActivity.this, MainActivityVendor.class));
+            }
+        }
+        else{
+            startActivity(new Intent(Vendor_MerchantActivity.this, Vendor_MerchantActivity.class));
+        }
+
+
+
+*/

@@ -41,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/completed_textview_city"
-                    android:text="City:"
+                    android:text="Service:"
                     android:textStyle="bold"
                     android:textColor="@color/colorBlack"/>
                 <TextView

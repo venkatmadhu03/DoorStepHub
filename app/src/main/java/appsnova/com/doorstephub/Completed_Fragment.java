@@ -135,7 +135,7 @@ public class Completed_Fragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params = new HashMap<>();
                 params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
-                params.put("status_name","");
+                params.put("status_name","Completed");
                 return params;
             }
         };

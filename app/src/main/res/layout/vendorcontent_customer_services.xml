@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/Ltgray">
 <RelativeLayout
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -66,7 +67,7 @@
 </LinearLayout>
 -->
 
-    <TextView
+  <!--  <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/details_heading"
@@ -74,8 +75,8 @@
         android:textColor="@color/colorPrimaryDark"
         android:layout_below="@id/SliderDots"
         android:layout_marginTop="10dp"
-        android:paddingStart="15dp"/>
-    <androidx.cardview.widget.CardView
+        android:paddingStart="15dp"/>-->
+  <!--  <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/workdetailscard"
@@ -113,7 +114,7 @@
                 android:paddingStart="5dp"
                 android:layout_marginBottom="8dp"/>
         </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>-->
    <!-- <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="240dp"
@@ -147,15 +148,212 @@
             </androidx.recyclerview.widget.RecyclerView>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>-->
-
-    <androidx.recyclerview.widget.RecyclerView
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/leads_status_RV"
-        android:layout_below="@+id/workdetailscard">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:id="@+id/completed_bookingsTV"
+        android:layout_below="@+id/SliderDots"
+        android:text="Latest Completed Booking"
+        android:textColor="@color/colorBlack"
+        android:layout_marginTop="5dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+
+    <androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/latestcompleted_boobkings"
+    android:layout_below="@+id/completed_bookingsTV"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="8dp"
+    android:layout_marginTop="5dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/latest_completed_bookingsRL"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/latest_completed_LL"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/latest_completed_textview_name"
+                android:text="Name:"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@color/colorBlack"/>
+            <!-- </LinearLayout>-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/latest_completed_descriptionTV"
+                android:text="Description:"
+                android:textSize="20sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/latest_completed_serviceTV"
+                android:text="Service:"
+                android:textSize="20sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/latest_completed_statusTV"
+                android:text="Status:"
+                android:textSize="20sp"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pending_bookingsTV"
+        android:layout_below="@+id/latestcompleted_boobkings"
+        android:text="Latest Pending Booking"
+        android:textColor="@color/colorBlack"
+        android:layout_marginTop="5dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/latestpending_boobkings"
+        android:layout_below="@+id/pending_bookingsTV"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp"
+        android:layout_marginTop="5dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/latest_pending_bookingsRL"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/latest_pending_LL"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/latest_pending_textview_name"
+                    android:text="Name:"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorBlack"/>
+                <!-- </LinearLayout>-->
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/latest_pending_descriptionTV"
+                    android:text="Description:"
+                    android:textSize="20sp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/latest_pending_serviceTV"
+                    android:text="Service:"
+                    android:textSize="20sp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/latest_pending_statusTV"
+                    android:text="Status:"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cancelled_bookingsTV"
+        android:layout_below="@+id/latestpending_boobkings"
+        android:text="Latest Cancelled Booking"
+        android:textColor="@color/colorBlack"
+        android:layout_marginTop="5dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
 
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/latestcancelled_boobkings"
+        android:layout_below="@+id/cancelled_bookingsTV"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp"
+        android:layout_marginTop="5dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/latest_cancelled_bookingsRL"
+            android:padding="8dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/latest_cancelled_LL"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/latest_cancelled_textview_name"
+                    android:text="Name:"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorBlack"/>
+                <!-- </LinearLayout>-->
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/latest_cancelled_descriptionTV"
+                    android:text="Description:"
+                    android:textSize="20sp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/latest_cancelled_serviceTV"
+                    android:text="Service:"
+                    android:textSize="20sp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/latest_cancelled_statusTV"
+                    android:text="Status:"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>
 </androidx.core.widget.NestedScrollView>

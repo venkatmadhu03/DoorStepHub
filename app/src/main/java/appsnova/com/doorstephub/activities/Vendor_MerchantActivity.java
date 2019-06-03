@@ -6,19 +6,25 @@ import androidx.appcompat.widget.AppCompatTextView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import com.plattysoft.leonids.ParticleSystem;
+
+import appsnova.com.doorstephub.MainActivity;
 import appsnova.com.doorstephub.R;
+import appsnova.com.doorstephub.activities.vendor.MainActivityVendor;
 import appsnova.com.doorstephub.activities.vendor.VendorHomeActivity;
+import appsnova.com.doorstephub.utilities.SharedPref;
 
 public class Vendor_MerchantActivity extends AppCompatActivity {
     AppCompatButton button_vendor,button_customer;
     AppCompatTextView loginasTV;
     RelativeLayout loginas_RL;
+    SharedPref sharedPref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,10 +34,14 @@ public class Vendor_MerchantActivity extends AppCompatActivity {
         button_customer = findViewById(R.id.customer_btn);
         loginasTV = findViewById(R.id.loginAsTV);
         loginas_RL = findViewById(R.id.loginas_RL);
+        sharedPref = new SharedPref(Vendor_MerchantActivity.this);
+
 
         Animation animation  = AnimationUtils.loadAnimation(Vendor_MerchantActivity.this,R.anim.blink_anim);
         button_vendor.startAnimation(animation);
         button_customer.startAnimation(animation);
+
+
                       /*new ParticleSystem(this, 100, R.drawable.star, 10000)
                 .setSpeedByComponentsRange(-0.1f, 0.1f, -0.1f, 0.02f)
                 .setAcceleration(0.000003f, 90)

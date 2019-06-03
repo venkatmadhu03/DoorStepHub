@@ -1,7 +1,15 @@
 package appsnova.com.doorstephub.models.vendor;
 
 public class MyLeadsPojo {
-    String name,service,description;
+    String name,service,description,cancelled_reason;
+
+    public String getCancelled_reason() {
+        return cancelled_reason;
+    }
+
+    public void setCancelled_reason(String cancelled_reason) {
+        this.cancelled_reason = cancelled_reason;
+    }
 
     public MyLeadsPojo(String name, String service, String description) {
         this.name = name;

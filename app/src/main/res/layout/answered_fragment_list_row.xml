@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:id="@+id/pending_content"
+                android:id="@+id/answered_LL"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:paddingTop="8dp"
@@ -40,14 +40,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:id="@+id/accepted_textview_name"
+                    android:id="@+id/answered_textview_name"
                     android:text="Name:"
                     android:textStyle="bold"
                     android:textSize="20sp"
                     android:textColor="@color/colorBlack"/>
 
                 <TextView
-                    android:id="@+id/accepted_textview_city"
+                    android:id="@+id/answered_textview_city"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -58,7 +58,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/accepted_TV_description"
+                    android:id="@+id/answered_TV_description"
                     android:text="Description:"
                     android:textSize="20sp"/>
             </LinearLayout>
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:id="@+id/pending_success"
-                android:layout_below="@id/pending_content"
+                android:layout_below="@id/answered_LL"
                 android:paddingEnd="10dp"
                 android:paddingTop="10dp"
                 android:layout_marginBottom="8dp">

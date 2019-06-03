@@ -35,7 +35,8 @@ public class UrlUtility {
     public static  final String VENDOR_UPDATEPROFILE_URL = BASE_URL+"User/VendorUpdateProfile";
     public static final String VENDOR_GETBOOKINGS_URL = BASE_URL+"Bookings/GetVendorBookings";
     public static final String UPDATE_VENDORBOOKINGS_URL = BASE_URL+"Bookings/UpdateVendorBookings";
-
+    public static final String VENDOR_CANCELLED_REASONS_URL =BASE_URL+"Bookings/CancelledReasons";
+    public static final String VENDOR_LATEST_BOOKINGS_URL =BASE_URL+"Bookings/VendorLatestBooking";
 
     public static ProgressDialog showProgressDialog(Context mContext) {
         ProgressDialog progressDialog = new ProgressDialog(mContext);

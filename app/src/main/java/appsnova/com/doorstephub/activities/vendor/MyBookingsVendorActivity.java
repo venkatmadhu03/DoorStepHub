@@ -20,6 +20,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 import appsnova.com.doorstephub.Answered_Fragment;
+import appsnova.com.doorstephub.Cancelled_Fragment;
 import appsnova.com.doorstephub.Completed_Fragment;
 import appsnova.com.doorstephub.FollowUp_Fragment;
 import appsnova.com.doorstephub.R;
@@ -87,11 +88,9 @@ public class MyBookingsVendorActivity extends AppCompatActivity {
         MyBookingsViewPagerAdapter viewPagerAdapter = new MyBookingsViewPagerAdapter(getSupportFragmentManager());
 
         viewPagerAdapter.addFragment(new Answered_Fragment(),"Answered");
-        // viewPagerAdapter.addFragment(new FollowUp_Fragment(),"Pending");
-        //  viewPagerAdapter.addFragment(new Ongoing_Fragment(),"Ongoing");
         viewPagerAdapter.addFragment(new FollowUp_Fragment(),"Follow Up");
-        viewPagerAdapter.addFragment(new Completed_Fragment(),"Completed/Cancelled");
-        //  viewPagerAdapter.addFragment(new Cancelled_Fragment(),"Cancelled");
+        viewPagerAdapter.addFragment(new Completed_Fragment(),"Completed");
+        viewPagerAdapter.addFragment(new Cancelled_Fragment(),"Cancelled");
 
 
         viewPager.setAdapter(viewPagerAdapter);

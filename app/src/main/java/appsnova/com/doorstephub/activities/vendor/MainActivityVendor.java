@@ -8,9 +8,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,14 +21,13 @@ import com.google.android.material.navigation.NavigationView;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,11 +38,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import appsnova.com.doorstephub.MainActivity;
 import appsnova.com.doorstephub.R;
-import appsnova.com.doorstephub.activities.HomeActivity;
-import appsnova.com.doorstephub.activities.LoginActivity;
-import appsnova.com.doorstephub.activities.ThankYouPage;
 import appsnova.com.doorstephub.adapters.vendor.CategoryListRecyclerViewAdapter;
 import appsnova.com.doorstephub.adapters.vendor.ViewPagerAdapter;
 import appsnova.com.doorstephub.models.vendor.CategoryListPOJO;
@@ -63,7 +55,6 @@ public class MainActivityVendor extends AppCompatActivity
     private int dotscount;
     private ImageView[] dots;
     NetworkUtils networkUtils;
-    GridView gridView;
     ProgressDialog progressDialog;
     SharedPref sharedPref;
     TextView walletBalance_valueTV,security_depositvalueTV,walletBalanceTV,securityDepositTV;
@@ -71,8 +62,19 @@ public class MainActivityVendor extends AppCompatActivity
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
     List<CategoryListPOJO> categoryListPOJOList;
+
+
     CategoryListPOJO categoryListPOJO;
     CategoryListRecyclerViewAdapter categoryListRecyclerViewAdapter;
+    int latest_bookings_statusCode;
+    String latest_bookings_statusMessage;
+
+    CardView latest_completed_bokingscard,latest_pending_bokingscard,latest_cancelled_bokingscard;
+    TextView latest_completed_Name_TV,latest_completed_City_TV,latest_completed_Description_TV,latest_completed_statusTV,latest_completed_serviceTV,
+            latest_pending_Name_TV,latest_pending_City_TV,latest_pending_Description_TV,latest_pending_statusTV,latest_pending_serviceTV,
+            latest_cancelled_Name_TV,latest_cancelled_City_TV,latest_cancelled_Description_TV,latest_cancelled_statusTV,latest_cancelled_serviceTV;
+
+
     /*int images[] = {R.drawable.background, R.drawable.background, R.drawable.background,
             R.drawable.background, R.drawable.background, R.drawable.background};
     String imagetext[] = {"Computer Services and Repairs","TV Service & Repairs",
@@ -93,12 +95,38 @@ public class MainActivityVendor extends AppCompatActivity
        // category_recyclerView = findViewById(R.id.category_RV);
         categoryListPOJOList = new ArrayList<>();
         categoryListRecyclerViewAdapter = new CategoryListRecyclerViewAdapter(MainActivityVendor.this,categoryListPOJOList);
-    //   ca = new CustomAdapter();
 
-    //   gridView.setAdapter(ca);
+        latest_completed_Name_TV = findViewById(R.id.latest_completed_textview_name);
+    //    latest_completed_City_TV = findViewById(R.id.latest_completed_textview_city);
+        latest_completed_Description_TV = findViewById(R.id.latest_completed_descriptionTV);
+        latest_completed_statusTV = findViewById(R.id.latest_completed_statusTV);
+        latest_completed_serviceTV = findViewById(R.id.latest_completed_serviceTV);
+
+
+        latest_pending_Name_TV = findViewById(R.id.latest_pending_textview_name);
+      //  latest_pending_City_TV = findViewById(R.id.latest_pending_textview_city);
+        latest_pending_Description_TV = findViewById(R.id.latest_pending_descriptionTV);
+        latest_pending_statusTV = findViewById(R.id.latest_pending_statusTV);
+        latest_pending_serviceTV = findViewById(R.id.latest_pending_serviceTV);
+
+
+
+        latest_cancelled_Name_TV = findViewById(R.id.latest_cancelled_textview_name);
+      //  latest_cancelled_City_TV = findViewById(R.id.latest_cancelled_textview_city);
+        latest_cancelled_Description_TV = findViewById(R.id.latest_cancelled_descriptionTV);
+        latest_cancelled_statusTV = findViewById(R.id.latest_cancelled_statusTV);
+        latest_cancelled_serviceTV = findViewById(R.id.latest_cancelled_serviceTV);
+
         networkUtils = new NetworkUtils(MainActivityVendor.this);
         progressDialog = UrlUtility.showProgressDialog(MainActivityVendor.this);
         sharedPref = new SharedPref(MainActivityVendor.this);
+
+
+        getLatestCompletedBookingStatusesFromServer();
+        getLatestPendingBookingStatusesFromServer();
+        getLatestCancelledBookingStatusesFromServer();
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerlayout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -187,7 +215,6 @@ public class MainActivityVendor extends AppCompatActivity
         GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivityVendor.this,2);
         category_recyclerView.setLayoutManager(gridLayoutManager);*/
     }
-
 
     @Override
     public void onBackPressed() {
@@ -327,5 +354,139 @@ public class MainActivityVendor extends AppCompatActivity
     }
 
 
+    private void getLatestCompletedBookingStatusesFromServer() {
+        progressDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.VENDOR_LATEST_BOOKINGS_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("LatestBookingsStatus", "onResponse: "+response);
+                progressDialog.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    latest_bookings_statusCode = jsonObject.getInt("statusCode");
+                    latest_bookings_statusMessage = jsonObject.getString("statusMessage");
+                    if(latest_bookings_statusCode==200){
+                        JSONArray jsonArray = jsonObject.getJSONArray("response");
+                        JSONObject jsonObject1 = jsonArray.getJSONObject(0);
+
+                        latest_completed_Name_TV.setText("Name:"+jsonObject1.getString("user_name"));
+                        latest_completed_statusTV.setText("Status:"+jsonObject1.getString("status_name"));
+                        latest_completed_Description_TV.setText("Description:"+jsonObject1.getString("requirement"));
+                        latest_completed_serviceTV.setText("Service:"+jsonObject1.getString("name"));
+                    }
+
+                } catch (JSONException e) {
+                    progressDialog.dismiss();
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params = new HashMap<>();
+                params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
+                params.put("status_id","4");
+                return params;
+            }
+        };
+        VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
+        VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
+    }
+
+    private void getLatestPendingBookingStatusesFromServer() {
+        progressDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.VENDOR_LATEST_BOOKINGS_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                progressDialog.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    latest_bookings_statusCode = jsonObject.getInt("statusCode");
+                    latest_bookings_statusMessage = jsonObject.getString("statusMessage");
+                    if(latest_bookings_statusCode==200){
+                        JSONArray jsonArray = jsonObject.getJSONArray("response");
+                        JSONObject jsonObject1 = jsonArray.getJSONObject(0);
+                        latest_pending_Name_TV.setText("Name:"+jsonObject1.getString("user_name"));
+                        latest_pending_Description_TV.setText("Description:"+jsonObject1.getString("requirement"));
+                        latest_pending_statusTV.setText("Status:"+jsonObject1.getString("status_name"));
+                        latest_pending_serviceTV.setText("Service:"+jsonObject1.getString("name"));
+                    }
+
+                } catch (JSONException e) {
+                    progressDialog.dismiss();
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params = new HashMap<>();
+                params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
+                params.put("status_id","1");
+                return params;
+            }
+        };
+        VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
+        VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
+    }
+
+    private void getLatestCancelledBookingStatusesFromServer() {
+        progressDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.VENDOR_LATEST_BOOKINGS_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("LatestBookingsStatus", "onResponse: "+response);
+                progressDialog.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    latest_bookings_statusCode = jsonObject.getInt("statusCode");
+                    latest_bookings_statusMessage = jsonObject.getString("statusMessage");
+                    if(latest_bookings_statusCode==200){
+                        JSONArray jsonArray = jsonObject.getJSONArray("response");
+                        JSONObject jsonObject1 = jsonArray.getJSONObject(0);
+                        latest_cancelled_Name_TV.setText("Name:"+jsonObject1.getString("user_name"));
+                        latest_cancelled_Description_TV.setText("Description:"+jsonObject1.getString("requirement"));
+                        latest_cancelled_statusTV.setText("Status:"+jsonObject1.getString("status_name"));
+                        latest_cancelled_serviceTV.setText("Service:"+jsonObject1.getString("name"));
+                    }
+
+                } catch (JSONException e) {
+                    progressDialog.dismiss();
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params = new HashMap<>();
+                params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
+                params.put("status_id","5");
+                return params;
+            }
+        };
+        VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
+        VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
+    }
 
 }

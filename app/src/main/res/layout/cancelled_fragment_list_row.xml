@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -25,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:id="@+id/answered_LL"
+                android:id="@+id/cancelled_layout"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:paddingTop="8dp"
@@ -41,34 +40,43 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:id="@+id/answered_textview_name"
+                    android:id="@+id/cancelled_textview_name"
                     android:text="Name:"
                     android:textStyle="bold"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     android:textColor="@color/colorBlack"/>
 
                 <TextView
-                    android:id="@+id/answered_textview_city"
+                    android:id="@+id/cancelled_textview_city"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="Service:"
-                    android:textSize="16sp"/>
+                    android:textSize="20sp" />
                 <!-- </LinearLayout>-->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/answered_TV_description"
+                    android:id="@+id/cancelled_TV_description"
                     android:text="Description:"
-                    android:textSize="16sp"/>
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cancelledReasonTV"
+                    android:text="Cancellation Reason:"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="20sp"/>
             </LinearLayout>
-            <RelativeLayout
+           <!-- <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:id="@+id/pending_success"
-                android:layout_below="@id/answered_LL"
+                android:id="@+id/cancelled_success"
+                android:layout_below="@id/cancelled_layout"
                 android:paddingEnd="10dp"
                 android:paddingTop="10dp"
                 android:layout_marginBottom="8dp">
@@ -91,7 +99,7 @@
                     android:tooltipText="Reject"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="8dp"/>
-            </RelativeLayout>
+            </RelativeLayout>-->
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>
