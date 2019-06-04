@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Ltgray">
+    android:background="@color/color_ltgray">
 <RelativeLayout
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -295,7 +295,6 @@
         android:textColor="@color/colorBlack"
         android:layout_marginTop="5dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
-
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

@@ -27,11 +27,8 @@ import appsnova.com.doorstephub.R;
 import appsnova.com.doorstephub.adapters.vendor.MyBookingsViewPagerAdapter;
 
 public class MyBookingsVendorActivity extends AppCompatActivity {
-    /*RecyclerView mybookings_list;
-    List<MyBookingsVendorModel> myBookingsModels;
-    MyBookingsVendorAdapter myBookingsAdapter;*/
+    public static ViewPager viewPager;
     TabLayout tabLayout;
-    ViewPager viewPager;
     FragmentTransaction fragmentTransaction;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

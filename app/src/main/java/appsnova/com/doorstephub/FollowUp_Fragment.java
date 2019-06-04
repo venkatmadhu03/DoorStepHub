@@ -45,6 +45,7 @@ ProgressDialog progressDialog;
 SharedPref sharedPref;
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,8 +71,6 @@ SharedPref sharedPref;
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         accepeted_recyclerview= view.findViewById(R.id.accepeted_recycler_view);
-        followUp_recyclerView_adapter =new FollowUp_RecyclerView_Adapter(getContext(),myfollowup_pojolist);
-
        /* accepted_leadpojo = new MyLeadsPojo("sai","hyderabad","Desciption about sai");
         myaccepeted_pojolist.add(accepted_leadpojo);
         accepted_leadpojo = new MyLeadsPojo("sree","bangalore","Description about sree");
@@ -107,10 +106,12 @@ SharedPref sharedPref;
                             myLeadsPojo.setName(jsonObject1.getString("user_name"));
                             myLeadsPojo.setService(jsonObject1.getString("name"));
                             myLeadsPojo.setDescription(jsonObject1.getString("requirement"));
+                            myLeadsPojo.setPhone_number(jsonObject1.getString("user_mobile"));
                             myfollowup_pojolist.add(myLeadsPojo);
                         }
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                         accepeted_recyclerview.setLayoutManager(linearLayoutManager);
+                        followUp_recyclerView_adapter =new FollowUp_RecyclerView_Adapter(getContext(),myfollowup_pojolist);
                         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
                         accepeted_recyclerview.setAdapter(followUp_recyclerView_adapter);
                         followUp_recyclerView_adapter.notifyDataSetChanged();

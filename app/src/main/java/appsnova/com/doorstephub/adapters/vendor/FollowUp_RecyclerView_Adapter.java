@@ -1,30 +1,56 @@
 package appsnova.com.doorstephub.adapters.vendor;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import appsnova.com.doorstephub.R;
+import appsnova.com.doorstephub.activities.vendor.MyBookingsVendorActivity;
 import appsnova.com.doorstephub.models.vendor.MyLeadsPojo;
+import appsnova.com.doorstephub.utilities.SharedPref;
+import appsnova.com.doorstephub.utilities.UrlUtility;
+import appsnova.com.doorstephub.utilities.VolleySingleton;
 
 public class FollowUp_RecyclerView_Adapter extends RecyclerView.Adapter<FollowUp_RecyclerView_Adapter.AcceptedViewHolder> {
     Context mcontext;
-    List<MyLeadsPojo> myaccepetedLeadsPojoList;
+    List<MyLeadsPojo> myfollow_upLeadsPojoList;
+    SharedPref sharedPref;
+    ProgressDialog progressDialog;
+    int statusCode;
+    String statusMessage;
 
-    public FollowUp_RecyclerView_Adapter(Context mcontext, List<MyLeadsPojo> myaccepetedLeadsPojoList) {
+
+    public FollowUp_RecyclerView_Adapter(Context mcontext, List<MyLeadsPojo> myfollow_upLeadsPojoList) {
         this.mcontext = mcontext;
-        this.myaccepetedLeadsPojoList = myaccepetedLeadsPojoList;
+        this.myfollow_upLeadsPojoList = myfollow_upLeadsPojoList;
+        sharedPref = new SharedPref(mcontext);
+        progressDialog = UrlUtility.showProgressDialog(mcontext);
+
     }
 
     @NonNull
@@ -38,22 +64,28 @@ public class FollowUp_RecyclerView_Adapter extends RecyclerView.Adapter<FollowUp
 
     @Override
     public void onBindViewHolder(@NonNull AcceptedViewHolder acceptedViewHolder, int i) {
-        MyLeadsPojo myLeadsPojo = myaccepetedLeadsPojoList.get(i);
+        final MyLeadsPojo myLeadsPojo = myfollow_upLeadsPojoList.get(i);
         acceptedViewHolder.textView_acceptedname.setText("Name:"+myLeadsPojo.getName());
         acceptedViewHolder.textView_acceptedcity.setText("Service:"+myLeadsPojo.getService());
         acceptedViewHolder.textView_accepteddescription.setText("Description:"+myLeadsPojo.getDescription());
         acceptedViewHolder.button_accepetedcall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "7207777712"));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + myLeadsPojo.getPhone_number()));
                 mcontext.startActivity(intent);
+            }
+        });
+        acceptedViewHolder.button_accepetedstart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getUpdateBookingLeadsFromServer();
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return myaccepetedLeadsPojoList.size();
+        return myfollow_upLeadsPojoList.size();
     }
 
     public class AcceptedViewHolder extends RecyclerView.ViewHolder {
@@ -69,4 +101,53 @@ public class FollowUp_RecyclerView_Adapter extends RecyclerView.Adapter<FollowUp
             button_accepetedstart = itemView.findViewById(R.id.followup_start_btn);
         }
     }
+    private void getUpdateBookingLeadsFromServer() {
+        progressDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.UPDATE_VENDORBOOKINGS_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+            progressDialog.dismiss();
+                Log.d("FollowVendorResponse", "onResponse: "+response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    statusCode = jsonObject.getInt("statusCode");
+                    statusMessage = jsonObject.getString("statusMessage");
+                    if(statusCode == 200){
+                        Toast.makeText(mcontext, "Booking Completed..", Toast.LENGTH_SHORT).show();
+                       MyBookingsVendorActivity.viewPager.setCurrentItem(2, true);
+
+                    }else{
+//                      //else content
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                progressDialog.dismiss();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                Toast.makeText(mcontext, error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params = new HashMap<>();
+                params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
+                params.put("User_Role","4");
+                params.put("Booking_ID",sharedPref.getStringValue("vendor_booking_id"));
+                params.put("booking_status","complete");
+
+                Log.d("FollowBookings_params", "getParams: "+params.toString());
+                return params;
+            }
+        };
+        VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
+        VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
+    }
+
 }

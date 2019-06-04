@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -39,6 +40,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import appsnova.com.doorstephub.R;
+import appsnova.com.doorstephub.activities.Vendor_MerchantActivity;
 import appsnova.com.doorstephub.adapters.vendor.CategoryListRecyclerViewAdapter;
 import appsnova.com.doorstephub.adapters.vendor.ViewPagerAdapter;
 import appsnova.com.doorstephub.models.vendor.CategoryListPOJO;
@@ -63,13 +65,15 @@ public class MainActivityVendor extends AppCompatActivity
     private static int NUM_PAGES = 0;
     List<CategoryListPOJO> categoryListPOJOList;
 
+    private static final int TIME_DELAY = 2000;
+    private static long back_pressed;
+
 
     CategoryListPOJO categoryListPOJO;
     CategoryListRecyclerViewAdapter categoryListRecyclerViewAdapter;
     int latest_bookings_statusCode;
     String latest_bookings_statusMessage;
 
-    CardView latest_completed_bokingscard,latest_pending_bokingscard,latest_cancelled_bokingscard;
     TextView latest_completed_Name_TV,latest_completed_City_TV,latest_completed_Description_TV,latest_completed_statusTV,latest_completed_serviceTV,
             latest_pending_Name_TV,latest_pending_City_TV,latest_pending_Description_TV,latest_pending_statusTV,latest_pending_serviceTV,
             latest_cancelled_Name_TV,latest_cancelled_City_TV,latest_cancelled_Description_TV,latest_cancelled_statusTV,latest_cancelled_serviceTV;
@@ -210,20 +214,34 @@ public class MainActivityVendor extends AppCompatActivity
 
             }
         });
-       /* category_recyclerView.setAdapter(categoryListRecyclerViewAdapter);
-        category_recyclerView.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivityVendor.this,2);
-        category_recyclerView.setLayoutManager(gridLayoutManager);*/
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerlayout);
+      /*  DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerlayout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
+*/
+      if (back_pressed + TIME_DELAY > System.currentTimeMillis()) {
+            super.onBackPressed();
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            intent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "Press once again to exit!",
+                    Toast.LENGTH_SHORT).show();
+        }
+        back_pressed = System.currentTimeMillis();
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -251,7 +269,7 @@ public class MainActivityVendor extends AppCompatActivity
         else if (id == R.id.nav_logout) {
             sharedPref.removeSession("mobile");
             sharedPref.removeSession("Vendor_User_id");
-            Intent intent = new Intent(MainActivityVendor.this, VendorHomeActivity.class);
+            Intent intent = new Intent(MainActivityVendor.this, Vendor_MerchantActivity.class);
             startActivity(intent);
         }
         else if(id == R.id.nav_ref_earn){
@@ -303,6 +321,7 @@ public class MainActivityVendor extends AppCompatActivity
             return convertView;
         }
     }*/
+    //start of profileDetails
     private void getProfileDetailsFromServer() {
         progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.VENDOR_GETPROFILE_URL, new Response.Listener<String>() {
@@ -352,8 +371,8 @@ public class MainActivityVendor extends AppCompatActivity
         VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
         VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
     }
-
-
+    //end of Profile details
+//start of Latest Completed Bookings
     private void getLatestCompletedBookingStatusesFromServer() {
         progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.VENDOR_LATEST_BOOKINGS_URL, new Response.Listener<String>() {
@@ -399,7 +418,8 @@ public class MainActivityVendor extends AppCompatActivity
         VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
         VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
     }
-
+    //end of LatestCompletedBookings
+//start of latestPEnding Bookings
     private void getLatestPendingBookingStatusesFromServer() {
         progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.VENDOR_LATEST_BOOKINGS_URL, new Response.Listener<String>() {
@@ -443,7 +463,8 @@ public class MainActivityVendor extends AppCompatActivity
         VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
         VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
     }
-
+//end of LatestPending Bookings
+//start of latestCancelled bookings
     private void getLatestCancelledBookingStatusesFromServer() {
         progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.VENDOR_LATEST_BOOKINGS_URL, new Response.Listener<String>() {
@@ -488,5 +509,6 @@ public class MainActivityVendor extends AppCompatActivity
         VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
         VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
     }
+//end of latestCancelled Bookings
 
 }
