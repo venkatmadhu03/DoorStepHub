@@ -1,6 +1,7 @@
 package appsnova.com.doorstephub.activities.vendor;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import org.json.JSONArray;
@@ -57,7 +59,7 @@ public class MainActivityVendor extends AppCompatActivity
     private int dotscount;
     private ImageView[] dots;
     NetworkUtils networkUtils;
-    ProgressDialog progressDialog;
+    Dialog progressDialog;
     SharedPref sharedPref;
     TextView walletBalance_valueTV,security_depositvalueTV,walletBalanceTV,securityDepositTV;
     String statusCode,statusMessage;
@@ -97,6 +99,8 @@ public class MainActivityVendor extends AppCompatActivity
 
     //    gridView = findViewById(R.id.grid_view);
        // category_recyclerView = findViewById(R.id.category_RV);
+      //  main_SwipeRL = findViewById(R.id.mainSwipeRl);
+
         categoryListPOJOList = new ArrayList<>();
         categoryListRecyclerViewAdapter = new CategoryListRecyclerViewAdapter(MainActivityVendor.this,categoryListPOJOList);
 
@@ -122,8 +126,9 @@ public class MainActivityVendor extends AppCompatActivity
         latest_cancelled_serviceTV = findViewById(R.id.latest_cancelled_serviceTV);
 
         networkUtils = new NetworkUtils(MainActivityVendor.this);
-        progressDialog = UrlUtility.showProgressDialog(MainActivityVendor.this);
+        progressDialog = UrlUtility.showCustomDialog(MainActivityVendor.this);
         sharedPref = new SharedPref(MainActivityVendor.this);
+
 
 
         getLatestCompletedBookingStatusesFromServer();
@@ -151,7 +156,7 @@ public class MainActivityVendor extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         viewPager = findViewById(R.id.image_viewPager);
-        sliderDotspanel = (LinearLayout) findViewById(R.id.SliderDots);
+        sliderDotspanel = (LinearLayout) findViewById(R.id.sliderDots);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getApplicationContext());
         viewPager.setAdapter(viewPagerAdapter);
 
@@ -264,13 +269,14 @@ public class MainActivityVendor extends AppCompatActivity
             startActivity(intent);
         }
         else if (id == R.id.nav_wallet) {
-
+            Toast.makeText(this, "Under Development...", Toast.LENGTH_SHORT).show();
         }
         else if (id == R.id.nav_logout) {
             sharedPref.removeSession("mobile");
             sharedPref.removeSession("Vendor_User_id");
             Intent intent = new Intent(MainActivityVendor.this, Vendor_MerchantActivity.class);
             startActivity(intent);
+            finish();
         }
         else if(id == R.id.nav_ref_earn){
             Intent sendIntent = new Intent();
@@ -321,7 +327,7 @@ public class MainActivityVendor extends AppCompatActivity
             return convertView;
         }
     }*/
-    //start of profileDetails
+//start of profileDetails
     private void getProfileDetailsFromServer() {
         progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.VENDOR_GETPROFILE_URL, new Response.Listener<String>() {
@@ -329,6 +335,7 @@ public class MainActivityVendor extends AppCompatActivity
             @Override
             public void onResponse(String response) {
                 Log.d("VendorGetProfileResponse", "onResponse: "+response);
+                progressDialog.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     statusCode = jsonObject.getString("statusCode");
@@ -339,11 +346,17 @@ public class MainActivityVendor extends AppCompatActivity
                         if(role_id.equalsIgnoreCase("5")){
                             securityDepositTV.setVisibility(View.GONE);
                             security_depositvalueTV.setVisibility(View.GONE);
+                            walletBalanceTV.setVisibility(View.VISIBLE);
+                            walletBalance_valueTV.setVisibility(View.VISIBLE);
                             walletBalance_valueTV.setText(jsonObject1.getString("wallet_balance"));
+                            Log.d("MainActivityVendor", "onResponse: wallet_balance"+jsonObject1.getString("wallet_balance"));
                         }else if(role_id.equalsIgnoreCase("4")){
                             walletBalanceTV.setVisibility(View.GONE);
                             walletBalance_valueTV.setVisibility(View.GONE);
+                            securityDepositTV.setVisibility(View.VISIBLE);
+                            security_depositvalueTV.setVisibility(View.VISIBLE);
                             security_depositvalueTV.setText(jsonObject1.getString("security_deposit"));
+                            Log.d("MainActivityVendor", "onResponse:security_deposit "+jsonObject1.getString("security_deposit"));
                         }
                     }
                 } catch (JSONException e) {
@@ -363,7 +376,9 @@ public class MainActivityVendor extends AppCompatActivity
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params = new HashMap<>();
-                params.put("User_ID","21");
+                params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
+                params.put("user_role",sharedPref.getStringValue("role_id"));
+                Log.d("VendorParams", "getParams: "+params.toString());
                 return params;
             }
         };
@@ -371,7 +386,7 @@ public class MainActivityVendor extends AppCompatActivity
         VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
         VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
     }
-    //end of Profile details
+//end of Profile details
 //start of Latest Completed Bookings
     private void getLatestCompletedBookingStatusesFromServer() {
         progressDialog.show();
@@ -380,6 +395,7 @@ public class MainActivityVendor extends AppCompatActivity
             public void onResponse(String response) {
                 Log.d("LatestBookingsStatus", "onResponse: "+response);
                 progressDialog.dismiss();
+//                main_SwipeRL.setRefreshing(false);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     latest_bookings_statusCode = jsonObject.getInt("statusCode");
@@ -418,14 +434,15 @@ public class MainActivityVendor extends AppCompatActivity
         VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
         VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
     }
-    //end of LatestCompletedBookings
+//end of LatestCompletedBookings
 //start of latestPEnding Bookings
     private void getLatestPendingBookingStatusesFromServer() {
         progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.VENDOR_LATEST_BOOKINGS_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                progressDialog.dismiss();
+               progressDialog.dismiss();
+//                main_SwipeRL.setRefreshing(false);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     latest_bookings_statusCode = jsonObject.getInt("statusCode");
@@ -471,7 +488,8 @@ public class MainActivityVendor extends AppCompatActivity
             @Override
             public void onResponse(String response) {
                 Log.d("LatestBookingsStatus", "onResponse: "+response);
-                progressDialog.dismiss();
+               progressDialog.dismiss();
+//                main_SwipeRL.setRefreshing(false);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     latest_bookings_statusCode = jsonObject.getInt("statusCode");

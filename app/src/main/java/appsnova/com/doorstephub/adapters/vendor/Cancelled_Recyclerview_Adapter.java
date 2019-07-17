@@ -1,5 +1,6 @@
 package appsnova.com.doorstephub.adapters.vendor;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
@@ -36,14 +37,14 @@ public class Cancelled_Recyclerview_Adapter  extends RecyclerView.Adapter<Cancel
     Context mcontext;
     List<MyLeadsPojo> myLeadsPojoList;
     SharedPref sharedPref;
-    ProgressDialog progressDialog;
+    Dialog progressDialog;
     int statusCode;
     String statusMessage;
 
     public Cancelled_Recyclerview_Adapter(List<MyLeadsPojo> myLeadsPojoList, Context mcontext) {
         this.myLeadsPojoList = myLeadsPojoList;
         this.mcontext = mcontext;
-        progressDialog = UrlUtility.showProgressDialog(mcontext);
+        progressDialog = UrlUtility.showCustomDialog(mcontext);
         sharedPref = new SharedPref(mcontext);
     }
 

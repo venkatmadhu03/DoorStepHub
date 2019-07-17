@@ -1,7 +1,9 @@
 package appsnova.com.doorstephub;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -43,8 +46,9 @@ public class Completed_Fragment extends Fragment {
     RecyclerView completed_recyclerview;
     int statusCode;
     String statusMessage;
-    ProgressDialog progressDialog;
+    Dialog progressDialog;
     SharedPref sharedPref;
+    SwipeRefreshLayout completed_swipeRL;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +60,7 @@ public class Completed_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        progressDialog = UrlUtility.showProgressDialog(getActivity());
+        progressDialog = UrlUtility.showCustomDialog(getActivity());
         sharedPref = new SharedPref(getActivity());
         return inflater.inflate(R.layout.fragment_completed, container, false);
     }
@@ -65,8 +69,21 @@ public class Completed_Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         completed_recyclerview= view.findViewById(R.id.completed_recyclerview);
-        completed_recyclerView_adapter =new Completed_RecyclerView_Adapter(getContext(),mycompleted_pojolist);
+        completed_swipeRL = view.findViewById(R.id.completed_swipeRL);
+
         getCompleted_DetailsFromServer();
+
+        completed_swipeRL.setColorSchemeResources(R.color.colorAccent);
+        completed_swipeRL.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getCompleted_DetailsFromServer();
+            }
+        });
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        completed_recyclerview.setLayoutManager(linearLayoutManager);
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
                 /*  completed_recyclerView_adapter =new Completed_RecyclerView_Adapter(getContext(),mycompleted_pojolist);
         completed_leadpojo = new MyLeadsPojo("Sai","hyderabad","Description about sai");
         mycompleted_pojolist.add(completed_leadpojo);
@@ -93,7 +110,13 @@ public class Completed_Fragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 mycompleted_pojolist.clear();
-                progressDialog.dismiss();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+                    }
+                },3000);
+                completed_swipeRL.setRefreshing(false);
                 Log.d("VendorBookingsResponse", "onResponse: "+response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -109,9 +132,7 @@ public class Completed_Fragment extends Fragment {
                             myLeadsPojo.setDescription(jsonObject1.getString("requirement"));
                             mycompleted_pojolist.add(myLeadsPojo);
                         }
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                        completed_recyclerview.setLayoutManager(linearLayoutManager);
-                        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+                        completed_recyclerView_adapter =new Completed_RecyclerView_Adapter(getContext(),mycompleted_pojolist);
                         completed_recyclerview.setAdapter(completed_recyclerView_adapter);
                         completed_recyclerView_adapter.notifyDataSetChanged();
                     }
@@ -135,7 +156,8 @@ public class Completed_Fragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params = new HashMap<>();
                 params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
-                params.put("status_name","Completed");
+                params.put("status_name","Closed");
+                Log.d("MainParams", "getParams:Completed"+params.toString());
                 return params;
             }
         };

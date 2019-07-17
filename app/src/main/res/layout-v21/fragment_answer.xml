@@ -4,15 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Ltgray">
-
-    <!-- TODO: Update blank fragment layout -->
-    <RelativeLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-   <androidx.recyclerview.widget.RecyclerView
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:id="@+id/answered_recycler_view">
-   </androidx.recyclerview.widget.RecyclerView>
-    </RelativeLayout>
+        android:layout_height="match_parent"
+        android:id="@+id/answered_swipeRL">
+        <!-- TODO: Update blank fragment layout -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/answered_recycler_view">
+            </androidx.recyclerview.widget.RecyclerView>
+        </RelativeLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 </FrameLayout>

@@ -51,7 +51,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
     Context mcontext;
     List<MyLeadsPojo> myLeadsPojoList;
     SharedPref sharedPref;
-    ProgressDialog progressDialog;
+    Dialog progressDialog;
     int statusCode,cancelled_reson_statusCode;
     String statusMessage,cancelled_reason_statusMessage;
     List<CancelledReasonPOJO> cancelledReasonPOJOList;
@@ -59,11 +59,16 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
     RadioGroup radioGroup;
     RadioButton dynamic_radiobutton;
     String selectedRadioButtonValue ="";
+    double standard_amount = 150;
+    double eighteen_percent_deduction;
+    double final_amount;
+    int deduct_statusCode;
+    String deduct_statusMessage="";
 
     public Answer_Recyclerview_Adapter(List<MyLeadsPojo> myLeadsPojoList, Context mcontext) {
         this.myLeadsPojoList = myLeadsPojoList;
         this.mcontext = mcontext;
-        progressDialog = UrlUtility.showProgressDialog(mcontext);
+        progressDialog = UrlUtility.showCustomDialog(mcontext);
         sharedPref = new SharedPref(mcontext);
     }
 
@@ -90,7 +95,18 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
         myViewHolder.answered_accept_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getAcceptedBookingFromServer();
+
+               String userRole_id = sharedPref.getStringValue("role_id");
+                Log.d("role_id", "onClick: "+userRole_id);
+               if(userRole_id.equalsIgnoreCase("5")){
+                   eighteen_percent_deduction = (18.0f/100.0f) * (standard_amount);
+                   final_amount = standard_amount+eighteen_percent_deduction;
+                   Log.d("FinalAmount", "onClick: "+ String.format("%.2f", final_amount));
+                   deductAmountResultFromServer(myLeadsPojo.getBooking_id(), myLeadsPojo.getStatus_name());
+
+               }else{
+                   getAcceptedBookingFromServer(myLeadsPojo.getBooking_id(), myLeadsPojo.getStatus_name());
+               }
 
             }
         });
@@ -101,7 +117,52 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
             }
         });
 
+    }
 
+    private void deductAmountResultFromServer(final String statusId, final String statusName) {
+        progressDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.VENDOR_BOOKINGS_DEDUCTBALANCE_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("DeductBalanceResponse", "onResponse: "+response);
+                progressDialog.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    statusCode = jsonObject.getInt("statusCode");
+                    statusMessage = jsonObject.getString("statusMessage");
+                    if(statusCode==200){
+                        getAcceptedBookingFromServer(statusId, statusName);
+                    }else{
+                        Toast.makeText(mcontext, statusMessage, Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                progressDialog.dismiss();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(mcontext, error.toString(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params = new HashMap<>();
+                params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
+                params.put("user_role",sharedPref.getStringValue("role_id"));
+                params.put("amount", String.format("%.2f", final_amount));
+                params.put("status","accept");
+                Log.d("deductparams", "getParams:AnsweredFragment "+params.toString());
+                return params;
+            }
+        };
+        VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
+        VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
     }
 
     @Override
@@ -123,7 +184,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
         }
     }
 
-    private void getAcceptedBookingFromServer() {
+    private void getAcceptedBookingFromServer(final String bookingId, String statusName) {
         progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.UPDATE_VENDORBOOKINGS_URL, new Response.Listener<String>() {
             @Override
@@ -159,8 +220,12 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
                 HashMap<String,String> params = new HashMap<>();
                 params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
                 params.put("User_Role",sharedPref.getStringValue("role_id"));
-                params.put("Booking_ID",sharedPref.getStringValue("vendor_booking_id"));
-                params.put("booking_status","accept");
+                params.put("Booking_ID", bookingId);
+                if (sharedPref.getStringValue("role_id").equalsIgnoreCase("5")){
+                    params.put("booking_status","complete");
+                }else{
+                    params.put("booking_status","accept");
+                }
 
                 Log.d("Bookings_params", "getParams: "+params.toString());
 
@@ -170,7 +235,6 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
         VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
         VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
     }
-
 
     private void getCancelledBookingFromServer() {
         progressDialog.show();

@@ -7,10 +7,15 @@
     android:background="@color/Ltgray">
 
     <!-- TODO: Update blank fragment layout -->
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/follow_up_swipeRL">
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/accepeted_recycler_view">
+    </androidx.recyclerview.widget.RecyclerView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-       <androidx.recyclerview.widget.RecyclerView
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:id="@+id/accepeted_recycler_view">
-       </androidx.recyclerview.widget.RecyclerView>
 </FrameLayout>

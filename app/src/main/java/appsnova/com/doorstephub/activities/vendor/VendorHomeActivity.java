@@ -1,5 +1,6 @@
 package appsnova.com.doorstephub.activities.vendor;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 import appsnova.com.doorstephub.R;
+import appsnova.com.doorstephub.activities.Vendor_MerchantActivity;
 import appsnova.com.doorstephub.utilities.NetworkUtils;
 import appsnova.com.doorstephub.utilities.SharedPref;
 import appsnova.com.doorstephub.utilities.UrlUtility;
@@ -32,7 +34,7 @@ public class VendorHomeActivity extends AppCompatActivity {
     Button sigin_btn;
     EditText mobilenumberET,passwordET;
     NetworkUtils networkUtils;
-    ProgressDialog progressDialog;
+    Dialog progressDialog;
     String statusCode,statusMessage;
     String id,role_id,
             vendor_name,cname,address,
@@ -51,19 +53,18 @@ public class VendorHomeActivity extends AppCompatActivity {
         passwordET = findViewById(R.id.vendor_loginpassword);
         sigin_btn = findViewById(R.id.signin_btn);
         networkUtils = new NetworkUtils(VendorHomeActivity.this);
-        progressDialog = UrlUtility.showProgressDialog(VendorHomeActivity.this);
+        progressDialog = UrlUtility.showCustomDialog(VendorHomeActivity.this);
         sharedPref = new SharedPref(VendorHomeActivity.this);
         sigin_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 localvalidation();
+
                 sharedPref.setStringValue("vendor_mobile_number",mobilenumberET.getText().toString());
                 sharedPref.setStringValue("vendor_password",passwordET.getText().toString());
+
             }
         });
-
-
-
     }
     private void localvalidation() {
 
@@ -107,8 +108,8 @@ public class VendorHomeActivity extends AppCompatActivity {
 
                                 Log.d("Vendor_User_ID", "onResponse:"+"User_Id:"+id);
 
-                                Intent intent = new Intent(VendorHomeActivity.this, MainActivityVendor.class);
-                                startActivity(intent);
+                               Intent intent  = new Intent(VendorHomeActivity.this,MainActivityVendor.class);
+                               startActivity(intent);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -1,7 +1,9 @@
 package appsnova.com.doorstephub;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;;
+import android.os.Handler;
 import android.text.PrecomputedText;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -40,12 +43,13 @@ import appsnova.com.doorstephub.utilities.VolleySingleton;
 
 public class Answered_Fragment extends Fragment {
     List<MyLeadsPojo> myLeadsPojoList  =new ArrayList<>();
-    ProgressDialog progressDialog;
+    Dialog progressDialog;
     SharedPref sharedPref;
     int statusCode;
     String statusMessage;
     RecyclerView answered_Leads_RV;
     Answer_Recyclerview_Adapter answer_recyclerview_adapter;
+    SwipeRefreshLayout answered_swipeRL;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +58,7 @@ public class Answered_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        progressDialog = UrlUtility.showProgressDialog(getActivity());
+        progressDialog = UrlUtility.showCustomDialog(getActivity());
         sharedPref = new SharedPref(getActivity());
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_answer, container, false);
@@ -65,8 +69,22 @@ public class Answered_Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         answered_Leads_RV= view.findViewById(R.id.answered_recycler_view);
-        answer_recyclerview_adapter= new Answer_Recyclerview_Adapter(myLeadsPojoList,getContext());
+        answered_swipeRL = view.findViewById(R.id.answered_swipeRL);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        answered_Leads_RV.setLayoutManager(linearLayoutManager);
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+
         getBooking_DetailsFromServer();
+        answered_swipeRL.setColorSchemeResources(R.color.colorAccent);
+        answered_swipeRL.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getBooking_DetailsFromServer();
+//                Toast.makeText(getActivity(), "AfterRefreshDataUpdated", Toast.LENGTH_SHORT).show();
+
+            }
+        });
                /*myLeadsPojo = new MyLeadsPojo("Sai","Hyderabad","Description about sai");
         myLeadsPojoList.add(myLeadsPojo);
         myLeadsPojo = new MyLeadsPojo("Sree","Bangalore","Description about sree");
@@ -79,6 +97,8 @@ public class Answered_Fragment extends Fragment {
         myLeadsPojoList.add(myLeadsPojo);*/
     }
 
+
+
     private void getBooking_DetailsFromServer() {
         progressDialog.show();
 //        Toast.makeText(getActivity(), "InsideMethod", Toast.LENGTH_SHORT).show();
@@ -86,7 +106,13 @@ public class Answered_Fragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 myLeadsPojoList.clear();
-                progressDialog.dismiss();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+                    }
+                },3000);
+                answered_swipeRL.setRefreshing(false);
                 Log.d("VendorBookingsResponse", "onResponse: "+response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -100,14 +126,12 @@ public class Answered_Fragment extends Fragment {
                             myLeadsPojo.setName(jsonObject1.getString("user_name"));
                             myLeadsPojo.setService(jsonObject1.getString("name"));
                             myLeadsPojo.setDescription(jsonObject1.getString("requirement"));
-                            sharedPref.setStringValue("vendor_booking_status",jsonObject1.getString("status_name"));
-                            sharedPref.setStringValue("vendor_booking_id",jsonObject1.getString("booking_id"));
+                            myLeadsPojo.setBooking_id(jsonObject1.getString("booking_id"));
+                            myLeadsPojo.setStatus_name(jsonObject1.getString("status_name"));
                             myLeadsPojoList.add(myLeadsPojo);
 
                         }
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                        answered_Leads_RV.setLayoutManager(linearLayoutManager);
-                        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+                        answer_recyclerview_adapter= new Answer_Recyclerview_Adapter(myLeadsPojoList,getContext());
                         answered_Leads_RV.setAdapter(answer_recyclerview_adapter);
                         answer_recyclerview_adapter.notifyDataSetChanged();
                     }
@@ -132,6 +156,7 @@ public class Answered_Fragment extends Fragment {
                 HashMap<String,String> params = new HashMap<>();
                 params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
                 params.put("status_name","Answered");
+                Log.d("MainParams", "getParams:Answered"+params.toString());
                 return params;
             }
         };

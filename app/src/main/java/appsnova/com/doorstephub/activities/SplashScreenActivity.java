@@ -39,8 +39,11 @@ SharedPref sharedPref;
                             !sharedPref.getStringValue("User_Id").isEmpty()){
                         Log.d("sharedprefValue", "run: "+sharedPref.getStringValue("MobileNumber"));
                         startActivity(new Intent(SplashScreenActivity.this,HomeActivity.class));
-                    }else if(!sharedPref.getStringValue("vendor_mobile_number").isEmpty() &&
-                            !sharedPref.getStringValue("vendor_password").isEmpty()){
+                    } else{
+                        //startActivity(new Intent(SplashScreenActivity.this,LoginActivity.class));
+                        startActivity(new Intent(SplashScreenActivity.this,Vendor_MerchantActivity.class));
+                    } if(!sharedPref.getStringValue("mobile").isEmpty() &&
+                            !sharedPref.getStringValue("Vendor_User_id").isEmpty()){
                         startActivity(new Intent(SplashScreenActivity.this, MainActivityVendor.class));
                     }
                     else{

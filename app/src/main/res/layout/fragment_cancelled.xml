@@ -5,7 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".Cancelled_Fragment"
     android:background="@color/Ltgray">
-
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/cancelled_swipeRL">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -15,5 +18,7 @@
             android:id="@+id/cancelled_recycler_view">
         </androidx.recyclerview.widget.RecyclerView>
     </RelativeLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 </FrameLayout>

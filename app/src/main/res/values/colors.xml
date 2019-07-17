@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#c31432</color>
+    <!--<color name="colorPrimary">#c31432</color>-->
+    <color name="colorPrimary">#b31e52</color>
     <color name="colorPrimaryDark">#240b36</color>
     <color name="colorAccent">#c31432</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGray">#A9A9A9</color>
     <color name="Ltgray">#D8D5D5</color>
-    <color name="color_ltgray">#DFDBDB</color>
+    <color name="color_ltgray">#F7F0F0</color>
     <color name="blue">#1849AA</color>
+    <color name="vendor_merchant_background">#0e1111</color>
+    <color name="vendor_merchant_button_bg">#232b2b</color>
+    <!--<color name="vendor_merchant_blue">#1058a8</color>-->
+    <color name="vendor_merchant_red">#b31e52</color>
 </resources>

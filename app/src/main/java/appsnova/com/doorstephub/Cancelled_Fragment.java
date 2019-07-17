@@ -1,5 +1,6 @@
 package appsnova.com.doorstephub;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
@@ -8,7 +9,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,17 +43,18 @@ import appsnova.com.doorstephub.utilities.VolleySingleton;
 
 public class Cancelled_Fragment extends Fragment {
     List<MyLeadsPojo> myLeadsPojoList  =new ArrayList<>();
-    ProgressDialog progressDialog;
+    Dialog progressDialog;
     SharedPref sharedPref;
     int statusCode;
     String statusMessage;
     RecyclerView cancelled_Leads_RV;
    Cancelled_Recyclerview_Adapter cancelled_recyclerview_adapter;
+   SwipeRefreshLayout cancelled_swipeRL;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        progressDialog = UrlUtility.showProgressDialog(getActivity());
+        progressDialog = UrlUtility.showCustomDialog(getActivity());
         sharedPref = new SharedPref(getActivity());
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_cancelled, container, false);
@@ -61,8 +65,21 @@ public class Cancelled_Fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         cancelled_Leads_RV= view.findViewById(R.id.cancelled_recycler_view);
-        cancelled_recyclerview_adapter= new Cancelled_Recyclerview_Adapter(myLeadsPojoList,getContext());
+        cancelled_swipeRL = view.findViewById(R.id.cancelled_swipeRL);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        cancelled_Leads_RV.setLayoutManager(linearLayoutManager);
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+
+
         getCancelled_DetailsFromServer();
+        cancelled_swipeRL.setColorSchemeResources(R.color.colorAccent);
+        cancelled_swipeRL.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getCancelled_DetailsFromServer();
+            }
+        });
     }
 
     private void getCancelled_DetailsFromServer() {
@@ -72,7 +89,13 @@ public class Cancelled_Fragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 myLeadsPojoList.clear();
-                progressDialog.dismiss();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+                    }
+                },3000);
+                cancelled_swipeRL.setRefreshing(false);
                 Log.d("VendorBookingsResponse", "onResponse: "+response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -89,16 +112,13 @@ public class Cancelled_Fragment extends Fragment {
                             if(jsonObject1.has("cancellation_reason")){
                                 myLeadsPojo.setCancelled_reason(jsonObject1.getString("cancellation_reason"));
                             }
-
-
                             sharedPref.setStringValue("vendor_booking_status",jsonObject1.getString("status_name"));
                             sharedPref.setStringValue("vendor_booking_id",jsonObject1.getString("booking_id"));
                             myLeadsPojoList.add(myLeadsPojo);
 
                         }
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                        cancelled_Leads_RV.setLayoutManager(linearLayoutManager);
-                        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+
+                        cancelled_recyclerview_adapter= new Cancelled_Recyclerview_Adapter(myLeadsPojoList,getContext());
                         cancelled_Leads_RV.setAdapter(cancelled_recyclerview_adapter);
                         cancelled_recyclerview_adapter.notifyDataSetChanged();
                     }
@@ -123,6 +143,7 @@ public class Cancelled_Fragment extends Fragment {
                 HashMap<String,String> params = new HashMap<>();
                 params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
                 params.put("status_name","Cancelled");
+                Log.d("MainParams", "getParams:Cancelled"+params.toString());
                 return params;
             }
         };

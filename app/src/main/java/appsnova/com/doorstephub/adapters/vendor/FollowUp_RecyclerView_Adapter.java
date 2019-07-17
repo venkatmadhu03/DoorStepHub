@@ -1,5 +1,6 @@
 package appsnova.com.doorstephub.adapters.vendor;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -40,16 +41,17 @@ public class FollowUp_RecyclerView_Adapter extends RecyclerView.Adapter<FollowUp
     Context mcontext;
     List<MyLeadsPojo> myfollow_upLeadsPojoList;
     SharedPref sharedPref;
-    ProgressDialog progressDialog;
-    int statusCode;
-    String statusMessage;
-
+    Dialog progressDialog;
+    int statusCode,deduct_statusCode;
+    String statusMessage,deduct_statusMessage;
+    double eighteen_percent_deduction,final_amount;
+    double standard_amount =75;
 
     public FollowUp_RecyclerView_Adapter(Context mcontext, List<MyLeadsPojo> myfollow_upLeadsPojoList) {
         this.mcontext = mcontext;
         this.myfollow_upLeadsPojoList = myfollow_upLeadsPojoList;
         sharedPref = new SharedPref(mcontext);
-        progressDialog = UrlUtility.showProgressDialog(mcontext);
+        progressDialog = UrlUtility.showCustomDialog(mcontext);
 
     }
 
@@ -81,6 +83,17 @@ public class FollowUp_RecyclerView_Adapter extends RecyclerView.Adapter<FollowUp
                 getUpdateBookingLeadsFromServer();
             }
         });
+        acceptedViewHolder.followup_cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(mcontext, "Deduct 75/- as penality", Toast.LENGTH_SHORT).show();
+                eighteen_percent_deduction = (18.0f/100.0f) * (standard_amount);
+                final_amount = standard_amount+eighteen_percent_deduction;
+//                Toast.makeText(mcontext, String.format("%.2f",final_amount), Toast.LENGTH_SHORT).show();
+                deductAmountResultFromServer();
+                Toast.makeText(mcontext, statusMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -90,7 +103,7 @@ public class FollowUp_RecyclerView_Adapter extends RecyclerView.Adapter<FollowUp
 
     public class AcceptedViewHolder extends RecyclerView.ViewHolder {
         TextView textView_acceptedname,textView_acceptedcity,textView_accepteddescription;
-        ImageButton button_accepetedcall,button_accepetedstart;
+        ImageButton button_accepetedcall,button_accepetedstart,followup_cancel_btn;
         public AcceptedViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -99,6 +112,8 @@ public class FollowUp_RecyclerView_Adapter extends RecyclerView.Adapter<FollowUp
             textView_accepteddescription = itemView.findViewById(R.id.followup_textview_description);
             button_accepetedcall = itemView.findViewById(R.id.followup_call_btn);
             button_accepetedstart = itemView.findViewById(R.id.followup_start_btn);
+            followup_cancel_btn = itemView.findViewById(R.id.followup_cancel_btn);
+
         }
     }
     private void getUpdateBookingLeadsFromServer() {
@@ -138,16 +153,58 @@ public class FollowUp_RecyclerView_Adapter extends RecyclerView.Adapter<FollowUp
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params = new HashMap<>();
                 params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
-                params.put("User_Role","4");
+                params.put("User_Role",sharedPref.getStringValue("role_id"));
                 params.put("Booking_ID",sharedPref.getStringValue("vendor_booking_id"));
                 params.put("booking_status","complete");
 
-                Log.d("FollowBookings_params", "getParams: "+params.toString());
+                Log.d("FollowBookings_params", "getParams:"+params.toString());
                 return params;
             }
         };
         VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
         VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
     }
+    private void deductAmountResultFromServer() {
+        progressDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.VENDOR_BOOKINGS_DEDUCTBALANCE_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("DeductBalanceResponse", "onResponse:FollowUp "+response);
+                progressDialog.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    statusCode = jsonObject.getInt("statusCode");
+                    statusMessage = jsonObject.getString("statusMessage");
+                    if(statusCode==200){
+                        Toast.makeText(mcontext, "Deducted Amount of 75/-", Toast.LENGTH_SHORT).show();
+                    }
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                progressDialog.dismiss();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(mcontext, error.toString(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params = new HashMap<>();
+                params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
+                params.put("user_role",sharedPref.getStringValue("role_id"));
+                params.put("amount", String.format("%.2f",final_amount));
+                params.put("status","accept");
+                Log.d("DeductParams ", "getParams: "+params.toString());
+                return params;
+            }
+        };
+        VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
+        VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
+    }
 }

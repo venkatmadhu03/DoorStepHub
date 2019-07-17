@@ -1,12 +1,19 @@
 package appsnova.com.doorstephub.utilities;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.ScaleAnimation;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +44,7 @@ public class UrlUtility {
     public static final String UPDATE_VENDORBOOKINGS_URL = BASE_URL+"Bookings/UpdateVendorBookings";
     public static final String VENDOR_CANCELLED_REASONS_URL =BASE_URL+"Bookings/CancelledReasons";
     public static final String VENDOR_LATEST_BOOKINGS_URL =BASE_URL+"Bookings/VendorLatestBooking";
+    public static final String VENDOR_BOOKINGS_DEDUCTBALANCE_URL =BASE_URL+"Bookings/DeductBalance";
 
     public static ProgressDialog showProgressDialog(Context mContext) {
         ProgressDialog progressDialog = new ProgressDialog(mContext);
@@ -49,6 +57,38 @@ public class UrlUtility {
         return progressDialog;
     }// end of Progress dialog
 
+    public  static  Dialog showCustomDialog(Context mcontext){
+        Dialog customDialog = new Dialog(mcontext);
+        View view = LayoutInflater.from(mcontext).inflate(R.layout.custom_progress_dialog,null);
+        customDialog.setContentView(view,new LinearLayout.LayoutParams(300,300));
+        final ProgressBar progressBar = customDialog.findViewById(R.id.progress_bar);
+        customDialog.setCanceledOnTouchOutside(false);
+        customDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        final float growTo = 1.2f;
+        final long duration = 400;
+
+        ScaleAnimation grow = new ScaleAnimation(1, growTo, 1, growTo,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        grow.setDuration(duration / 2);
+        grow.setRepeatMode(Animation.REVERSE);
+        grow.setRepeatCount(Animation.INFINITE);
+
+
+        ScaleAnimation shrink = new ScaleAnimation(growTo, 1, growTo, 1,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        shrink.setDuration(duration / 2);
+        shrink.setStartOffset(duration / 2);
+        AnimationSet growAndShrink = new AnimationSet(true);
+        growAndShrink.setInterpolator(new LinearInterpolator());
+        growAndShrink.addAnimation(grow);
+        growAndShrink.addAnimation(shrink);
+        progressBar.startAnimation(growAndShrink);
+
+        return customDialog;
+    }
 
     /**
      * Obtains the LayoutInflater from the given context.

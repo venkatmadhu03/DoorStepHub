@@ -1,38 +1,34 @@
 package appsnova.com.doorstephub.activities.vendor;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
-import java.util.ArrayList;
-import java.util.List;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-
 import com.google.android.material.tabs.TabLayout;
-
 import appsnova.com.doorstephub.Answered_Fragment;
 import appsnova.com.doorstephub.Cancelled_Fragment;
 import appsnova.com.doorstephub.Completed_Fragment;
 import appsnova.com.doorstephub.FollowUp_Fragment;
 import appsnova.com.doorstephub.R;
 import appsnova.com.doorstephub.adapters.vendor.MyBookingsViewPagerAdapter;
+import appsnova.com.doorstephub.utilities.SharedPref;
 
 public class MyBookingsVendorActivity extends AppCompatActivity {
     public static ViewPager viewPager;
     TabLayout tabLayout;
     FragmentTransaction fragmentTransaction;
+    SharedPref sharedPref;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPref = new SharedPref(this);
         setContentView(R.layout.activity_vendor_mybookings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Transactions");
@@ -85,11 +81,13 @@ public class MyBookingsVendorActivity extends AppCompatActivity {
         MyBookingsViewPagerAdapter viewPagerAdapter = new MyBookingsViewPagerAdapter(getSupportFragmentManager());
 
         viewPagerAdapter.addFragment(new Answered_Fragment(),"Answered");
-        viewPagerAdapter.addFragment(new FollowUp_Fragment(),"Follow Up");
+        if(sharedPref.getStringValue("user_role").equalsIgnoreCase("4")){
+            viewPagerAdapter.addFragment(new FollowUp_Fragment(),"Follow Up");
+            viewPager.setOffscreenPageLimit(4);
+        }
         viewPagerAdapter.addFragment(new Completed_Fragment(),"Completed");
         viewPagerAdapter.addFragment(new Cancelled_Fragment(),"Cancelled");
-
-
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(viewPagerAdapter);
     }
 

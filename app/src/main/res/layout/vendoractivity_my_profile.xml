@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -32,7 +31,6 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textAlignment="center"
                 android:textStyle="bold"/>
-
 
             <EditText
                 android:layout_width="match_parent"
@@ -129,18 +127,17 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"/>
-            <LinearLayout
+           <!-- <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:weightSum="3">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:orientation="vertical"
-                    android:layout_marginEnd="30dp"
                     android:layout_marginStart="10dp">
                     <TextView
                         android:layout_width="wrap_content"
@@ -152,12 +149,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:id="@+id/pp_Image"
                             android:src="@drawable/vendor_upload_image"
                             android:onClick="profilepicuploadbutton"/>
-                        <!-- <ImageView
+                        &lt;!&ndash; <ImageView
                              android:id="@+id/question3"
                              android:layout_width="30dp"
                              android:layout_height="30dp"
@@ -165,54 +163,93 @@
                              android:layout_marginEnd="40dp"
                              android:background="@drawable/question"
                              android:layout_gravity="center"
-                             android:onClick="getidproof"/>-->
+                             android:onClick="getidproof"/>&ndash;&gt;
                     </LinearLayout>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/profilepic_filename"
-                        android:text="image1.png"
+                        android:text="profilepic.png"
                         android:textStyle="bold"/>
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:orientation="vertical"
-                    android:layout_marginEnd="30dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/address_proof_text"
-                        android:text="Address Proof:"
-                        android:textStyle="bold"/>
-                    <LinearLayout
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginStart="10dp">
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <ImageButton
+                        android:layout_height="wrap_content">
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/vendor_upload_image"
-                            android:onClick="uploadbutton"/>
+                            android:id="@+id/address_proof_text"
+                            android:text="Address Proof:"
+                            android:textStyle="bold"/>
                         <ImageView
                             android:id="@+id/question1"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="40dp"
-                            android:background="@drawable/vendorquestion"
+                            android:src="@drawable/vendorquestion"
                             android:layout_gravity="center"
-                            android:onClick="getidproof"/>
-                    </LinearLayout>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/addressprooffilename"
-                        android:text="image2.png"
-                        android:textStyle="bold"/>
+                            android:onClick="getAddressproof"
+                            android:layout_toRightOf="@+id/address_proof_text"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/address_proof_nameTV"
+                                android:layout_toRightOf="@+id/question1"
+                                android:text="Addressproof.jpg"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/addressproof_frontIV"
+                            android:layout_below="@+id/address_proof_text"
+                            android:src="@drawable/vendor_upload_image"
+                            android:onClick="uploadbutton"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="15dp"
+                            />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/addressproof_backIV"
+                            android:layout_below="@+id/address_proof_text"
+                            android:src="@drawable/vendor_upload_image"
+                            android:layout_toEndOf="@+id/addressproof_frontIV"
+                            android:onClick="uploadbutton"
+                            android:layout_marginStart="80dp"
+                            android:layout_marginTop="15dp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/addressproof_front_TV"
+                            android:layout_below="@+id/addressproof_frontIV"
+                            android:text="APFront"
+                            android:textStyle="bold"
+                            android:layout_marginEnd="10dp"
+                            />
+
+                        <TextView
+                            android:id="@+id/addressproof_back_TV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/addressproof_backIV"
+                            android:layout_alignTop="@+id/addressproof_front_TV"
+                            android:layout_toRightOf="@+id/addressproof_front_TV"
+                            android:text="APBack"
+                            android:textStyle="bold"
+                            android:layout_marginStart="50dp"
+                            android:gravity="center"/>
+                    </RelativeLayout>
+
                 </LinearLayout>
-                <!-- <ImageView
+                &lt;!&ndash; <ImageView
                      android:id="@+id/iageviewid_proof"
                      android:layout_width="0dp"
                      android:layout_height="100dp"
@@ -221,8 +258,8 @@
                      android:layout_marginEnd="40dp"
                      android:background="@drawable/question"
                      android:layout_gravity="center"
-                     android:onClick="getidproof"/>-->
-                <!-- <ImageView
+                     android:onClick="getidproof"/>&ndash;&gt;
+                &lt;!&ndash; <ImageView
                      android:layout_width="0dp"
                      android:layout_height="100dp"
                      android:layout_weight="1"
@@ -231,46 +268,269 @@
                      android:layout_marginStart="40dp"
                      android:layout_marginEnd="8dp"
                      android:background="@drawable/question"
-                     android:layout_gravity="center"/>-->
+                     android:layout_gravity="center"/>&ndash;&gt;
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/idproof"
-                        android:text="Identity Proof:"
-                        android:textStyle="bold"/>
-                    <LinearLayout
+                    android:layout_height="0dp"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginStart="10dp">
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <ImageButton
+                        android:layout_height="wrap_content">
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/vendor_upload_image"
-                            android:onClick="uploadbutton"/>
+                            android:id="@+id/idproof"
+                            android:text="Identity Proof:"
+                            android:textStyle="bold"/>
+
                         <ImageView
                             android:id="@+id/question2"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="40dp"
-                            android:background="@drawable/vendorquestion"
+                            android:layout_toRightOf="@+id/idproof"
+                            android:src="@drawable/vendorquestion"
                             android:layout_gravity="center"
                             android:onClick="getidproof"/>
-                    </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/id_proof_nameTV"
+                            android:layout_toRightOf="@+id/question2"
+                            android:text="IdentityProof.jpg"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/idproof_frontIV"
+                            android:layout_below="@+id/idproof"
+                            android:src="@drawable/vendor_upload_image"
+                            android:onClick="uploadbutton"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginStart="5dp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/idproof_front_TV"
+                            android:layout_below="@+id/idproof_frontIV"
+                            android:text="IPFront"
+                            android:textStyle="bold"
+                            />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/idproof_backIV"
+                            android:layout_below="@+id/idproof"
+                            android:src="@drawable/vendor_upload_image"
+                            android:onClick="uploadbutton"
+                            android:layout_toRightOf="@+id/idproof_front_TV"
+                            android:layout_marginStart="60dp"
+                            android:layout_marginTop="15dp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/idproof_backTV"
+                            android:layout_below="@+id/idproof_frontIV"
+                            android:text="IPBack"
+                            android:textStyle="bold"
+                            android:layout_toRightOf="@+id/idproof_front_TV"
+                            android:layout_marginStart="55dp" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </LinearLayout>-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/proofsMainRL">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ppRl"
+                    android:layout_marginStart="8dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/idprooffile_name"
-                        android:text="image3.png"
+                        android:id="@+id/profilepic"
+                        android:text="Profile Pic:"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimaryDark"/>
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/pp_Image"
+                        android:layout_below="@+id/profilepic"
+                        android:src="@android:drawable/ic_menu_gallery"
+                        android:onClick="profilepicuploadbutton"/>
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/profilepic_filename"
+                        android:layout_below="@+id/pp_Image"
+                        android:text="profilepic.png"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:foregroundGravity="center_horizontal|center_vertical"
                         android:textStyle="bold"/>
-                </LinearLayout>
-            </LinearLayout>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/addressProofRL"
+                    android:layout_below="@+id/ppRl"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/address_proof_text"
+                        android:text="Address Proof:"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimaryDark"/>
+                    <ImageView
+                        android:id="@+id/question1"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="40dp"
+                        android:src="@drawable/vendorquestion"
+                        android:layout_gravity="center"
+                        android:onClick="getAddressproof"
+                        android:layout_toRightOf="@+id/address_proof_text"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/address_proof_nameTV"
+                        android:layout_toRightOf="@+id/question1"
+                        android:text="Addressproof.jpg"/>
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/addressproof_frontIV"
+                        android:layout_below="@+id/address_proof_text"
+                        android:src="@android:drawable/ic_menu_gallery"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="15dp" />
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/addressproof_backIV"
+                        android:layout_below="@+id/address_proof_text"
+                        android:src="@android:drawable/ic_menu_gallery"
+                        android:layout_toEndOf="@+id/addressproof_frontIV"
+                        android:layout_marginStart="80dp"
+                        android:layout_marginTop="15dp"/>
+
+                    <TextView
+                        android:id="@+id/addressproof_front_TV"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/addressproof_frontIV"
+                        android:layout_marginStart="5dp"
+                        android:ems="3"
+                        android:foregroundGravity="center_horizontal|center_vertical"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:maxLines="2"
+                        android:text="APFront"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/addressproof_back_TV"
+                        android:layout_below="@+id/addressproof_backIV"
+                        android:layout_toRightOf="@+id/addressproof_front_TV"
+                        android:text="APBack"
+                        android:textStyle="bold"
+                        android:layout_marginStart="80dp"
+                        android:maxLines="2"
+                        android:ems="3"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:foregroundGravity="center_horizontal|center_vertical"
+                        />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/identityProofRL"
+                    android:layout_below="@+id/addressProofRL"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/idproof"
+                        android:text="Identity Proof:"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                    <ImageView
+                        android:id="@+id/question2"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="40dp"
+                        android:layout_toRightOf="@+id/idproof"
+                        android:src="@drawable/vendorquestion"
+                        android:layout_gravity="center"
+                        android:onClick="getidproof"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/id_proof_nameTV"
+                        android:layout_toRightOf="@+id/question2"
+                        android:text="IdentityProof.jpg"/>
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/idproof_frontIV"
+                        android:layout_below="@+id/idproof"
+                        android:src="@android:drawable/ic_menu_gallery"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="15dp" />
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/idproof_backIV"
+                        android:layout_below="@+id/idproof"
+                        android:src="@android:drawable/ic_menu_gallery"
+                        android:layout_toEndOf="@+id/idproof_frontIV"
+                        android:layout_marginStart="80dp"
+                        android:layout_marginTop="15dp"/>
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/idproof_front_TV"
+                        android:layout_below="@+id/idproof_frontIV"
+                        android:text="IdFront"
+                        android:textStyle="bold"
+                        android:layout_marginStart="5dp"
+                        android:maxLines="2"
+                        android:ems="3"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:foregroundGravity="center_horizontal|center_vertical"
+                        />
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/idproof_backTV"
+                        android:layout_below="@+id/idproof_frontIV"
+                        android:layout_toRightOf="@+id/idproof_front_TV"
+                        android:text="IDBack"
+                        android:textStyle="bold"
+                        android:layout_marginStart="80dp"
+                        android:maxLines="2"
+                        android:ems="3"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:foregroundGravity="center_horizontal|center_vertical"/>
+                </RelativeLayout>
+            </RelativeLayout>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

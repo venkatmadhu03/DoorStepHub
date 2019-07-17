@@ -5,9 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".utilities.VolleySingleton"
@@ -19,30 +19,33 @@
         android:roundIcon="@drawable/applogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.Vendor_MerchantActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.vendor.CompletedBilingFormActivity"></activity>
+        <activity
+            android:name=".activities.Vendor_MerchantActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.TermsConditionsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar"/>
+            android:theme="@style/ActionBar" />
         <activity
             android:name=".activities.ProfileActivity"
-            android:label="My Profile"/>
+            android:label="My Profile" />
         <activity
             android:name=".activities.SplashScreenActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.ThankYouPage"/>
+        <activity android:name=".activities.ThankYouPage" />
         <activity
             android:name=".activities.ServiceSelectionActivity"
             android:label="Select Sub Service"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar"/>
+            android:theme="@style/ActionBar" />
         <activity
             android:name=".activities.AboutUsActivity"
             android:screenOrientation="portrait"
@@ -59,66 +62,63 @@
             android:name=".activities.MyBookingsActivity"
             android:label="Your Orders"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar"/>
+            android:theme="@style/ActionBar" />
         <activity
             android:name=".activities.HomeActivity"
             android:label="Select Service"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar"/>
+            android:theme="@style/ActionBar" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.ServiceScheduleActivity"
             android:label="Personal Details"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar"/>
+            android:theme="@style/ActionBar" />
         <activity
             android:name=".activities.MyBookingsResultActivity"
             android:label="Order Data"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar"/>
-
-        <!-- VENDOR ACTIVITIES -->
-
+            android:theme="@style/ActionBar" /> <!-- VENDOR ACTIVITIES -->
         <activity
             android:name=".activities.vendor.MainActivityVendor"
+            android:label="Vendor MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="Vendor MainActivity"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.vendor.VendorHomeActivity"
+            android:label="Vendor HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar"
-            android:label="Vendor HomeActivity"/>
+            android:theme="@style/ActionBar" />
         <activity
             android:name=".activities.vendor.VendorMyProfileActivity"
+            android:label="Vendor MyProfile Activity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar"
-            android:label="Vendor MyProfile Activity"/>
+            android:theme="@style/ActionBar" />
         <activity
             android:name=".activities.vendor.ServicePartnersActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.vendor.MyBookingsVendorActivity"
+            android:label="Vendor MyBookingsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar"
-            android:label="Vendor MyBookingsActivity"/>
+            android:theme="@style/ActionBar" />
         <activity
             android:name=".activities.vendor.MyBookingsResultVendorActivity"
+            android:label="Vendor MyBookingsResult Activity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar"
-            android:label="Vendor MyBookingsResult Activity"/>
+            android:theme="@style/ActionBar" />
         <activity
             android:name=".activities.vendor.AboutUsVendorActivity"
+            android:label="Vendor AboutUs Activity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar"
-            android:label="Vendor AboutUs Activity"/>
+            android:theme="@style/ActionBar" />
     </application>
 
 </manifest>

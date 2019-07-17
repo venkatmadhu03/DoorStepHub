@@ -1,7 +1,24 @@
 package appsnova.com.doorstephub.models.vendor;
 
 public class MyLeadsPojo {
-    String name,service,description,cancelled_reason,phone_number;
+    String name="",service="",description="",cancelled_reason="",phone_number="";
+    String status_name="", booking_id="";
+
+    public String getStatus_name() {
+        return status_name;
+    }
+
+    public void setStatus_name(String status_name) {
+        this.status_name = status_name;
+    }
+
+    public String getBooking_id() {
+        return booking_id;
+    }
+
+    public void setBooking_id(String booking_id) {
+        this.booking_id = booking_id;
+    }
 
     public String getPhone_number() {
         return phone_number;

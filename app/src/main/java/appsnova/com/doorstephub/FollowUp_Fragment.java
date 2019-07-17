@@ -1,7 +1,9 @@
 package appsnova.com.doorstephub;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -41,8 +44,9 @@ FollowUp_RecyclerView_Adapter followUp_recyclerView_adapter;
 int statusCode;
 String statusMessage;
 RecyclerView accepeted_recyclerview;
-ProgressDialog progressDialog;
+Dialog progressDialog;
 SharedPref sharedPref;
+SwipeRefreshLayout follow_up_swipeRL;
 
 
 
@@ -61,7 +65,7 @@ SharedPref sharedPref;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        progressDialog = UrlUtility.showProgressDialog(getActivity());
+        progressDialog = UrlUtility.showCustomDialog(getActivity());
         sharedPref = new SharedPref(getActivity());
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_followup, container, false);
@@ -71,6 +75,14 @@ SharedPref sharedPref;
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         accepeted_recyclerview= view.findViewById(R.id.accepeted_recycler_view);
+        follow_up_swipeRL = view.findViewById(R.id.follow_up_swipeRL);
+        follow_up_swipeRL.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+        follow_up_swipeRL.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getFollowUp_DetailsFromServer();
+            }
+        });
        /* accepted_leadpojo = new MyLeadsPojo("sai","hyderabad","Desciption about sai");
         myaccepeted_pojolist.add(accepted_leadpojo);
         accepted_leadpojo = new MyLeadsPojo("sree","bangalore","Description about sree");
@@ -82,7 +94,6 @@ SharedPref sharedPref;
         accepted_leadpojo = new MyLeadsPojo("ram","vizag","Description about ram");
         myaccepeted_pojolist.add(accepted_leadpojo);*/
         getFollowUp_DetailsFromServer();
-
     }
 
     private void getFollowUp_DetailsFromServer() {
@@ -92,7 +103,13 @@ SharedPref sharedPref;
             @Override
             public void onResponse(String response) {
                 myfollowup_pojolist.clear();
-                progressDialog.dismiss();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+                    }
+                },3000);
+                follow_up_swipeRL.setRefreshing(false);
                 Log.d("VendorBookingsResponse", "onResponse: "+response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -137,7 +154,9 @@ SharedPref sharedPref;
                 HashMap<String,String> params = new HashMap<>();
                 params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
                 params.put("status_name","Follow Up");
+                Log.d("MainParams", "getParams:FollowUp"+params.toString());
                 return params;
+
             }
         };
         VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
