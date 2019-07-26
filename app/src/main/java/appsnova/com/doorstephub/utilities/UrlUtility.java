@@ -22,7 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import appsnova.com.doorstephub.R;
 
 public class UrlUtility {
-    public  static final String BASE_URL="https://doorstephub.com/api/index.php/";
+    public  static final String BASE_URL="https://www.doorstephub.com/api/index.php/";
 //    public  static final String BASE_URL="http://10.10.10.142/api/index.php/";
    // public  static final String BASE_URL="http://192.168.43.77/api/index.php/";
     public static final String SERVICES_LIST_URL=BASE_URL+"Services/ServicesList";

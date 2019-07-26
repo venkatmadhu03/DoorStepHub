@@ -199,7 +199,7 @@
                             android:id="@+id/latest_completed_textview_name"
                             android:text="Name:"
                             android:textStyle="bold"
-                            android:textSize="20sp"
+                            android:textSize="14sp"
                             android:textColor="@color/colorBlack"/>
                         <!-- </LinearLayout>-->
 
@@ -208,19 +208,19 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/latest_completed_descriptionTV"
                             android:text="Description:"
-                            android:textSize="20sp"/>
+                            android:textSize="14sp"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/latest_completed_serviceTV"
                             android:text="Service:"
-                            android:textSize="20sp"/>
+                            android:textSize="14sp"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/latest_completed_statusTV"
                             android:text="Status:"
-                            android:textSize="20sp"
+                            android:textSize="14sp"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"/>
                     </LinearLayout>
@@ -268,7 +268,7 @@
                             android:id="@+id/latest_pending_textview_name"
                             android:text="Name:"
                             android:textStyle="bold"
-                            android:textSize="20sp"
+                            android:textSize="14sp"
                             android:textColor="@color/colorBlack"/>
                         <!-- </LinearLayout>-->
 
@@ -277,19 +277,19 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/latest_pending_descriptionTV"
                             android:text="Description:"
-                            android:textSize="20sp"/>
+                            android:textSize="14sp"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/latest_pending_serviceTV"
                             android:text="Service:"
-                            android:textSize="20sp"/>
+                            android:textSize="14sp"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/latest_pending_statusTV"
                             android:text="Status:"
-                            android:textSize="20sp"
+                            android:textSize="14sp"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"/>
                     </LinearLayout>
@@ -337,7 +337,7 @@
                             android:id="@+id/latest_cancelled_textview_name"
                             android:text="Name:"
                             android:textStyle="bold"
-                            android:textSize="20sp"
+                            android:textSize="14sp"
                             android:textColor="@color/colorBlack"/>
                         <!-- </LinearLayout>-->
 
@@ -346,19 +346,19 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/latest_cancelled_descriptionTV"
                             android:text="Description:"
-                            android:textSize="20sp"/>
+                            android:textSize="14sp"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/latest_cancelled_serviceTV"
                             android:text="Service:"
-                            android:textSize="20sp"/>
+                            android:textSize="14sp"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/latest_cancelled_statusTV"
                             android:text="Status:"
-                            android:textSize="20sp"
+                            android:textSize="14sp"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"/>
                     </LinearLayout>

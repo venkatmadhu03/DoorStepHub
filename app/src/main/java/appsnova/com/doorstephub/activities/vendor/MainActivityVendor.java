@@ -444,6 +444,7 @@ public class MainActivityVendor extends AppCompatActivity
                progressDialog.dismiss();
 //                main_SwipeRL.setRefreshing(false);
                 try {
+                    Log.d("MainActivity", "onResponse:LatetPending "+response);
                     JSONObject jsonObject = new JSONObject(response);
                     latest_bookings_statusCode = jsonObject.getInt("statusCode");
                     latest_bookings_statusMessage = jsonObject.getString("statusMessage");
@@ -487,7 +488,7 @@ public class MainActivityVendor extends AppCompatActivity
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.VENDOR_LATEST_BOOKINGS_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("LatestBookingsStatus", "onResponse: "+response);
+                Log.d("LatestBookingsStatus", "onResponse:Cancelled "+response);
                progressDialog.dismiss();
 //                main_SwipeRL.setRefreshing(false);
                 try {

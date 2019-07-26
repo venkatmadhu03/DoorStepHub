@@ -118,8 +118,8 @@ public class Answered_Fragment extends Fragment {
                     JSONObject jsonObject = new JSONObject(response);
                     statusCode = jsonObject.getInt("statusCode");
                     statusMessage = jsonObject.getString("statusMessage");
-                    JSONArray jsonArray = jsonObject.getJSONArray("response");
                     if(statusCode==200){
+                        JSONArray jsonArray = jsonObject.getJSONArray("response");
                         for(int i=0;i<jsonArray.length();i++){
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                             MyLeadsPojo myLeadsPojo = new MyLeadsPojo();

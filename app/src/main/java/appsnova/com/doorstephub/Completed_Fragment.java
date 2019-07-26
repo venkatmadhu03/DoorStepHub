@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,12 +44,15 @@ import appsnova.com.doorstephub.utilities.VolleySingleton;
 public class Completed_Fragment extends Fragment {
     List<MyLeadsPojo> mycompleted_pojolist = new ArrayList<>();
     Completed_RecyclerView_Adapter completed_recyclerView_adapter;
-    RecyclerView completed_recyclerview;
     int statusCode;
     String statusMessage;
     Dialog progressDialog;
     SharedPref sharedPref;
+
+    TextView noCompletedLeadsTv;
     SwipeRefreshLayout completed_swipeRL;
+    RecyclerView completed_recyclerview;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +74,7 @@ public class Completed_Fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         completed_recyclerview= view.findViewById(R.id.completed_recyclerview);
         completed_swipeRL = view.findViewById(R.id.completed_swipeRL);
+        noCompletedLeadsTv = view.findViewById(R.id.noCompletedLeadsTv);
 
         getCompleted_DetailsFromServer();
 
@@ -122,8 +127,12 @@ public class Completed_Fragment extends Fragment {
                     JSONObject jsonObject = new JSONObject(response);
                     statusCode = jsonObject.getInt("statusCode");
                     statusMessage = jsonObject.getString("statusMessage");
-                    JSONArray jsonArray = jsonObject.getJSONArray("response");
+
                     if(statusCode==200){
+                        completed_recyclerview.setVisibility(View.VISIBLE);
+                        noCompletedLeadsTv.setVisibility(View.GONE);
+
+                        JSONArray jsonArray = jsonObject.getJSONArray("response");
                         for(int i=0;i<jsonArray.length();i++){
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                             MyLeadsPojo myLeadsPojo = new MyLeadsPojo();
@@ -135,6 +144,9 @@ public class Completed_Fragment extends Fragment {
                         completed_recyclerView_adapter =new Completed_RecyclerView_Adapter(getContext(),mycompleted_pojolist);
                         completed_recyclerview.setAdapter(completed_recyclerView_adapter);
                         completed_recyclerView_adapter.notifyDataSetChanged();
+                    }else{
+                        completed_recyclerview.setVisibility(View.GONE);
+                        noCompletedLeadsTv.setVisibility(View.VISIBLE);
                     }
 
                 } catch (JSONException e) {

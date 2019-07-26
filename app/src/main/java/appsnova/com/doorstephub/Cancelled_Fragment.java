@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -48,8 +49,9 @@ public class Cancelled_Fragment extends Fragment {
     int statusCode;
     String statusMessage;
     RecyclerView cancelled_Leads_RV;
-   Cancelled_Recyclerview_Adapter cancelled_recyclerview_adapter;
-   SwipeRefreshLayout cancelled_swipeRL;
+    TextView noCancelledLeadsTv;
+    Cancelled_Recyclerview_Adapter cancelled_recyclerview_adapter;
+    SwipeRefreshLayout cancelled_swipeRL;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,6 +68,7 @@ public class Cancelled_Fragment extends Fragment {
 
         cancelled_Leads_RV= view.findViewById(R.id.cancelled_recycler_view);
         cancelled_swipeRL = view.findViewById(R.id.cancelled_swipeRL);
+        noCancelledLeadsTv = view.findViewById(R.id.noCancelledLeadsTv);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         cancelled_Leads_RV.setLayoutManager(linearLayoutManager);
@@ -101,8 +104,12 @@ public class Cancelled_Fragment extends Fragment {
                     JSONObject jsonObject = new JSONObject(response);
                     statusCode = jsonObject.getInt("statusCode");
                     statusMessage = jsonObject.getString("statusMessage");
-                    JSONArray jsonArray = jsonObject.getJSONArray("response");
+
                     if(statusCode==200){
+                        cancelled_Leads_RV.setVisibility(View.VISIBLE);
+                        noCancelledLeadsTv.setVisibility(View.GONE);
+
+                        JSONArray jsonArray = jsonObject.getJSONArray("response");
                         for(int i=0;i<jsonArray.length();i++){
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                             MyLeadsPojo myLeadsPojo = new MyLeadsPojo();
@@ -121,6 +128,9 @@ public class Cancelled_Fragment extends Fragment {
                         cancelled_recyclerview_adapter= new Cancelled_Recyclerview_Adapter(myLeadsPojoList,getContext());
                         cancelled_Leads_RV.setAdapter(cancelled_recyclerview_adapter);
                         cancelled_recyclerview_adapter.notifyDataSetChanged();
+                    }else{
+                        cancelled_Leads_RV.setVisibility(View.GONE);
+                        noCancelledLeadsTv.setVisibility(View.VISIBLE);
                     }
 
                 } catch (JSONException e) {

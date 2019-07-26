@@ -2,6 +2,7 @@ package appsnova.com.doorstephub.activities.vendor;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
@@ -81,13 +82,15 @@ public class MyBookingsVendorActivity extends AppCompatActivity {
         MyBookingsViewPagerAdapter viewPagerAdapter = new MyBookingsViewPagerAdapter(getSupportFragmentManager());
 
         viewPagerAdapter.addFragment(new Answered_Fragment(),"Answered");
-        if(sharedPref.getStringValue("user_role").equalsIgnoreCase("4")){
+        Log.d("User_role", "setupViewPager: "+sharedPref.getStringValue("role_id"));
+        if(sharedPref.getStringValue("role_id").equalsIgnoreCase("4")){
             viewPagerAdapter.addFragment(new FollowUp_Fragment(),"Follow Up");
             viewPager.setOffscreenPageLimit(4);
+        }else{
+            viewPager.setOffscreenPageLimit(3);
         }
         viewPagerAdapter.addFragment(new Completed_Fragment(),"Completed");
         viewPagerAdapter.addFragment(new Cancelled_Fragment(),"Cancelled");
-        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(viewPagerAdapter);
     }
 
@@ -117,59 +120,6 @@ public class MyBookingsVendorActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    /*public void mybookingsdetails()
-    {
-        MyBookingsVendorModel bookingsModel = new MyBookingsVendorModel("#834536",
-                "Harbhajan Singh","Microwave Open Service and Repairs","Grill Microwave","10/6/2018 6:17:14PM","Completed");
-        myBookingsModels.add(bookingsModel);
-
-        bookingsModel = new MyBookingsVendorModel("#834544",
-                "Bharath","Refrigerator Service and Repairs","Single Door Fridge repair","15/6/2018 7:17:14PM","Rejected");
-        myBookingsModels.add(bookingsModel);
-
-        bookingsModel = new MyBookingsVendorModel("#834545",
-                "Swamy","Painting Service","Commercial","20/6/2018 8:17:14PM","Cancel");
-        myBookingsModels.add(bookingsModel);
-
-        bookingsModel = new MyBookingsVendorModel("#834548",
-                "Singh","Computer Service and Repairs","Desktop","01/8/2018 9:17:14PM","Completed");
-        myBookingsModels.add(bookingsModel);
-
-        bookingsModel = new MyBookingsVendorModel("#834544",
-                "Bharath","Refrigerator Service and Repairs","Single Door Fridge repair","15/6/2018 7:17:14PM","Rejected");
-        myBookingsModels.add(bookingsModel);
-
-        bookingsModel = new MyBookingsVendorModel("#834545",
-                "Swamy","Painting Service","Commercial","20/6/2018 8:17:14PM","Cancel");
-        myBookingsModels.add(bookingsModel);
-
-        bookingsModel = new MyBookingsVendorModel("#834548",
-                "Singh","Computer Service and Repairs","Desktop","01/8/2018 9:17:14PM","Completed");
-        myBookingsModels.add(bookingsModel);
-
-        bookingsModel = new MyBookingsVendorModel("#834548",
-                "Singh","Computer Service and Repairs","Desktop","01/8/2018 9:17:14PM","Rejected");
-        myBookingsModels.add(bookingsModel);
-
-        bookingsModel = new MyBookingsVendorModel("#834544",
-                "Bharath","Refrigerator Service and Repairs","Single Door Fridge repair","15/6/2018 7:17:14PM","Cancel");
-        myBookingsModels.add(bookingsModel);
-
-        bookingsModel = new MyBookingsVendorModel("#834545",
-                "Swamy","Painting Service","Commercial","20/6/2018 8:17:14PM","Completed");
-        myBookingsModels.add(bookingsModel);
-
-        bookingsModel = new MyBookingsVendorModel("#834548",
-                "Singh","Computer Service and Repairs","Desktop","01/8/2018 9:17:14PM","Cancel");
-        myBookingsModels.add(bookingsModel);
-
-
-
-
-        myBookingsAdapter.notifyDataSetChanged();
-
-    }*/
 
     @Override
     public boolean onSupportNavigateUp() {
