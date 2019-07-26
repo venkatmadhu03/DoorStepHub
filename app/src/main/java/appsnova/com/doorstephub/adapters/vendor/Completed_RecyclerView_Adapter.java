@@ -73,22 +73,23 @@ public class Completed_RecyclerView_Adapter  extends RecyclerView.Adapter<Comple
 
     @Override
     public void onBindViewHolder(@NonNull CompletedViewHolder completedViewHolder, int i) {
-        MyLeadsPojo myLeadsPojo = myCompletedLeadsPojoList.get(i);
+        final MyLeadsPojo myLeadsPojo = myCompletedLeadsPojoList.get(i);
         completedViewHolder.textView_completedname.setText("Name:"+myLeadsPojo.getName());
         completedViewHolder.textView_completedcity.setText("Service:"+myLeadsPojo.getService());
         completedViewHolder.textView_completed_description.setText("Description:"+myLeadsPojo.getDescription());
         completedViewHolder.button_completedpay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mcontext, "Pay Amount...", Toast.LENGTH_SHORT).show();
-                openForm();
+
+                openForm(myLeadsPojo.getBooking_id());
             }
         });
     }
 
-    private void openForm() {
+    private void openForm(String orderId) {
         Intent intent;
         intent = new Intent(mcontext, CompletedBilingFormActivity.class);
+        intent.putExtra("orderId", orderId);
         mcontext.startActivity(intent);
         /*  Dialog dialog = new Dialog(mcontext);
         dialog.setContentView(R.layout.completed_payform_dialog);

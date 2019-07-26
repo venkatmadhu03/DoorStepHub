@@ -23,6 +23,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.instamojo.android.Instamojo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,23 +90,6 @@ public class Completed_Fragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         completed_recyclerview.setLayoutManager(linearLayoutManager);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
-                /*  completed_recyclerView_adapter =new Completed_RecyclerView_Adapter(getContext(),mycompleted_pojolist);
-        completed_leadpojo = new MyLeadsPojo("Sai","hyderabad","Description about sai");
-        mycompleted_pojolist.add(completed_leadpojo);
-        completed_leadpojo = new MyLeadsPojo("sree","bangalore","Description about Sree");
-        mycompleted_pojolist.add(completed_leadpojo);
-        completed_leadpojo = new MyLeadsPojo("Rao","chennai","Description about Rao");
-        mycompleted_pojolist.add(completed_leadpojo);
-        completed_leadpojo = new MyLeadsPojo("Raj","mumbai","Description about Raj");
-        mycompleted_pojolist.add(completed_leadpojo);
-        completed_leadpojo = new MyLeadsPojo("Ram","vizag","Description about Ram");
-        mycompleted_pojolist.add(completed_leadpojo);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        completed_recyclerview.setLayoutManager(linearLayoutManager);
-        completed_recyclerview.setAdapter(completed_recyclerView_adapter);
-*/
     }
 
     private void getCompleted_DetailsFromServer() {

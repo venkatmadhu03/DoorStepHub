@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.instamojo.android.Instamojo;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -27,7 +28,7 @@ import java.io.IOException;
 
 import appsnova.com.doorstephub.R;
 
-public class CompletedBilingFormActivity extends AppCompatActivity {
+public class CompletedBilingFormActivity extends AppCompatActivity implements Instamojo.InstamojoPaymentCallback {
     EditText tot_billing_amnt_ET,spare_parts_cost_ET,repairing_Cost_ET,visiting_Charges_ET;
     public TextView payable_amount_to_company_TV,upload_biling_TV,multiselectTV;
     public ImageView upload_billing_cpy,multiselect_IV;
@@ -38,9 +39,20 @@ public class CompletedBilingFormActivity extends AppCompatActivity {
     double finalAmountPayableToCompany;
     double visiting_chrgs_amt;
     public int GALLERY_REQUEST = 1;
+    String orderId="";
+
+    Bundle bundle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        bundle = getIntent().getExtras();
+        if (bundle !=null){
+            orderId = bundle.getString("orderId");
+        }
+
+        Instamojo.getInstance().initialize(this, Instamojo.Environment.TEST);
+
         setContentView(R.layout.completed_payform_dialog);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -113,10 +125,13 @@ public class CompletedBilingFormActivity extends AppCompatActivity {
         pay_amount_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(CompletedBilingFormActivity.this, "Redirect To Payment Gateway...", Toast.LENGTH_SHORT).show();
-            }
+                initiateSDKPayment(orderId);            }
         });
 
+    }
+
+    private void initiateSDKPayment(String orderID) {
+        Instamojo.getInstance().initiatePayment(this, orderID, this);
     }
 
     @Override
@@ -165,5 +180,20 @@ public class CompletedBilingFormActivity extends AppCompatActivity {
             finishAfterTransition();
         }
         return super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onInstamojoPaymentComplete(String s, String s1, String s2, String s3) {
+        Toast.makeText(this, "Success Payment "+s, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPaymentCancelled() {
+        Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onInitiatePaymentFailure(String s) {
+        Toast.makeText(this, "Payment Failed "+s, Toast.LENGTH_SHORT).show();
     }
 }
