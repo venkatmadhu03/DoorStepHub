@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -50,6 +51,7 @@ public class Answered_Fragment extends Fragment {
     RecyclerView answered_Leads_RV;
     Answer_Recyclerview_Adapter answer_recyclerview_adapter;
     SwipeRefreshLayout answered_swipeRL;
+    TextView noLeadsTv;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +72,7 @@ public class Answered_Fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         answered_Leads_RV= view.findViewById(R.id.answered_recycler_view);
         answered_swipeRL = view.findViewById(R.id.answered_swipeRL);
+        noLeadsTv=view.findViewById(R.id.noLeadsTv);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         answered_Leads_RV.setLayoutManager(linearLayoutManager);
@@ -119,6 +122,10 @@ public class Answered_Fragment extends Fragment {
                     statusCode = jsonObject.getInt("statusCode");
                     statusMessage = jsonObject.getString("statusMessage");
                     if(statusCode==200){
+                        if (answered_Leads_RV.getVisibility()==View.GONE){
+                            noLeadsTv.setVisibility(View.GONE);
+                            answered_Leads_RV.setVisibility(View.VISIBLE);
+                        }
                         JSONArray jsonArray = jsonObject.getJSONArray("response");
                         for(int i=0;i<jsonArray.length();i++){
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -134,6 +141,9 @@ public class Answered_Fragment extends Fragment {
                         answer_recyclerview_adapter= new Answer_Recyclerview_Adapter(myLeadsPojoList,getContext());
                         answered_Leads_RV.setAdapter(answer_recyclerview_adapter);
                         answer_recyclerview_adapter.notifyDataSetChanged();
+                    }else {
+                        noLeadsTv.setVisibility(View.VISIBLE);
+                        answered_Leads_RV.setVisibility(View.GONE);
                     }
 
                 } catch (JSONException e) {

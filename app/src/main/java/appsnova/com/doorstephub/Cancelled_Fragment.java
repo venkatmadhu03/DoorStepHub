@@ -52,6 +52,7 @@ public class Cancelled_Fragment extends Fragment {
     TextView noCancelledLeadsTv;
     Cancelled_Recyclerview_Adapter cancelled_recyclerview_adapter;
     SwipeRefreshLayout cancelled_swipeRL;
+    String bookingId="",bookingStatus="";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -119,8 +120,10 @@ public class Cancelled_Fragment extends Fragment {
                             if(jsonObject1.has("cancellation_reason")){
                                 myLeadsPojo.setCancelled_reason(jsonObject1.getString("cancellation_reason"));
                             }
-                            sharedPref.setStringValue("vendor_booking_status",jsonObject1.getString("status_name"));
-                            sharedPref.setStringValue("vendor_booking_id",jsonObject1.getString("booking_id"));
+                            myLeadsPojo.setBooking_id(jsonObject1.getString("booking_id"));
+                            myLeadsPojo.setStatus_name(jsonObject1.getString("status_name"));
+                            sharedPref.setStringValue("vendor_booking_status",myLeadsPojo.getStatus_name());
+                            sharedPref.setStringValue("vendor_booking_id", myLeadsPojo.getBooking_id());
                             myLeadsPojoList.add(myLeadsPojo);
 
                         }

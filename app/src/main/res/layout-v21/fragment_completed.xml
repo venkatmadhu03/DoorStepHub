@@ -27,7 +27,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/noCompletedLeadsTv"
-            android:text="No Bookings"
+            android:text="No Completed Bookings"
+            android:gravity="center"
+            android:textSize="16dp"
+            android:layout_centerInParent="true"
             android:visibility="gone"/>
 
     </RelativeLayout>

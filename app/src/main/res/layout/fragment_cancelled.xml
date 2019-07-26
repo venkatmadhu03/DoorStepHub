@@ -23,7 +23,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/noCancelledLeadsTv"
-            android:text="No Bookings"/>
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textSize="16dp"
+            android:text="No Cancelled Bookings"/>
     </RelativeLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

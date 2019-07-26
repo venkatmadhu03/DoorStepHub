@@ -17,8 +17,19 @@
                 android:layout_height="match_parent"
                 android:id="@+id/answered_recycler_view">
             </androidx.recyclerview.widget.RecyclerView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/noLeadsTv"
+                android:gravity="center"
+                android:textSize="16dp"
+                android:visibility="gone"
+                android:text="No Answered bookings"
+                android:layout_centerInParent="true"/>
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 
 
 </FrameLayout>

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -47,6 +48,7 @@ RecyclerView accepeted_recyclerview;
 Dialog progressDialog;
 SharedPref sharedPref;
 SwipeRefreshLayout follow_up_swipeRL;
+TextView noFollowupsTv;
 
 
 
@@ -76,6 +78,7 @@ SwipeRefreshLayout follow_up_swipeRL;
         super.onViewCreated(view, savedInstanceState);
         accepeted_recyclerview= view.findViewById(R.id.accepeted_recycler_view);
         follow_up_swipeRL = view.findViewById(R.id.follow_up_swipeRL);
+        noFollowupsTv=view.findViewById(R.id.noFollowupsTv);
         follow_up_swipeRL.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
         follow_up_swipeRL.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -110,13 +113,17 @@ SwipeRefreshLayout follow_up_swipeRL;
                     }
                 },3000);
                 follow_up_swipeRL.setRefreshing(false);
-                Log.d("VendorBookingsResponse", "onResponse: "+response);
+                Log.d("VendorBookingsResponse", "onResponse Followup: "+response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     statusCode = jsonObject.getInt("statusCode");
                     statusMessage = jsonObject.getString("statusMessage");
-                    JSONArray jsonArray = jsonObject.getJSONArray("response");
                     if(statusCode==200){
+                        JSONArray jsonArray = jsonObject.getJSONArray("response");
+                        if (accepeted_recyclerview.getVisibility()==View.GONE){
+                            accepeted_recyclerview.setVisibility(View.VISIBLE);
+                            noFollowupsTv.setVisibility(View.GONE);
+                        }
                         for(int i=0;i<jsonArray.length();i++){
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                             MyLeadsPojo myLeadsPojo = new MyLeadsPojo();
@@ -132,6 +139,9 @@ SwipeRefreshLayout follow_up_swipeRL;
                         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
                         accepeted_recyclerview.setAdapter(followUp_recyclerView_adapter);
                         followUp_recyclerView_adapter.notifyDataSetChanged();
+                    }else {
+                        noFollowupsTv.setVisibility(View.VISIBLE);
+                        accepeted_recyclerview.setVisibility(View.GONE);
                     }
 
                 } catch (JSONException e) {

@@ -157,7 +157,7 @@ public class FollowUp_RecyclerView_Adapter extends RecyclerView.Adapter<FollowUp
                 params.put("Booking_ID",sharedPref.getStringValue("vendor_booking_id"));
                 params.put("booking_status","complete");
 
-                Log.d("FollowBookings_params", "getParams:"+params.toString());
+                Log.d("FollowBookings_params", "getParams:"+new JSONObject(params).toString());
                 return params;
             }
         };

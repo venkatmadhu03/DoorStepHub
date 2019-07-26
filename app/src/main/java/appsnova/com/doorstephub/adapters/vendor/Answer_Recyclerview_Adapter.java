@@ -276,7 +276,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
                 params.put("Booking_ID",sharedPref.getStringValue("vendor_booking_id"));
                 params.put("booking_status","cancel");
 
-                Log.d("Bookings_params", "getParams: "+params.toString());
+                Log.d("Bookings_params", "getParams: "+new JSONObject(params).toString());
 
                 return params;
             }
