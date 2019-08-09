@@ -46,6 +46,10 @@ public class UrlUtility {
     public static final String VENDOR_LATEST_BOOKINGS_URL =BASE_URL+"Bookings/VendorLatestBooking";
     public static final String VENDOR_BOOKINGS_DEDUCTBALANCE_URL =BASE_URL+"Bookings/DeductBalance";
 
+    //Payment URL
+    public static final String CREATE_PAYMENT_REQUEST_URL = BASE_URL+"Payments/CreatePaymentRequest";
+
+
     public static ProgressDialog showProgressDialog(Context mContext) {
         ProgressDialog progressDialog = new ProgressDialog(mContext);
         progressDialog.setMessage(mContext.getResources().getString(R.string.progress_message));

@@ -81,15 +81,16 @@ public class Completed_RecyclerView_Adapter  extends RecyclerView.Adapter<Comple
             @Override
             public void onClick(View v) {
 
-                openForm(myLeadsPojo.getBooking_id());
+                openForm(myLeadsPojo.getBooking_id(), myLeadsPojo.getService());
             }
         });
     }
 
-    private void openForm(String orderId) {
+    private void openForm(String orderId, String service) {
         Intent intent;
         intent = new Intent(mcontext, CompletedBilingFormActivity.class);
-        intent.putExtra("orderId", orderId);
+        intent.putExtra("bookingId", orderId);
+        intent.putExtra("service", service);
         mcontext.startActivity(intent);
         /*  Dialog dialog = new Dialog(mcontext);
         dialog.setContentView(R.layout.completed_payform_dialog);

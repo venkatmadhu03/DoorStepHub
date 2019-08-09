@@ -20,38 +20,62 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.instamojo.android.Instamojo;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import appsnova.com.doorstephub.R;
+import appsnova.com.doorstephub.utilities.NetworkUtils;
+import appsnova.com.doorstephub.utilities.SharedPref;
+import appsnova.com.doorstephub.utilities.UrlUtility;
+import appsnova.com.doorstephub.utilities.VolleySingleton;
 
 public class CompletedBilingFormActivity extends AppCompatActivity implements Instamojo.InstamojoPaymentCallback {
     EditText tot_billing_amnt_ET,spare_parts_cost_ET,repairing_Cost_ET,visiting_Charges_ET;
     public TextView payable_amount_to_company_TV,upload_biling_TV,multiselectTV;
     public ImageView upload_billing_cpy,multiselect_IV;
     Button pay_amount_btn,calc_Total_Amount;
-    double temporory_bill_amount;
+    double temporory_bill_amount=0, spare_parts_bill_amount=0;
     double thirtyPercentofTemporaryamnt;
     double eighteenPercentofresult;
     double finalAmountPayableToCompany;
-    double visiting_chrgs_amt;
+    double visiting_chrgs_amt=0;
     public int GALLERY_REQUEST = 1;
-    String orderId="";
+    String bookingId="", service="", payment_id="";
+
 
     Bundle bundle;
+
+
+    //Utils object creation
+    SharedPref sharedPref;
+    NetworkUtils networkUtils;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        sharedPref = new SharedPref(this);
+        networkUtils = new NetworkUtils(this);
+
         bundle = getIntent().getExtras();
         if (bundle !=null){
-            orderId = bundle.getString("orderId");
+            bookingId = bundle.getString("bookingId");
+            service = bundle.getString("service");
         }
 
-        Instamojo.getInstance().initialize(this, Instamojo.Environment.TEST);
+        Instamojo.getInstance().initialize(this, Instamojo.Environment.PRODUCTION);
 
         setContentView(R.layout.completed_payform_dialog);
 
@@ -77,7 +101,7 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements In
                 repairing_Cost_ET.setFocusable(true);
 
                 if(!tot_billing_amnt_ET.getText().toString().isEmpty()){
-                    temporory_bill_amount = Double.parseDouble(tot_billing_amnt_ET.getText().toString());
+                    /*temporory_bill_amount = Double.parseDouble(tot_billing_amnt_ET.getText().toString());
                     if((!spare_parts_cost_ET.getText().toString().isEmpty()) && (!spare_parts_cost_ET.getText().equals("")) ){
                         temporory_bill_amount = temporory_bill_amount-(Double.parseDouble(spare_parts_cost_ET.getText().toString()));
                         Log.d("sparerepair_initial", "onClick: "+temporory_bill_amount);
@@ -98,7 +122,7 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements In
 
                     if((!visiting_Charges_ET.getText().toString().isEmpty())  && (!visiting_Charges_ET.getText().equals("")) ){
                         visiting_chrgs_amt =(Double.parseDouble(visiting_Charges_ET.getText().toString()))+((18.0f/100.0f)  *(Double.parseDouble(visiting_Charges_ET.getText().toString())));
-                        payable_amount_to_company_TV.setText("Payable Amount to Company:"+visiting_chrgs_amt);
+                        payable_amount_to_company_TV.setText("Payable Amount to Company:"+String.format("%.2f", visiting_chrgs_amt));
                         Log.d("visiting charges Amount", "onClick: "+String.format("%.2f", visiting_chrgs_amt));
                         spare_parts_cost_ET.setFocusable(false);
                         spare_parts_cost_ET.setClickable(false);
@@ -107,7 +131,26 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements In
                         repairing_Cost_ET.setClickable(false);
                         repairing_Cost_ET.setFocusable(false);
                         repairing_Cost_ET.setFocusable(false);
+                    }*/
+
+                    if(repairing_Cost_ET.getText().toString().isEmpty()  && (repairing_Cost_ET.getText().equals("")) ){
+                        spare_parts_bill_amount = 0;
+                    }else{
+                        spare_parts_bill_amount = Double.parseDouble(repairing_Cost_ET.getText().toString());
                     }
+                    if((!visiting_Charges_ET.getText().toString().isEmpty())  && (!visiting_Charges_ET.getText().equals("")) ){
+                        visiting_chrgs_amt =Double.parseDouble(visiting_Charges_ET.getText().toString());
+                    }else{
+                        visiting_chrgs_amt = 0;
+                    }
+
+                    temporory_bill_amount = spare_parts_bill_amount+visiting_chrgs_amt;
+                    thirtyPercentofTemporaryamnt=(30.0f/100.0f) * (temporory_bill_amount);
+                    eighteenPercentofresult = (18.0f/100.0f) * (thirtyPercentofTemporaryamnt);
+                    finalAmountPayableToCompany = eighteenPercentofresult + thirtyPercentofTemporaryamnt;
+
+                    payable_amount_to_company_TV.setText("Payable Amount to Company:"+String.format("%.2f", finalAmountPayableToCompany));
+
                 }
                 else{
                     Toast.makeText(CompletedBilingFormActivity.this, "Total Amount is Empty...", Toast.LENGTH_SHORT).show();
@@ -125,9 +168,57 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements In
         pay_amount_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initiateSDKPayment(orderId);            }
+                if (networkUtils.checkConnection()){
+                    sendRequestToServer();
+                }else{
+                    Toast.makeText(CompletedBilingFormActivity.this, "No Connection", Toast.LENGTH_SHORT).show();
+                }
+
+               // initiateSDKPayment(orderId);
+            }
         });
 
+    }
+
+    private void sendRequestToServer(){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.CREATE_PAYMENT_REQUEST_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("CompletePayment", "onResponse: "+response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getInt("statusCode") == 200){
+                        payment_id = jsonObject.getString("payment_id");
+                        initiateSDKPayment(payment_id);
+                    }else{
+                        payment_id="";
+                        Toast.makeText(CompletedBilingFormActivity.this, jsonObject.getString("statusMessage"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("CompletePayment", "onResponse: "+error.toString());
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<>();
+                params.put("amount", String.format("%.2f", finalAmountPayableToCompany));
+                params.put("service", service);
+                params.put("full_name", sharedPref.getStringValue("vendor_name"));
+                params.put("phone_number", sharedPref.getStringValue("mobile"));
+
+                Log.d("CompletePayment", "getParams: "+new JSONObject(params).toString());
+                return params;
+            }
+        };
+        VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
+        VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
     }
 
     private void initiateSDKPayment(String orderID) {
@@ -195,5 +286,7 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements In
     @Override
     public void onInitiatePaymentFailure(String s) {
         Toast.makeText(this, "Payment Failed "+s, Toast.LENGTH_SHORT).show();
+        Log.d("Payment", "Initiate payment failed "+s);
+
     }
 }

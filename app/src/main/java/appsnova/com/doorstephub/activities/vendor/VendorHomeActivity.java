@@ -105,6 +105,7 @@ public class VendorHomeActivity extends AppCompatActivity {
                                 sharedPref.setStringValue("role_id", role_id);
                                 sharedPref.setStringValue("Vendor_User_id", id);
                                 sharedPref.setStringValue("mobile", mobile);
+                                sharedPref.setStringValue("vendor_name", vendor_name);
 
                                 Log.d("Vendor_User_ID", "onResponse:"+"User_Id:"+id);
 
