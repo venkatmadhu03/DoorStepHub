@@ -26,6 +26,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.instamojo.android.Instamojo;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -42,18 +44,18 @@ import appsnova.com.doorstephub.utilities.SharedPref;
 import appsnova.com.doorstephub.utilities.UrlUtility;
 import appsnova.com.doorstephub.utilities.VolleySingleton;
 
-public class CompletedBilingFormActivity extends AppCompatActivity implements Instamojo.InstamojoPaymentCallback {
+public class CompletedBilingFormActivity extends AppCompatActivity implements PaymentResultListener {
     EditText tot_billing_amnt_ET,spare_parts_cost_ET,repairing_Cost_ET,visiting_Charges_ET;
     public TextView payable_amount_to_company_TV,upload_biling_TV,multiselectTV;
     public ImageView upload_billing_cpy,multiselect_IV;
     Button pay_amount_btn,calc_Total_Amount;
-    double temporory_bill_amount=0, spare_parts_bill_amount=0;
+    double temporory_bill_amount=0, spare_parts_bill_amount=0, repairing_bill_amount=0;
     double thirtyPercentofTemporaryamnt;
     double eighteenPercentofresult;
     double finalAmountPayableToCompany;
     double visiting_chrgs_amt=0;
     public int GALLERY_REQUEST = 1;
-    String bookingId="", service="", payment_id="";
+    String bookingId="", service="", uploaded_filename="", appointmentId="";
 
 
     Bundle bundle;
@@ -62,6 +64,7 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements In
     //Utils object creation
     SharedPref sharedPref;
     NetworkUtils networkUtils;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,9 +76,16 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements In
         if (bundle !=null){
             bookingId = bundle.getString("bookingId");
             service = bundle.getString("service");
+            appointmentId = bundle.getString("appointmentId");
+
+            Log.d("CompleteBilling", "onCreate: "+bookingId+"<"+service+","+appointmentId);
         }
 
-        Instamojo.getInstance().initialize(this, Instamojo.Environment.PRODUCTION);
+         /*
+         To ensure faster loading of the Checkout form,
+          call this method as early as possible in your checkout flow.
+         */
+        Checkout.preload(getApplicationContext());
 
         setContentView(R.layout.completed_payform_dialog);
 
@@ -100,60 +110,37 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements In
                 repairing_Cost_ET.setClickable(true);
                 repairing_Cost_ET.setFocusable(true);
 
-                if(!tot_billing_amnt_ET.getText().toString().isEmpty()){
-                    /*temporory_bill_amount = Double.parseDouble(tot_billing_amnt_ET.getText().toString());
-                    if((!spare_parts_cost_ET.getText().toString().isEmpty()) && (!spare_parts_cost_ET.getText().equals("")) ){
-                        temporory_bill_amount = temporory_bill_amount-(Double.parseDouble(spare_parts_cost_ET.getText().toString()));
-                        Log.d("sparerepair_initial", "onClick: "+temporory_bill_amount);
-                    }
-
-                    if(!repairing_Cost_ET.getText().toString().isEmpty()  && (!repairing_Cost_ET.getText().equals("")) ){
-                        temporory_bill_amount = temporory_bill_amount-(Double.parseDouble(repairing_Cost_ET.getText().toString()));
-                        Log.d("sparerepair_repair", "onClick:"+temporory_bill_amount);
-                    }
-
-                    thirtyPercentofTemporaryamnt=(30.0f/100.0f) * (temporory_bill_amount);
-                    Log.d("sparerepair30", "onClick: "+thirtyPercentofTemporaryamnt);
-                    eighteenPercentofresult = (18.0f/100.0f) * (thirtyPercentofTemporaryamnt);
-                    Log.d("sparerepair18", "onClick: "+eighteenPercentofresult);
-                    finalAmountPayableToCompany = eighteenPercentofresult + thirtyPercentofTemporaryamnt;
-                    Log.d("sparerepairfinal", "onClick: "+finalAmountPayableToCompany);
-                    payable_amount_to_company_TV.setText("Payable Amount to Company:"+String.format("%.2f", finalAmountPayableToCompany));
-
-                    if((!visiting_Charges_ET.getText().toString().isEmpty())  && (!visiting_Charges_ET.getText().equals("")) ){
-                        visiting_chrgs_amt =(Double.parseDouble(visiting_Charges_ET.getText().toString()))+((18.0f/100.0f)  *(Double.parseDouble(visiting_Charges_ET.getText().toString())));
-                        payable_amount_to_company_TV.setText("Payable Amount to Company:"+String.format("%.2f", visiting_chrgs_amt));
-                        Log.d("visiting charges Amount", "onClick: "+String.format("%.2f", visiting_chrgs_amt));
-                        spare_parts_cost_ET.setFocusable(false);
-                        spare_parts_cost_ET.setClickable(false);
-                        spare_parts_cost_ET.setActivated(false);
-                        repairing_Cost_ET.setActivated(false);
-                        repairing_Cost_ET.setClickable(false);
-                        repairing_Cost_ET.setFocusable(false);
-                        repairing_Cost_ET.setFocusable(false);
-                    }*/
+                if(!tot_billing_amnt_ET.getText().toString().isEmpty() && !uploaded_filename.isEmpty() ){
 
                     if(repairing_Cost_ET.getText().toString().isEmpty()  && (repairing_Cost_ET.getText().equals("")) ){
-                        spare_parts_bill_amount = 0;
+                        repairing_bill_amount = 0;
                     }else{
-                        spare_parts_bill_amount = Double.parseDouble(repairing_Cost_ET.getText().toString());
+                        repairing_bill_amount = Double.parseDouble(repairing_Cost_ET.getText().toString());
                     }
                     if((!visiting_Charges_ET.getText().toString().isEmpty())  && (!visiting_Charges_ET.getText().equals("")) ){
                         visiting_chrgs_amt =Double.parseDouble(visiting_Charges_ET.getText().toString());
                     }else{
                         visiting_chrgs_amt = 0;
                     }
+                    if(spare_parts_cost_ET.getText().toString().isEmpty()  && (repairing_Cost_ET.getText().equals("")) ){
+                        spare_parts_bill_amount = 0;
+                    }else{
+                        spare_parts_bill_amount = Double.parseDouble(repairing_Cost_ET.getText().toString());
+                    }
 
-                    temporory_bill_amount = spare_parts_bill_amount+visiting_chrgs_amt;
-                    thirtyPercentofTemporaryamnt=(30.0f/100.0f) * (temporory_bill_amount);
-                    eighteenPercentofresult = (18.0f/100.0f) * (thirtyPercentofTemporaryamnt);
-                    finalAmountPayableToCompany = eighteenPercentofresult + thirtyPercentofTemporaryamnt;
+                    temporory_bill_amount = repairing_bill_amount+visiting_chrgs_amt;
+                    if (Double.parseDouble(tot_billing_amnt_ET.getText().toString()) == temporory_bill_amount+ spare_parts_bill_amount){
+                        thirtyPercentofTemporaryamnt=(30.0f/100.0f) * (temporory_bill_amount);
+                        eighteenPercentofresult = (18.0f/100.0f) * (thirtyPercentofTemporaryamnt);
+                        finalAmountPayableToCompany = eighteenPercentofresult + thirtyPercentofTemporaryamnt;
 
-                    payable_amount_to_company_TV.setText("Payable Amount to Company:"+String.format("%.2f", finalAmountPayableToCompany));
+                        payable_amount_to_company_TV.setText("Payable Amount to Company:"+String.format("%.2f", finalAmountPayableToCompany));
+                    }
+
 
                 }
                 else{
-                    Toast.makeText(CompletedBilingFormActivity.this, "Total Amount is Empty...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CompletedBilingFormActivity.this, "Total Amount and bill upload is Mandatory", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -169,7 +156,8 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements In
             @Override
             public void onClick(View v) {
                 if (networkUtils.checkConnection()){
-                    sendRequestToServer();
+                    //sendRequestToServer();
+                    startPayment();
                 }else{
                     Toast.makeText(CompletedBilingFormActivity.this, "No Connection", Toast.LENGTH_SHORT).show();
                 }
@@ -180,7 +168,40 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements In
 
     }
 
-    private void sendRequestToServer(){
+    private void startPayment(){
+        /*
+          You need to pass current activity in order to let Razorpay create CheckoutActivity
+         */
+        final Activity activity = this;
+
+        final Checkout co = new Checkout();
+
+        try {
+            JSONObject options = new JSONObject();
+            options.put("name", sharedPref.getStringValue("vendor_name"));
+            options.put("description", service);
+            //You can omit the image option to fetch the image from dashboard
+            options.put("image", "https://www.doorstephub.com//themes/dhb/img/logo.png");
+            options.put("currency", "INR");
+            options.put("amount", String.format("%.0f", finalAmountPayableToCompany*100));
+
+            JSONObject preFill = new JSONObject();
+            preFill.put("email", "");
+            preFill.put("contact", sharedPref.getStringValue("mobile"));
+
+            options.put("prefill", preFill);
+
+            Log.d("CompleteBilling", "startPayment: "+options.toString());
+
+            co.open(activity, options);
+        } catch (Exception e) {
+            Toast.makeText(activity, "Error in payment: " + e.getMessage(), Toast.LENGTH_SHORT)
+                    .show();
+            e.printStackTrace();
+        }
+    }
+
+    private void sendRequestToServer(final String transactionId){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.CREATE_PAYMENT_REQUEST_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -188,10 +209,8 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements In
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getInt("statusCode") == 200){
-                        payment_id = jsonObject.getString("payment_id");
-                        initiateSDKPayment(payment_id);
+                        startActivity(new Intent(CompletedBilingFormActivity.this, MainActivityVendor.class));
                     }else{
-                        payment_id="";
                         Toast.makeText(CompletedBilingFormActivity.this, jsonObject.getString("statusMessage"), Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
@@ -209,9 +228,11 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements In
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("amount", String.format("%.2f", finalAmountPayableToCompany));
-                params.put("service", service);
-                params.put("full_name", sharedPref.getStringValue("vendor_name"));
-                params.put("phone_number", sharedPref.getStringValue("mobile"));
+                params.put("appointment_id", appointmentId);
+                params.put("booking_id", bookingId);
+                params.put("user_id", sharedPref.getStringValue("Vendor_User_id"));
+                params.put("role_id", sharedPref.getStringValue("role_id"));
+                params.put("transaction_id", transactionId);
 
                 Log.d("CompletePayment", "getParams: "+new JSONObject(params).toString());
                 return params;
@@ -219,11 +240,7 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements In
         };
         VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
         VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
-    }
-
-    private void initiateSDKPayment(String orderID) {
-        Instamojo.getInstance().initiatePayment(this, orderID, this);
-    }
+    } //end of sendRequestToSerer
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -246,6 +263,7 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements In
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                uploaded_filename = file.getName();
                 upload_billing_cpy.setImageBitmap(bitmap);
                 upload_biling_TV.setText(file.getName());
             }
@@ -274,19 +292,14 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements In
     }
 
     @Override
-    public void onInstamojoPaymentComplete(String s, String s1, String s2, String s3) {
-        Toast.makeText(this, "Success Payment "+s, Toast.LENGTH_SHORT).show();
+    public void onPaymentSuccess(String s) {
+       // Toast.makeText(this, "Success "+s, Toast.LENGTH_SHORT).show();
+        Log.d("PaymentSuccess", "onPaymentSuccess: "+s);
+        sendRequestToServer(s);
     }
 
     @Override
-    public void onPaymentCancelled() {
-        Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onInitiatePaymentFailure(String s) {
-        Toast.makeText(this, "Payment Failed "+s, Toast.LENGTH_SHORT).show();
-        Log.d("Payment", "Initiate payment failed "+s);
-
+    public void onPaymentError(int i, String s) {
+        Toast.makeText(this, "Error "+i+","+s, Toast.LENGTH_SHORT).show();
     }
 }

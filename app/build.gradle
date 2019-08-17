@@ -61,6 +61,9 @@ dependencies {
     //payment Gateway
     implementation 'com.instamojo:android-sdk:3.2.0'
 
+    //razor pay
+    implementation 'com.razorpay:checkout:1.5.12'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.2-alpha01'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.2-alpha01'

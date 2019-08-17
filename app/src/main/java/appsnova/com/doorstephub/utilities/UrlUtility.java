@@ -48,6 +48,7 @@ public class UrlUtility {
 
     //Payment URL
     public static final String CREATE_PAYMENT_REQUEST_URL = BASE_URL+"Payments/CreatePaymentRequest";
+    public static final String CREATE_ACCESS_TOKEN_URL = BASE_URL+"Payments/CreateAccessToken";
 
 
     public static ProgressDialog showProgressDialog(Context mContext) {

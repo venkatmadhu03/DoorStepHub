@@ -131,6 +131,10 @@ TextView noFollowupsTv;
                             myLeadsPojo.setService(jsonObject1.getString("name"));
                             myLeadsPojo.setDescription(jsonObject1.getString("requirement"));
                             myLeadsPojo.setPhone_number(jsonObject1.getString("user_mobile"));
+                            myLeadsPojo.setAppointment_id(jsonObject1.getString("appoitmentid"));
+                            myLeadsPojo.setBooking_id(jsonObject1.getString("booking_id"));
+                            myLeadsPojo.setTransaction_id(jsonObject1.getString("transaction_id"));
+
                             myfollowup_pojolist.add(myLeadsPojo);
                         }
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());

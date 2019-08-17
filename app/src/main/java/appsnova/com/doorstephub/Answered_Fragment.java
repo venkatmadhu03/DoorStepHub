@@ -133,8 +133,11 @@ public class Answered_Fragment extends Fragment {
                             myLeadsPojo.setName(jsonObject1.getString("user_name"));
                             myLeadsPojo.setService(jsonObject1.getString("name"));
                             myLeadsPojo.setDescription(jsonObject1.getString("requirement"));
-                            myLeadsPojo.setBooking_id(jsonObject1.getString("booking_id"));
                             myLeadsPojo.setStatus_name(jsonObject1.getString("status_name"));
+                            myLeadsPojo.setAppointment_id(jsonObject1.getString("appoitmentid"));
+                            myLeadsPojo.setBooking_id(jsonObject1.getString("booking_id"));
+                            myLeadsPojo.setTransaction_id(jsonObject1.getString("transaction_id"));
+
                             myLeadsPojoList.add(myLeadsPojo);
 
                         }

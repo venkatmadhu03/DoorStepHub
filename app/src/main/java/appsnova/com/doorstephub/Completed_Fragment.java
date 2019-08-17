@@ -123,6 +123,9 @@ public class Completed_Fragment extends Fragment {
                             myLeadsPojo.setName(jsonObject1.getString("user_name"));
                             myLeadsPojo.setService(jsonObject1.getString("name"));
                             myLeadsPojo.setDescription(jsonObject1.getString("requirement"));
+                            myLeadsPojo.setAppointment_id(jsonObject1.getString("appoitmentid"));
+                            myLeadsPojo.setBooking_id(jsonObject1.getString("booking_id"));
+                            myLeadsPojo.setTransaction_id(jsonObject1.getString("transaction_id"));
                             mycompleted_pojolist.add(myLeadsPojo);
                         }
                         completed_recyclerView_adapter =new Completed_RecyclerView_Adapter(getContext(),mycompleted_pojolist);

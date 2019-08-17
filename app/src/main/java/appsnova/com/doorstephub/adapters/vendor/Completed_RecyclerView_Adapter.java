@@ -72,106 +72,38 @@ public class Completed_RecyclerView_Adapter  extends RecyclerView.Adapter<Comple
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CompletedViewHolder completedViewHolder, int i) {
+    public void onBindViewHolder(@NonNull CompletedViewHolder completedViewHolder, final int i) {
         final MyLeadsPojo myLeadsPojo = myCompletedLeadsPojoList.get(i);
         completedViewHolder.textView_completedname.setText("Name:"+myLeadsPojo.getName());
         completedViewHolder.textView_completedcity.setText("Service:"+myLeadsPojo.getService());
         completedViewHolder.textView_completed_description.setText("Description:"+myLeadsPojo.getDescription());
+
+        if (myLeadsPojo.getTransaction_id().isEmpty() || myLeadsPojo.getTransaction_id().equalsIgnoreCase("0")
+                || myLeadsPojo.getTransaction_id().equalsIgnoreCase("null")){
+            completedViewHolder.button_completedpay.setVisibility(View.VISIBLE);
+        }else{
+            completedViewHolder.button_completedpay.setVisibility(View.GONE);
+        }
         completedViewHolder.button_completedpay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                openForm(myLeadsPojo.getBooking_id(), myLeadsPojo.getService());
+                openForm(myCompletedLeadsPojoList.get(i).getAppointment_id(), myCompletedLeadsPojoList.get(i).getService(),
+                        myCompletedLeadsPojoList.get(i).getBooking_id());
             }
         });
     }
 
-    private void openForm(String orderId, String service) {
+    private void openForm(String orderId, String service, String bookingId) {
         Intent intent;
         intent = new Intent(mcontext, CompletedBilingFormActivity.class);
-        intent.putExtra("bookingId", orderId);
+        intent.putExtra("appointmentId", orderId);
         intent.putExtra("service", service);
+        intent.putExtra("bookingId", bookingId);
+
+
+        Log.d("Complete", "openForm: "+orderId+","+service);
         mcontext.startActivity(intent);
-        /*  Dialog dialog = new Dialog(mcontext);
-        dialog.setContentView(R.layout.completed_payform_dialog);
-
-        tot_billing_amnt_ET = dialog.findViewById(R.id.total_billing_amt_ET);
-        spare_parts_cost_ET = dialog.findViewById(R.id.spare_parts_cost_ET);
-        repairing_Cost_ET = dialog.findViewById(R.id.repairing_cost_ET);
-        visiting_Charges_ET = dialog.findViewById(R.id.visiting_charges_ET);
-        payable_amount_to_company_TV = dialog.findViewById(R.id.payable_amt_TV);
-        upload_biling_TV = dialog.findViewById(R.id.upload_bill_TV);
-        multiselectTV =dialog.findViewById(R.id.multiselect_TV);
-        upload_billing_cpy = dialog.findViewById(R.id.upload_Bill_IV);
-        multiselect_IV = dialog.findViewById(R.id.multi_select_IV);
-        pay_amount_btn = dialog.findViewById(R.id.pay_btn);
-        calc_Total_Amount =dialog.findViewById(R.id.calc_Total_Amount);
-
-        calc_Total_Amount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                spare_parts_cost_ET.setFocusable(true);
-                spare_parts_cost_ET.setClickable(true);
-                repairing_Cost_ET.setClickable(true);
-                repairing_Cost_ET.setFocusable(true);
-
-                if(!tot_billing_amnt_ET.getText().toString().isEmpty()){
-                    temporory_bill_amount = Double.parseDouble(tot_billing_amnt_ET.getText().toString());
-                    if((!spare_parts_cost_ET.getText().toString().isEmpty()) && (!spare_parts_cost_ET.getText().equals("")) ){
-                        temporory_bill_amount = temporory_bill_amount-(Double.parseDouble(spare_parts_cost_ET.getText().toString()));
-                        Log.d("sparerepair_initial", "onClick: "+temporory_bill_amount);
-                    }
-
-                    if(!repairing_Cost_ET.getText().toString().isEmpty()  && (!repairing_Cost_ET.getText().equals("")) ){
-                        temporory_bill_amount = temporory_bill_amount-(Double.parseDouble(repairing_Cost_ET.getText().toString()));
-                        Log.d("sparerepair_repair", "onClick:"+temporory_bill_amount);
-                    }
-
-                    thirtyPercentofTemporaryamnt=(30.0f/100.0f) * (temporory_bill_amount);
-                    Log.d("sparerepair30", "onClick: "+thirtyPercentofTemporaryamnt);
-                    eighteenPercentofresult = (18.0f/100.0f) * (thirtyPercentofTemporaryamnt);
-                    Log.d("sparerepair18", "onClick: "+eighteenPercentofresult);
-                    finalAmountPayableToCompany = eighteenPercentofresult + thirtyPercentofTemporaryamnt;
-                    Log.d("sparerepairfinal", "onClick: "+finalAmountPayableToCompany);
-                    payable_amount_to_company_TV.setText("Payable Amount to Company:"+String.format("%.2f", finalAmountPayableToCompany));
-
-                    if((!visiting_Charges_ET.getText().toString().isEmpty())  && (!visiting_Charges_ET.getText().equals("")) ){
-                        visiting_chrgs_amt =(Double.parseDouble(visiting_Charges_ET.getText().toString()))+((18.0f/100.0f)  *(Double.parseDouble(visiting_Charges_ET.getText().toString())));
-                        payable_amount_to_company_TV.setText("Payable Amount to Company:"+visiting_chrgs_amt);
-                        Log.d("visiting charges Amount", "onClick: "+String.format("%.2f", visiting_chrgs_amt));
-                        spare_parts_cost_ET.setFocusable(false);
-                        spare_parts_cost_ET.setClickable(false);
-                        spare_parts_cost_ET.setActivated(false);
-                        repairing_Cost_ET.setActivated(false);
-                        repairing_Cost_ET.setClickable(false);
-                        repairing_Cost_ET.setFocusable(false);
-                        repairing_Cost_ET.setFocusable(false);
-                    }
-                }
-                else{
-                    Toast.makeText(mcontext, "Total Amount is Empty...", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        upload_billing_cpy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                intent.addCategory(Intent.CATEGORY_OPENABLE);
-//                intent.setType("image/*");
-
-//                ((Activity) mcontext).startActivityForResult(Intent.createChooser(intent,"ChooseImage"), GALLERY_REQUEST);
-                ((Activity)mcontext).startActivityForResult(intent,GALLERY_REQUEST);
-            }
-        });
-        pay_amount_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mcontext, "Redirect To Payment Gateway...", Toast.LENGTH_SHORT).show();
-            }
-        });
-        dialog.show();*/
     }
     @Override
     public int getItemCount() {

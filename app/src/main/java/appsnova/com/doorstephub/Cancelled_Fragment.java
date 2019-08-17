@@ -120,8 +120,11 @@ public class Cancelled_Fragment extends Fragment {
                             if(jsonObject1.has("cancellation_reason")){
                                 myLeadsPojo.setCancelled_reason(jsonObject1.getString("cancellation_reason"));
                             }
-                            myLeadsPojo.setBooking_id(jsonObject1.getString("booking_id"));
                             myLeadsPojo.setStatus_name(jsonObject1.getString("status_name"));
+                            myLeadsPojo.setAppointment_id(jsonObject1.getString("appoitmentid"));
+                            myLeadsPojo.setBooking_id(jsonObject1.getString("booking_id"));
+                            myLeadsPojo.setTransaction_id(jsonObject1.getString("transaction_id"));
+
                             sharedPref.setStringValue("vendor_booking_status",myLeadsPojo.getStatus_name());
                             sharedPref.setStringValue("vendor_booking_id", myLeadsPojo.getBooking_id());
                             myLeadsPojoList.add(myLeadsPojo);

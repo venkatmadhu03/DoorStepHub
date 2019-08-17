@@ -19,6 +19,15 @@
         android:roundIcon="@drawable/applogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_Y7soSq7iFxgW70"
+            />
+
+
+
         <activity android:name=".activities.vendor.CompletedBilingFormActivity">
 
         </activity>
