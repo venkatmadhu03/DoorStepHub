@@ -5,6 +5,15 @@ public class MyLeadsPojo {
     String status_name="";
     String booking_id="";
     String transaction_id="";
+    String enquiry_id="";
+
+    public String getEnquiry_id() {
+        return enquiry_id;
+    }
+
+    public void setEnquiry_id(String enquiry_id) {
+        this.enquiry_id = enquiry_id;
+    }
 
     public String getTransaction_id() {
         return transaction_id;

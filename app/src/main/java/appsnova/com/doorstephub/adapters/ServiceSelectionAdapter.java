@@ -107,6 +107,7 @@ public class ServiceSelectionAdapter extends RecyclerView.Adapter<ServiceSelecti
         for (int i =0; i < serviceSelectionModelList.size(); i++){
             ServiceSelectionModel itemModel = serviceSelectionModelList.get(i);
             if (itemModel.isSelected()){
+                Log.d("ServiceSelection", "getSelectedItem: "+itemModel.getId());
                 selectedItemsList.add(itemModel);
             }
         }

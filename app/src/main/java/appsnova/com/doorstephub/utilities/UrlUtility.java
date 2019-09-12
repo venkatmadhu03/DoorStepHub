@@ -46,6 +46,8 @@ public class UrlUtility {
     public static final String VENDOR_LATEST_BOOKINGS_URL =BASE_URL+"Bookings/VendorLatestBooking";
     public static final String VENDOR_BOOKINGS_DEDUCTBALANCE_URL =BASE_URL+"Bookings/DeductBalance";
 
+    public static final String GET_CITIES_URL = BASE_URL+"Services/GetCities";;
+
     //Payment URL
     public static final String CREATE_PAYMENT_REQUEST_URL = BASE_URL+"Payments/CreatePaymentRequest";
     public static final String CREATE_ACCESS_TOKEN_URL = BASE_URL+"Payments/CreateAccessToken";

@@ -5,22 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/mybookings_rowlayout">
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
         android:layout_marginBottom="8dp"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
         app:cardCornerRadius="8dp"
         app:cardElevation="5dp">
+
+        <View
+            android:layout_width="4dp"
+            android:layout_height="30dp"
+            android:background="@color/colorBlack"
+            android:id="@+id/bookings_view_id"
+            />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/booking_detailscontainer"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -31,9 +39,9 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:id="@+id/mybooking_orderidtxt"
-                    android:textSize="16sp"
-                    android:text="OrderId:"
+                    android:textSize="14sp"
                     android:textStyle="bold"
+                    android:text="OrderId:"
                     android:layout_marginBottom="3dp"/>
                 <TextView
                     android:layout_width="0dp"
@@ -43,6 +51,7 @@
                     android:text="Status"
                     android:textSize="16sp"
                     android:gravity="end"
+                    android:layout_marginRight="4dp"
                     android:layout_toRightOf="@id/mybooking_orderidtxt"
                     android:textStyle="bold"
                     android:layout_marginBottom="3dp"/>
@@ -54,24 +63,24 @@
                  android:text="Name:"
                  android:layout_below="@id/mybooking_orderidtxt"/>-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/mybooking_SelectedService"
-                android:text="Service:"
-                android:textSize="16sp"
-                android:layout_below="@id/booking_details"
-                android:textStyle="bold"
-                android:layout_marginBottom="3dp"/>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/mybooking_SelectedService"-->
+                <!--android:text="Service:"-->
+                <!--android:textSize="14sp"-->
+                <!--android:layout_below="@id/booking_details"-->
+                <!--android:layout_marginBottom="3dp"/>-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/mybooking_SelectedSubService"
                 android:text="SubService:"
-                android:textSize="16sp"
-                android:layout_below="@id/mybooking_SelectedService"
-                android:textStyle="bold"
-                android:layout_marginBottom="3dp"/>
+                android:textSize="14sp"
+                android:maxLength="20"
+                android:layout_below="@id/booking_details"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="@dimen/nav_header_vertical_spacing"/>
 
 
             <TextView
@@ -79,19 +88,23 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/mybooking_service_description"
                 android:text="Service Description:"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:layout_below="@id/mybooking_SelectedSubService"
                 android:maxLines="2"
                 />
+
             <TextView
+                android:id="@+id/mybooking_scheduledatetxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/mybooking_scheduledatetxt"
+                android:layout_below="@+id/booking_details"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="3dp"
+                android:drawableLeft="@android:drawable/ic_menu_my_calendar"
+                android:gravity="center"
                 android:text="Scheduled On:"
-                android:textSize="16sp"
-                android:layout_below="@id/mybooking_service_description"
-                android:textStyle="bold"
-                android:layout_marginBottom="3dp"/>
+                android:textSize="14sp" />
 
 
         </RelativeLayout>

@@ -65,7 +65,7 @@ public class FollowUp_RecyclerView_Adapter extends RecyclerView.Adapter<FollowUp
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AcceptedViewHolder acceptedViewHolder, int i) {
+    public void onBindViewHolder(@NonNull AcceptedViewHolder acceptedViewHolder, final int i) {
         final MyLeadsPojo myLeadsPojo = myfollow_upLeadsPojoList.get(i);
         acceptedViewHolder.textView_acceptedname.setText("Name:"+myLeadsPojo.getName());
         acceptedViewHolder.textView_acceptedcity.setText("Service:"+myLeadsPojo.getService());
@@ -80,7 +80,7 @@ public class FollowUp_RecyclerView_Adapter extends RecyclerView.Adapter<FollowUp
         acceptedViewHolder.button_accepetedstart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getUpdateBookingLeadsFromServer();
+                getUpdateBookingLeadsFromServer(myfollow_upLeadsPojoList.get(i).getBooking_id(), myfollow_upLeadsPojoList.get(i).getEnquiry_id());
             }
         });
         acceptedViewHolder.followup_cancel_btn.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +116,7 @@ public class FollowUp_RecyclerView_Adapter extends RecyclerView.Adapter<FollowUp
 
         }
     }
-    private void getUpdateBookingLeadsFromServer() {
+    private void getUpdateBookingLeadsFromServer(final String bookingId, final String enquiryId) {
         progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.UPDATE_VENDORBOOKINGS_URL, new Response.Listener<String>() {
             @Override
@@ -154,7 +154,7 @@ public class FollowUp_RecyclerView_Adapter extends RecyclerView.Adapter<FollowUp
                 HashMap<String,String> params = new HashMap<>();
                 params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
                 params.put("User_Role",sharedPref.getStringValue("role_id"));
-                params.put("Booking_ID",sharedPref.getStringValue("vendor_booking_id"));
+                params.put("Booking_ID",bookingId);
                 params.put("booking_status","complete");
 
                 Log.d("FollowBookings_params", "getParams:"+new JSONObject(params).toString());

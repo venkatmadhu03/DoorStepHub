@@ -20,50 +20,67 @@
         android:padding="@dimen/nav_header_vertical_spacing"
         app:srcCompat="@mipmap/ic_launcher_round" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/wallet_balance_TV"
-        android:layout_below="@id/navheader_imageview"
-        android:text="Wallet Balance"
-        android:drawableEnd="@drawable/vendor_wallet"
-        android:drawableTint="@color/colorWhite"
-        android:drawablePadding="5dp"
-        android:textColor="@color/colorWhite"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/wallet_balance_valueTV"
-        android:layout_below="@id/wallet_balance_TV"
-        android:text="1000"
-        android:gravity="center"
-        android:layout_marginStart="25dp"
-        android:textColor="@color/colorWhite"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-    <TextView
-        android:id="@+id/securityDeposit_TV"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/navheader_imageview"
-        android:layout_alignParentEnd="true"
-        android:text="Security Deposit"
-        android:drawableEnd="@drawable/refer_earn_vendor"
-        android:drawablePadding="5dp"
-        android:drawableTint="@color/colorWhite"
-        android:textColor="@color/colorWhite"/>
+        android:id="@+id/walletBalanceRL">
 
-    <TextView
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/wallet_balance_TV"
+            android:text="Wallet Balance"
+            android:drawableEnd="@drawable/vendor_wallet"
+            android:drawableTint="@color/colorWhite"
+            android:drawablePadding="5dp"
+            android:textColor="@color/colorWhite"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/wallet_balance_valueTV"
+            android:layout_below="@id/wallet_balance_TV"
+            android:text="1000"
+            android:gravity="center"
+            android:layout_marginStart="25dp"
+            android:textColor="@color/colorWhite"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/securityDeposit_valueTV"
-        android:layout_below="@id/securityDeposit_TV"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="55dp"
-        android:text="1000"
-        android:gravity="center"
-        android:layout_marginStart="25dp"
-        android:textColor="@color/colorWhite"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:id="@+id/securityDepositBalanceRL"
+        android:layout_below="@id/navheader_imageview"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/securityDeposit_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="Security Deposit"
+            android:drawableEnd="@drawable/refer_earn_vendor"
+            android:drawablePadding="5dp"
+            android:drawableTint="@color/colorWhite"
+            android:textColor="@color/colorWhite"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/securityDeposit_valueTV"
+            android:layout_below="@id/securityDeposit_TV"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="55dp"
+            android:text="1000"
+            android:gravity="center"
+            android:layout_marginStart="25dp"
+            android:textColor="@color/colorWhite"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

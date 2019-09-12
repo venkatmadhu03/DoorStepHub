@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class MyBookingsActivity extends AppCompatActivity {
 
@@ -65,8 +66,6 @@ public class MyBookingsActivity extends AppCompatActivity {
 
         noBookingsTextView = findViewById(R.id.noBookingsTextView);
 
-        Toast.makeText(this, "Under Development", Toast.LENGTH_SHORT).show();
-
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             Slide enter_transition = new Slide();
             enter_transition.setSlideEdge(Gravity.LEFT);
@@ -76,7 +75,7 @@ public class MyBookingsActivity extends AppCompatActivity {
         }
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
         new ActionBar.LayoutParams(250,90);
         //android.app.ActionBar.LayoutParams layoutParams = new android.app.ActionBar.LayoutParams(250,90);
         actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_background));

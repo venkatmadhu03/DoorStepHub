@@ -547,7 +547,8 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:onClick="servicespinner"/>
+                android:onClick="servicespinner"
+                android:visibility="gone"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -566,7 +567,8 @@
                 android:paddingEnd="8dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"/>
+                android:layout_marginRight="8dp"
+                android:visibility="gone"/>
             <Button
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
@@ -580,6 +582,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
                 android:layout_gravity="center"
                 android:background="@drawable/button_background"/>
         </LinearLayout>

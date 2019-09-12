@@ -6,6 +6,15 @@ public class ServiceCategoryModel {
     String id;
     String services_id;
     String service_image;
+    boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 
     public ServiceCategoryModel() {
     }

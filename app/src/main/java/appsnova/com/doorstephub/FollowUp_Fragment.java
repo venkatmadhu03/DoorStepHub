@@ -134,6 +134,7 @@ TextView noFollowupsTv;
                             myLeadsPojo.setAppointment_id(jsonObject1.getString("appoitmentid"));
                             myLeadsPojo.setBooking_id(jsonObject1.getString("booking_id"));
                             myLeadsPojo.setTransaction_id(jsonObject1.getString("transaction_id"));
+                            myLeadsPojo.setEnquiry_id(jsonObject1.getString("enquiry_id"));
 
                             myfollowup_pojolist.add(myLeadsPojo);
                         }

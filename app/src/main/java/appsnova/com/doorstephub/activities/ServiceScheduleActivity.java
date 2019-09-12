@@ -33,6 +33,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -53,7 +54,8 @@ public class ServiceScheduleActivity extends AppCompatActivity{
     NetworkUtils networkUtils;
     ProgressDialog progressDialog;
     SharedPref sharedPref;
-    String address="",service_id="",service_name="",intent_from="",service_selection_id="",date="",dateInPicker="",timeInPicker="";
+    String address="",service_id="",service_name="",intent_from="",service_selection_id="",
+            date="",dateInPicker="",timeInPicker="", service_selection_name="";
     Bundle bundle;
     int statusCode;
     String statusMessage;
@@ -73,7 +75,7 @@ public class ServiceScheduleActivity extends AppCompatActivity{
 
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
         new ActionBar.LayoutParams(250,90);
         //android.app.ActionBar.LayoutParams layoutParams = new android.app.ActionBar.LayoutParams(250,90);
         actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_background));
@@ -97,7 +99,7 @@ public class ServiceScheduleActivity extends AppCompatActivity{
             service_name = bundle.getString("Service_Name");
             intent_from=bundle.getString("IntentFrom");
             service_selection_id=bundle.getString("serviceSelectionId");
-            Log.d("bundlevalues", "onCreate: "+service_id+","+intent_from+","+service_selection_id);
+            service_selection_name = bundle.getString("serviceSelections");
         }
 
         editText_name = findViewById(R.id.editText_name);
@@ -115,28 +117,8 @@ public class ServiceScheduleActivity extends AppCompatActivity{
 
         editText_phone.setText(sharedPref.getStringValue("MobileNumber"));
         editText_SelectedService.setText(service_name);
-        editText_SelectedSubService.setText(service_selection_id);
+        editText_SelectedSubService.setText(service_selection_name);
 
-
-/*
-        editText_date.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final int DRAWABLE_LEFT = 0;
-                final int DRAWABLE_TOP = 1;
-                final int DRAWABLE_RIGHT = 2;
-                final int DRAWABLE_BOTTOM = 3;
-
-                if(event.getAction() == MotionEvent.ACTION_UP) {
-                    if(event.getRawX() >= (editText_date.getRight() - editText_date.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        // your action here
-                        editText_date.setText("");
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });*/
 
         serviveschedulebutton = findViewById(R.id.serviveschedulebutton);
         serviceschedule_checkbox = findViewById(R.id.serviceschedule_checkbox);
@@ -270,9 +252,9 @@ public class ServiceScheduleActivity extends AppCompatActivity{
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params=new HashMap<>();
-                params.put("User_ID",sharedPref.getStringValue("User_Id"));//local = 70, remote=65
+                params.put("User_ID",sharedPref.getStringValue("User_Id"));
                 params.put("service_id",service_id);//first page id
-                params.put("service_subcat_id",service_selection_id);//second page id
+                params.put("service_subcat_id",service_selection_id.substring(0, service_selection_id.lastIndexOf(",")));
                 params.put("requirement",editText_description.getText().toString());//description
                 params.put("lead_from","2");//2
                 params.put("address",address);

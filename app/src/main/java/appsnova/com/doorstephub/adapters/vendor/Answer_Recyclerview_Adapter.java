@@ -102,10 +102,12 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
                    eighteen_percent_deduction = (18.0f/100.0f) * (standard_amount);
                    final_amount = standard_amount+eighteen_percent_deduction;
                    Log.d("FinalAmount", "onClick: "+ String.format("%.2f", final_amount));
-                   deductAmountResultFromServer(myLeadsPojo.getBooking_id(), myLeadsPojo.getStatus_name());
+                   deductAmountResultFromServer(myLeadsPojoList.get(pos).getBooking_id(),
+                           myLeadsPojoList.get(pos).getStatus_name(), myLeadsPojoList.get(pos).getEnquiry_id());
 
                }else{
-                   getAcceptedBookingFromServer(myLeadsPojo.getBooking_id(), myLeadsPojo.getStatus_name());
+                   getAcceptedBookingFromServer(myLeadsPojo.getBooking_id(),
+                           myLeadsPojo.getStatus_name(), myLeadsPojoList.get(pos).getEnquiry_id());
                }
 
             }
@@ -119,7 +121,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
 
     }
 
-    private void deductAmountResultFromServer(final String statusId, final String statusName) {
+    private void deductAmountResultFromServer(final String statusId, final String statusName, final String enquiry_id) {
         progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.VENDOR_BOOKINGS_DEDUCTBALANCE_URL, new Response.Listener<String>() {
             @Override
@@ -131,7 +133,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
                     statusCode = jsonObject.getInt("statusCode");
                     statusMessage = jsonObject.getString("statusMessage");
                     if(statusCode==200){
-                        getAcceptedBookingFromServer(statusId, statusName);
+                        getAcceptedBookingFromServer(statusId, statusName, enquiry_id);
                     }else{
                         Toast.makeText(mcontext, statusMessage, Toast.LENGTH_SHORT).show();
                     }
@@ -184,7 +186,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
         }
     }
 
-    private void getAcceptedBookingFromServer(final String bookingId, String statusName) {
+    private void getAcceptedBookingFromServer(final String bookingId, String statusName, final String enquiry_id) {
         progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.UPDATE_VENDORBOOKINGS_URL, new Response.Listener<String>() {
             @Override
@@ -221,6 +223,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
                 params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
                 params.put("User_Role",sharedPref.getStringValue("role_id"));
                 params.put("Booking_ID", bookingId);
+                params.put("enquiry_id", enquiry_id);
                 if (sharedPref.getStringValue("role_id").equalsIgnoreCase("5")){
                     params.put("booking_status","complete");
                 }else{

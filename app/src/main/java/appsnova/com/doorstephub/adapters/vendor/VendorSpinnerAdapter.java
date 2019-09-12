@@ -12,12 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import appsnova.com.doorstephub.R;
+import appsnova.com.doorstephub.models.ServiceCategoryModel;
 import appsnova.com.doorstephub.models.vendor.SpinnerPojoVendor;
 
 public class VendorSpinnerAdapter extends RecyclerView.Adapter<VendorSpinnerAdapter.MyViewHolder>{
 
-    List<SpinnerPojoVendor> myDatalist;
-    public VendorSpinnerAdapter(List<SpinnerPojoVendor> spinnerPojo) {
+    List<ServiceCategoryModel> myDatalist;
+    public VendorSpinnerAdapter(List<ServiceCategoryModel> spinnerPojo) {
         this.myDatalist = spinnerPojo;
     }
 
@@ -34,7 +35,7 @@ public class VendorSpinnerAdapter extends RecyclerView.Adapter<VendorSpinnerAdap
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
 
-        final SpinnerPojoVendor myData = myDatalist.get(i);
+        final ServiceCategoryModel myData = myDatalist.get(i);
         myViewHolder.spinner_checkbox.setText(myData.getName());
         myViewHolder.spinner_checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

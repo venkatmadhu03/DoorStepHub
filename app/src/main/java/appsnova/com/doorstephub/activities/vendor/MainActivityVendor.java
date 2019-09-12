@@ -129,14 +129,6 @@ public class MainActivityVendor extends AppCompatActivity
         progressDialog = UrlUtility.showCustomDialog(MainActivityVendor.this);
         sharedPref = new SharedPref(MainActivityVendor.this);
 
-
-
-        getLatestCompletedBookingStatusesFromServer();
-        getLatestPendingBookingStatusesFromServer();
-        getLatestCancelledBookingStatusesFromServer();
-
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerlayout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -148,10 +140,6 @@ public class MainActivityVendor extends AppCompatActivity
         security_depositvalueTV= headerView.findViewById(R.id.securityDeposit_valueTV);
         walletBalanceTV= headerView.findViewById(R.id.wallet_balance_TV);
         securityDepositTV = headerView.findViewById(R.id.securityDeposit_TV);
-        /*if (networkUtils.checkConnection()){
-           // getCategoryListFromServer();
-        }*/
-        getProfileDetailsFromServer();
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -301,32 +289,6 @@ public class MainActivityVendor extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    /*private class CustomAdapter extends BaseAdapter {
-        @Override
-        public int getCount() {
-            return images.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = getLayoutInflater().inflate(R.layout.main_activity_grid_row_vendor,parent,false);
-            ImageView grid_image_view = convertView.findViewById(R.id.grid_image_view);
-            TextView grid_textview = convertView.findViewById(R.id.gridview_text);
-            grid_image_view.setImageResource(images[position]);
-            grid_textview.setText(imagetext[position]);
-            return convertView;
-        }
-    }*/
 //start of profileDetails
     private void getProfileDetailsFromServer() {
         progressDialog.show();
@@ -344,19 +306,12 @@ public class MainActivityVendor extends AppCompatActivity
                         JSONObject jsonObject1 = jsonObject.getJSONObject("response");
                         String role_id = jsonObject1.getString("role_id");
                         if(role_id.equalsIgnoreCase("5")){
-                            securityDepositTV.setVisibility(View.GONE);
-                            security_depositvalueTV.setVisibility(View.GONE);
-                            walletBalanceTV.setVisibility(View.VISIBLE);
-                            walletBalance_valueTV.setVisibility(View.VISIBLE);
+                            walletBalanceTV.setText("Wallet balance");
                             walletBalance_valueTV.setText(jsonObject1.getString("wallet_balance"));
                             Log.d("MainActivityVendor", "onResponse: wallet_balance"+jsonObject1.getString("wallet_balance"));
                         }else if(role_id.equalsIgnoreCase("4")){
-                            walletBalanceTV.setVisibility(View.GONE);
-                            walletBalance_valueTV.setVisibility(View.GONE);
-                            securityDepositTV.setVisibility(View.VISIBLE);
-                            security_depositvalueTV.setVisibility(View.VISIBLE);
-                            security_depositvalueTV.setText(jsonObject1.getString("security_deposit"));
-                            Log.d("MainActivityVendor", "onResponse:security_deposit "+jsonObject1.getString("security_deposit"));
+                            walletBalanceTV.setText("Security deposit");
+                            walletBalance_valueTV.setText(jsonObject1.getString("security_deposit"));
                         }
                     }
                 } catch (JSONException e) {
@@ -530,4 +485,15 @@ public class MainActivityVendor extends AppCompatActivity
     }
 //end of latestCancelled Bookings
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (networkUtils.checkConnection()){
+            getProfileDetailsFromServer();
+            getLatestCompletedBookingStatusesFromServer();
+            getLatestPendingBookingStatusesFromServer();
+            getLatestCancelledBookingStatusesFromServer();
+        }
+    }
 }

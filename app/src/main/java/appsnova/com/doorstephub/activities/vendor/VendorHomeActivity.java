@@ -91,13 +91,12 @@ public class VendorHomeActivity extends AppCompatActivity {
                                 id = jsonObject1.getString("id");
                                 role_id = jsonObject1.getString("role_id");
                                 vendor_name = jsonObject1.getString("vendor_name");
-                                cname = jsonObject1.getString("cname");
-                                address = jsonObject1.getString("address");
+                                cname = jsonObject1.getString("company");
+                                address = jsonObject1.getString("location");
                                 email = jsonObject1.getString("email");
                                 mobile = jsonObject1.getString("mobile");
                                 wallet_balance = jsonObject1.getString("wallet_balance");
                                 security_deposit = jsonObject1.getString("security_deposit");
-                                total_leads = jsonObject1.getString("total_leads");
                                 remaining_leads = jsonObject1.getString("remaining_leads");
                                 user_role = jsonObject1.getString("user_role");
                                 category_name = jsonObject1.getString("category_name");

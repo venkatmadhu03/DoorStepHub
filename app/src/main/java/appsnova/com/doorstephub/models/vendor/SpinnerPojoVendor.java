@@ -2,21 +2,28 @@ package appsnova.com.doorstephub.models.vendor;
 
 
 public class SpinnerPojoVendor {
-    String name;
+    String locationName="", id="";
     private boolean isSelected = false;
 
-    public SpinnerPojoVendor(String name) {
-        this.name = name;
+    public SpinnerPojoVendor() {
     }
 
-
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
     }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
     public void setSelected(boolean selected) {
         isSelected = selected;
     }

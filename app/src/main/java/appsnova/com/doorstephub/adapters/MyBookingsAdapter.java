@@ -1,7 +1,9 @@
 package appsnova.com.doorstephub.adapters;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,31 +51,36 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
         return myBookingsViewHolder;
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(@NonNull MyBookingsViewHolder holder, int position) {
         MyBookingsModel myBookingsModel = mybookingsfilteredlist.get(position);
 
-        holder.mybooking_orderidtxt.setText("Order ID:"+myBookingsModel.getOrderid());
-        holder.mybooking_service_description.setText("Service Description:"+myBookingsModel.getService_description());
-        holder.mybooking_SelectedService.setText("Service:"+myBookingsModel.getSelectedService());
-        holder.mybooking_SelectedSubService.setText("Sub Service:"+myBookingsModel.getSelectedSubService());
-        holder.mybooking_scheduleddatetxt.setText("Scheduled On:"+myBookingsModel.getScheduleddate());
-
+        holder.mybooking_orderidtxt.setText(myBookingsModel.getOrderid());
+        holder.mybooking_service_description.setText(myBookingsModel.getService_description());
+       // holder.mybooking_SelectedService.setText("Service:"+myBookingsModel.getSelectedService());
+        holder.mybooking_SelectedSubService.setText(myBookingsModel.getSelectedSubService());
+        holder.mybooking_scheduleddatetxt.setText(myBookingsModel.getScheduleddate());
 
         holder.mybooking_status.setText(myBookingsModel.getStatus());
 
         if(myBookingsModel.getStatus().equalsIgnoreCase("Open")){
-            holder.mybooking_status.setTextColor(Color.GREEN);
+            holder.mybooking_status.setTextColor(context.getColor(android.R.color.holo_green_light));
+            holder.bookings_view_id.setBackgroundColor(context.getColor(android.R.color.holo_green_light));
         }
         else if(myBookingsModel.getStatus().equalsIgnoreCase("Rejected")){
-            holder.mybooking_status.setTextColor(Color.RED);
+            holder.mybooking_status.setTextColor(context.getColor(android.R.color.holo_red_dark));
+            holder.bookings_view_id.setBackgroundColor(context.getColor(android.R.color.holo_red_dark));
         }
         else if(myBookingsModel.getStatus().equalsIgnoreCase("Close")){
-            holder.mybooking_status.setTextColor(Color.YELLOW);
+            holder.mybooking_status.setTextColor(context.getColor(android.R.color.holo_orange_dark));
+            holder.bookings_view_id.setBackgroundColor(context.getColor(android.R.color.holo_orange_dark));
+
         }
         else
         {
-            holder.mybooking_status.setTextColor(Color.BLUE);
+            holder.mybooking_status.setTextColor(context.getColor(android.R.color.holo_blue_bright));
+            holder.bookings_view_id.setBackgroundColor(context.getColor(android.R.color.holo_blue_bright));
         }
 
            /* for(int i=0;i<myBookingsModelList.size();i++){
@@ -131,16 +138,18 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
         TextView mybooking_orderidtxt,mybooking_service_description,mybooking_SelectedService,
                 mybooking_SelectedSubService,
                 mybooking_scheduleddatetxt,mybooking_status;
+        View bookings_view_id;
         public MyBookingsViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mybookings_rowlayout = itemView.findViewById(R.id.mybookings_rowlayout);
             mybooking_orderidtxt = itemView.findViewById(R.id.mybooking_orderidtxt);
             mybooking_service_description = itemView.findViewById(R.id.mybooking_service_description);
-            mybooking_SelectedService = itemView.findViewById(R.id.mybooking_SelectedService);
+           // mybooking_SelectedService = itemView.findViewById(R.id.mybooking_SelectedService);
             mybooking_SelectedSubService = itemView.findViewById(R.id.mybooking_SelectedSubService);
             mybooking_scheduleddatetxt = itemView.findViewById(R.id.mybooking_scheduledatetxt);
             mybooking_status = itemView.findViewById(R.id.mybooking_status);
+            bookings_view_id = itemView.findViewById(R.id.bookings_view_id);
         }
     }
     public interface ItemClickListener {

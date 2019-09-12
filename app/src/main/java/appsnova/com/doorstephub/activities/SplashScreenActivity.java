@@ -39,19 +39,15 @@ SharedPref sharedPref;
                             !sharedPref.getStringValue("User_Id").isEmpty()){
                         Log.d("sharedprefValue", "run: "+sharedPref.getStringValue("MobileNumber"));
                         startActivity(new Intent(SplashScreenActivity.this,HomeActivity.class));
+                        return;
+                    } else if(!sharedPref.getStringValue("mobile").isEmpty() &&
+                            !sharedPref.getStringValue("Vendor_User_id").isEmpty()){
+                        startActivity(new Intent(SplashScreenActivity.this, MainActivityVendor.class));
                     } else{
                         //startActivity(new Intent(SplashScreenActivity.this,LoginActivity.class));
                         startActivity(new Intent(SplashScreenActivity.this,Vendor_MerchantActivity.class));
-                    } if(!sharedPref.getStringValue("mobile").isEmpty() &&
-                            !sharedPref.getStringValue("Vendor_User_id").isEmpty()){
-                        startActivity(new Intent(SplashScreenActivity.this, MainActivityVendor.class));
                     }
-                    else{
-                        //startActivity(new Intent(SplashScreenActivity.this,LoginActivity.class));
-                        startActivity(new Intent(SplashScreenActivity.this,Vendor_MerchantActivity.class));
-                    }
-                }
-                else{
+                } else{
                     startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
                 }
             }

@@ -209,7 +209,6 @@ public class ServiceSelectionActivity extends AppCompatActivity {
 
     }//end of getSubServicesListFromServer
 
-
     public void serviceselection(View view) {
         if (service_name.contains("Computer")){
             services.setVisibility(View.VISIBLE);
@@ -284,7 +283,6 @@ public class ServiceSelectionActivity extends AppCompatActivity {
         if (selectedItemsCount == serviceSelectionModelList.size()){
             list = serviceSelectionAdapter.getSelectedItem();
             Log.d("list", "assignUsers: "+list);
-
         }else{
             list = serviceSelectionAdapter.getSelectedItem();
             Log.d("selectedLeadsCount", "assignUsers: "+list);
@@ -293,9 +291,11 @@ public class ServiceSelectionActivity extends AppCompatActivity {
 
         if (list.size() > 0){
             StringBuilder sb = new StringBuilder();
+            StringBuilder sbIds = new StringBuilder();
             for (int index = 0; index < list.size(); index++){
                 ServiceSelectionModel model = list.get(index);
-                sb.append(model.getName()+",");
+                sb.append(model.getName()).append(",");
+                sbIds.append(model.getId()).append(",");
             }
             //String output = sb.deleteCharAt(sb.lastIndexOf(",")).toString();
             Log.d("LeadList", "assignUsers: "+sb.toString());
@@ -304,7 +304,8 @@ public class ServiceSelectionActivity extends AppCompatActivity {
             intent.putExtra("Service_Id",service_Id);
             intent.putExtra("Service_Name",service_name);
             intent.putExtra("IntentFrom","serviceselection");
-            intent.putExtra("serviceSelectionId",sb.toString());
+            intent.putExtra("serviceSelectionId",sbIds.toString());
+            intent.putExtra("serviceSelections", sb.toString());
            // startActivity(intent);
             Log.d("intentvalues", "selectedItemsList: "+service_name+","+sb.toString());
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
