@@ -2,8 +2,12 @@ package appsnova.com.doorstephub.activities.vendor;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -50,9 +54,9 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements Pa
     public ImageView upload_billing_cpy,multiselect_IV;
     Button pay_amount_btn,calc_Total_Amount;
     double temporory_bill_amount=0, spare_parts_bill_amount=0, repairing_bill_amount=0;
-    double thirtyPercentofTemporaryamnt;
-    double eighteenPercentofresult;
-    double finalAmountPayableToCompany;
+    double thirtyPercentofTemporaryamnt=0;
+    double eighteenPercentofresult=0;
+    double finalAmountPayableToCompany=0;
     double visiting_chrgs_amt=0;
     public int GALLERY_REQUEST = 1;
     String bookingId="", service="", uploaded_filename="", appointmentId="";
@@ -128,14 +132,22 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements Pa
                         spare_parts_bill_amount = Double.parseDouble(repairing_Cost_ET.getText().toString());
                     }
 
-                    temporory_bill_amount = repairing_bill_amount+visiting_chrgs_amt;
-                    if (Double.parseDouble(tot_billing_amnt_ET.getText().toString()) == temporory_bill_amount+ spare_parts_bill_amount){
-                        thirtyPercentofTemporaryamnt=(30.0f/100.0f) * (temporory_bill_amount);
-                        eighteenPercentofresult = (18.0f/100.0f) * (thirtyPercentofTemporaryamnt);
+                    //temporory_bill_amount = repairing_bill_amount+visiting_chrgs_amt;
+                    temporory_bill_amount = repairing_bill_amount+visiting_chrgs_amt+spare_parts_bill_amount;
+                    if (Double.parseDouble(tot_billing_amnt_ET.getText().toString()) == temporory_bill_amount){
+                        thirtyPercentofTemporaryamnt=(10.0f/100.0f) * (temporory_bill_amount);
+                        //eighteenPercentofresult = (18.0f/100.0f) * (thirtyPercentofTemporaryamnt);
                         finalAmountPayableToCompany = eighteenPercentofresult + thirtyPercentofTemporaryamnt;
 
                         payable_amount_to_company_TV.setText("Payable Amount to Company:"+String.format("%.2f", finalAmountPayableToCompany));
                     }
+//                    if (Double.parseDouble(tot_billing_amnt_ET.getText().toString()) == temporory_bill_amount+ spare_parts_bill_amount){
+//                        thirtyPercentofTemporaryamnt=(30.0f/100.0f) * (temporory_bill_amount);
+//                        eighteenPercentofresult = (18.0f/100.0f) * (thirtyPercentofTemporaryamnt);
+//                        finalAmountPayableToCompany = eighteenPercentofresult + thirtyPercentofTemporaryamnt;
+//
+//                        payable_amount_to_company_TV.setText("Payable Amount to Company:"+String.format("%.2f", finalAmountPayableToCompany));
+//                    }
 
 
                 }
@@ -159,7 +171,7 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements Pa
                     //sendRequestToServer();
                     startPayment();
                 }else{
-                    Toast.makeText(CompletedBilingFormActivity.this, "No Connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CompletedBilingFormActivity.this, getApplicationContext().getResources().getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
                 }
 
                // initiateSDKPayment(orderId);
@@ -209,6 +221,7 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements Pa
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getInt("statusCode") == 200){
+                        buildNotification();
                         startActivity(new Intent(CompletedBilingFormActivity.this, MainActivityVendor.class));
                     }else{
                         Toast.makeText(CompletedBilingFormActivity.this, jsonObject.getString("statusMessage"), Toast.LENGTH_SHORT).show();
@@ -241,6 +254,34 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements Pa
         VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
         VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
     } //end of sendRequestToSerer
+
+    private void buildNotification(){
+        NotificationManager notificationManager= (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        NotificationCompat.Builder builder=new NotificationCompat.Builder(getApplicationContext());
+
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+            String channelId="DoorStepHub";
+            NotificationChannel notificationChannel=new NotificationChannel(channelId,"DoorStepHub", NotificationManager.IMPORTANCE_HIGH);
+            Notification testNotification=new Notification.Builder(getApplicationContext(),channelId)
+                    .setContentTitle("DoorStepHub")
+                    .setContentText("Payment Successful")
+                    .setSmallIcon(R.drawable.applogo)
+                    .setPriority(Notification.PRIORITY_HIGH)
+                    .setAutoCancel(true)
+                    .build();
+            notificationManager.createNotificationChannel(notificationChannel);
+            notificationManager.notify(0,testNotification);
+        }else {
+            Notification foregroundNote=builder.setContentTitle("DoorStepHub")
+                    .setSmallIcon(R.drawable.applogo)
+                    .setContentTitle("DoorStepHub")
+                    .setAutoCancel(true)
+                    .setContentText("Payment Successful")
+                    .build();
+            notificationManager.notify(0,foregroundNote);
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

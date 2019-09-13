@@ -61,10 +61,15 @@ public class Cancelled_Recyclerview_Adapter  extends RecyclerView.Adapter<Cancel
         final MyLeadsPojo myLeadsPojo = myLeadsPojoList.get(pos);
         Log.d("Acceptedlistsize", "onBindViewHolder: " + myLeadsPojoList.size());
         Log.d("AcceptedlistName", "onBindViewHolder: " + myLeadsPojo.getName());
-        myViewHolder.textView_name.setText("Name:" + myLeadsPojo.getName());
-        myViewHolder.textView_city.setText("Service:" + myLeadsPojo.getService());
-        myViewHolder.textView_description.setText("Description:" + myLeadsPojo.getDescription());
-        myViewHolder.cancellation_reasonTV.setText("Cancellation_Reason:" + myLeadsPojo.getCancelled_reason());
+        myViewHolder.textView_name.setText(myLeadsPojo.getName());
+        myViewHolder.textView_city.setText( myLeadsPojo.getService());
+        myViewHolder.textView_description.setText(myLeadsPojo.getDescription());
+        if (myLeadsPojo.getCancelled_reason().equalsIgnoreCase("null") || myLeadsPojo.getCancelled_reason() == null){
+            myViewHolder.cancellation_reasonTV.setText("No reason specified");
+        }else{
+            myViewHolder.cancellation_reasonTV.setText(myLeadsPojo.getCancelled_reason());
+        }
+
     }
 
 
