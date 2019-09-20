@@ -40,4 +40,8 @@ We provide a 30-day guarantee on all our services provided with the reference of
     service needs.We strive to be the best service providers and believe in treating our customes and business partners with honesty,
     courtesy and respect.</string>
     <string name="subheading">We are Doorstep Hub</string>
+
+    <string name="recharge_note">Note: Minimum wallet recharge must be greater than <font color="red"><b>7500</b></font></string>
+
+    <string name="rewards_note">Note: rewards can be earned when you make payment/recharge wallet </string>
 </resources>

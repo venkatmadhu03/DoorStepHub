@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_ltgray"
+    tools:context=".activities.vendor.WalletActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/nav_header_vertical_spacing">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="5dp"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="5dp"
+            android:id="@+id/rechargeWalletCardView">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rechargeWalletTIL"
+                    android:layout_toStartOf="@+id/rechargeWalletButton"
+                    android:layout_marginRight="@dimen/nav_header_vertical_spacing">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rechargeWalletEdittext"
+                        android:hint="Recharge amount"
+                        android:text="0"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rechargeWalletButton"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:layout_marginRight="4dp"
+                    android:text="Proceed"
+                    android:background="@drawable/button_background"
+                    android:textColor="@color/colorWhite"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rechargeWalletNoteTv"
+                    android:text="@string/recharge_note"
+                    android:layout_below="@+id/rechargeWalletTIL"
+                    android:layout_margin="@dimen/nav_header_vertical_spacing"/>
+
+            </RelativeLayout>
+
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/walletBalanceCardView"
+            android:elevation="5dp"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="5dp"
+            android:layout_below="@+id/rechargeWalletCardView">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/walletImageView"
+                    android:src="@drawable/vendor_wallet"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/walletBalanceLabelTv"
+                    android:text="DSH Wallet"
+                    android:layout_toEndOf="@+id/walletImageView"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/walletBalanceValueTv"
+                    android:text="0"
+                    android:layout_toEndOf="@+id/walletImageView"
+                    android:layout_below="@+id/walletBalanceLabelTv"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:drawableLeft="@mipmap/rupee"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"/>
+
+
+
+            </RelativeLayout>
+
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rewardsCardView"
+            android:elevation="5dp"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="5dp"
+            android:layout_below="@+id/walletBalanceCardView">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/rewardsImageView"
+                    android:src="@drawable/vendor_wallet"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rewardsLabelTv"
+                    android:text="Rewards"
+                    android:layout_toEndOf="@+id/rewardsImageView"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rewardsValueTv"
+                    android:text="0"
+                    android:layout_toEndOf="@+id/rewardsImageView"
+                    android:layout_below="@+id/rewardsLabelTv"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:drawableLeft="@mipmap/rupee"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rewardsNoteTv"
+                    android:text="@string/rewards_note"
+                    android:layout_below="@+id/rewardsValueTv"
+                    android:layout_margin="@dimen/nav_header_vertical_spacing"/>
+
+
+
+            </RelativeLayout>
+
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/remainingLeadsCardView"
+            android:elevation="5dp"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="5dp"
+            android:layout_below="@+id/rewardsCardView">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/remainingLeadsImageView"
+                    android:src="@drawable/vendor_wallet"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/remainingLeadsLabelTv"
+                    android:text="remaining Leads"
+                    android:layout_toEndOf="@+id/remainingLeadsImageView"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/remainingLeadsValueTv"
+                    android:text="0"
+                    android:layout_toEndOf="@+id/remainingLeadsImageView"
+                    android:layout_below="@+id/remainingLeadsLabelTv"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/remainingLeadsNoteTv"
+                    android:text="@string/rewards_note"
+                    android:layout_below="@+id/remainingLeadsValueTv"
+                    android:layout_margin="@dimen/nav_header_vertical_spacing"
+                    android:visibility="gone"/>
+
+
+            </RelativeLayout>
+
+
+
+        </androidx.cardview.widget.CardView>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -19,18 +19,13 @@
         android:roundIcon="@drawable/applogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".activities.vendor.WalletActivity"></activity>
 
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_Y7soSq7iFxgW70"
-            />
+            android:value="rzp_test_5Pt5TsAeyZpFiP" />
 
-
-
-        <activity android:name=".activities.vendor.CompletedBilingFormActivity">
-
-        </activity>
+        <activity android:name=".activities.vendor.CompletedBilingFormActivity"></activity>
         <activity
             android:name=".activities.Vendor_MerchantActivity"
             android:screenOrientation="portrait" />

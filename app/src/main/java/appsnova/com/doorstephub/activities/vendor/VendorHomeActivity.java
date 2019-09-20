@@ -60,7 +60,6 @@ public class VendorHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 localvalidation();
-
                 sharedPref.setStringValue("vendor_mobile_number",mobilenumberET.getText().toString());
                 sharedPref.setStringValue("vendor_password",passwordET.getText().toString());
 

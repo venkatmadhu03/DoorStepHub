@@ -33,26 +33,7 @@ public class MyBookingsVendorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_vendor_mybookings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Transactions");
-        /*mybookings_list = findViewById(R.id.mybookinglist);
-        myBookingsModels = new ArrayList<MyBookingsVendorModel>();
-        myBookingsAdapter = new MyBookingsVendorAdapter(MyBookingsVendorActivity.this, myBookingsModels, new MyBookingsVendorAdapter.ItemClickListener() {
-            @Override
-            public void onClickItem(View v, int pos) {
-                Toast.makeText(MyBookingsVendorActivity.this, myBookingsModels.get(pos).getUsername(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MyBookingsVendorActivity.this, MyBookingsResultVendorActivity.class);
-                intent.putExtra("selectedorderid",myBookingsModels.get(pos).getOrderid());
-                intent.putExtra("selectedorderusername",myBookingsModels.get(pos).getUsername());
-                intent.putExtra("selectedservicerequired",myBookingsModels.get(pos).getServicerequired());
-                intent.putExtra("selectedsubservice",myBookingsModels.get(pos).getSubservice());
-                intent.putExtra("scheduleddate",myBookingsModels.get(pos).getScheduleddate());
-                startActivity(intent);
-            }
-        });*/
-       /* LinearLayoutManager linearLayoutManager =new LinearLayoutManager(MyBookingsVendorActivity.this);
-        mybookings_list.setLayoutManager(linearLayoutManager);
-        mybookings_list.setItemAnimator(new DefaultItemAnimator());
-        mybookings_list.setAdapter(myBookingsAdapter);
-        mybookingsdetails();*/
+
         tabLayout = findViewById(R.id.tablayout);
         viewPager  =findViewById(R.id.view_pager);
 

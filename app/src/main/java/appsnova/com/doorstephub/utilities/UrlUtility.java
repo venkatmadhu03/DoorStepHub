@@ -41,7 +41,7 @@ public class UrlUtility {
     public static  final String VENDOR_GETPROFILE_URL = BASE_URL+"User/VendorGetProfile";
     public static  final String VENDOR_UPDATEPROFILE_URL = BASE_URL+"User/VendorUpdateProfile";
     public static final String VENDOR_GETBOOKINGS_URL = BASE_URL+"Bookings/GetVendorBookings";
-    public static final String UPDATE_VENDORBOOKINGS_URL = BASE_URL+"Bookings/UpdateVendorBookings";
+    public static final String UPDATE_VENDORBOOKINGS_URL = BASE_URL+"Bookings/UpdateVendorBo    okings";
     public static final String VENDOR_CANCELLED_REASONS_URL =BASE_URL+"Bookings/CancelledReasons";
     public static final String VENDOR_LATEST_BOOKINGS_URL =BASE_URL+"Bookings/VendorLatestBooking";
     public static final String VENDOR_BOOKINGS_DEDUCTBALANCE_URL =BASE_URL+"Bookings/DeductBalance";
@@ -50,7 +50,7 @@ public class UrlUtility {
 
     //Payment URL
     public static final String CREATE_PAYMENT_REQUEST_URL = BASE_URL+"Payments/CreatePaymentRequest";
-    public static final String CREATE_ACCESS_TOKEN_URL = BASE_URL+"Payments/CreateAccessToken";
+    public static final String PAYMENT_SUCCESS_URL = BASE_URL+"Payments/RechargeWallet";
 
 
     public static ProgressDialog showProgressDialog(Context mContext) {
@@ -153,3 +153,7 @@ public class UrlUtility {
     }
 
 }
+
+//certified technician --> % based
+//Verified technician --> lead based
+//premium technician --> lead cost 375

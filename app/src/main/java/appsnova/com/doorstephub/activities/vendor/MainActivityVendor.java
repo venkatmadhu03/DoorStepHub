@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,6 +21,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.navigation.NavigationView;
+import com.instamojo.android.models.Wallet;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -58,21 +61,26 @@ public class MainActivityVendor extends AppCompatActivity
     LinearLayout sliderDotspanel;
     private int dotscount;
     private ImageView[] dots;
+
     NetworkUtils networkUtils;
     Dialog progressDialog;
     SharedPref sharedPref;
+
     TextView walletBalance_valueTV,security_depositvalueTV,walletBalanceTV,securityDepositTV;
+    NavigationView navigationView;
+
     String statusCode,statusMessage;
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
-    List<CategoryListPOJO> categoryListPOJOList;
 
+    List<CategoryListPOJO> categoryListPOJOList;
     private static final int TIME_DELAY = 2000;
     private static long back_pressed;
 
 
     CategoryListPOJO categoryListPOJO;
     CategoryListRecyclerViewAdapter categoryListRecyclerViewAdapter;
+
     int latest_bookings_statusCode;
     String latest_bookings_statusMessage;
 
@@ -81,25 +89,20 @@ public class MainActivityVendor extends AppCompatActivity
             latest_cancelled_Name_TV,latest_cancelled_City_TV,latest_cancelled_Description_TV,latest_cancelled_statusTV,latest_cancelled_serviceTV;
 
 
-    /*int images[] = {R.drawable.background, R.drawable.background, R.drawable.background,
-            R.drawable.background, R.drawable.background, R.drawable.background};
-    String imagetext[] = {"Computer Services and Repairs","TV Service & Repairs",
-            "Pest Control Services","AC Service & Repairs",
-            "Refrigarator Service & Repairs",
-            "Washing Machine Service & Repairs"};
-    CustomAdapter ca;*/
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        networkUtils = new NetworkUtils(MainActivityVendor.this);
+        progressDialog = UrlUtility.showCustomDialog(MainActivityVendor.this);
+        sharedPref = new SharedPref(MainActivityVendor.this);
+
         setContentView(R.layout.activity_main_vendor);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_vendor);
         toolbar.setTitleMargin(90,10,0,5);
         setSupportActionBar(toolbar);
 
-    //    gridView = findViewById(R.id.grid_view);
-       // category_recyclerView = findViewById(R.id.category_RV);
-      //  main_SwipeRL = findViewById(R.id.mainSwipeRl);
+        hideItem();
 
         categoryListPOJOList = new ArrayList<>();
         categoryListRecyclerViewAdapter = new CategoryListRecyclerViewAdapter(MainActivityVendor.this,categoryListPOJOList);
@@ -125,9 +128,6 @@ public class MainActivityVendor extends AppCompatActivity
         latest_cancelled_statusTV = findViewById(R.id.latest_cancelled_statusTV);
         latest_cancelled_serviceTV = findViewById(R.id.latest_cancelled_serviceTV);
 
-        networkUtils = new NetworkUtils(MainActivityVendor.this);
-        progressDialog = UrlUtility.showCustomDialog(MainActivityVendor.this);
-        sharedPref = new SharedPref(MainActivityVendor.this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerlayout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -209,16 +209,18 @@ public class MainActivityVendor extends AppCompatActivity
         });
     }
 
+    private void hideItem() {
+        if (sharedPref.getStringValue("role_id").equals("4")){
+            navigationView = (NavigationView) findViewById(R.id.nav_view);
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_wallet).setVisible(false);
+        }
+
+    }
+
     @Override
     public void onBackPressed() {
-      /*  DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerlayout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-*/
-      if (back_pressed + TIME_DELAY > System.currentTimeMillis()) {
+        if (back_pressed + TIME_DELAY > System.currentTimeMillis()) {
             super.onBackPressed();
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
@@ -228,8 +230,7 @@ public class MainActivityVendor extends AppCompatActivity
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             intent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
             startActivity(intent);
-        }
-        else {
+        }else{
             Toast.makeText(getApplicationContext(), "Press once again to exit!",
                     Toast.LENGTH_SHORT).show();
         }
@@ -242,6 +243,7 @@ public class MainActivityVendor extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
         if (id == R.id.nav_myprofile) {
             Intent intent = new Intent(MainActivityVendor.this, VendorMyProfileActivity.class);
             startActivity(intent);
@@ -257,7 +259,13 @@ public class MainActivityVendor extends AppCompatActivity
             startActivity(intent);
         }
         else if (id == R.id.nav_wallet) {
-            Toast.makeText(this, "Under Development...", Toast.LENGTH_SHORT).show();
+
+            if (networkUtils.checkConnection()){
+                Intent intent = new Intent(this, WalletActivity.class);
+                startActivity(intent);
+            }else {
+                UrlUtility.showCustomToast(getResources().getString(R.string.no_connection), this);
+            }
         }
         else if (id == R.id.nav_logout) {
             sharedPref.removeSession("mobile");

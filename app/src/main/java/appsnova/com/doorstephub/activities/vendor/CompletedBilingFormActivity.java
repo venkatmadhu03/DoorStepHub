@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import appsnova.com.doorstephub.R;
 import appsnova.com.doorstephub.utilities.NetworkUtils;
@@ -93,7 +94,8 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements Pa
 
         setContentView(R.layout.completed_payform_dialog);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
         tot_billing_amnt_ET = findViewById(R.id.total_billing_amt_ET);
         spare_parts_cost_ET = findViewById(R.id.spare_parts_cost_ET);
         repairing_Cost_ET = findViewById(R.id.repairing_cost_ET);
