@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -36,6 +38,11 @@ public class Vendor_MerchantActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_vendor_merchant);
 
         button_vendor = findViewById(R.id.vendor_btn);
@@ -43,7 +50,6 @@ public class Vendor_MerchantActivity extends AppCompatActivity {
         loginas_RL = findViewById(R.id.loginas_RL);
         login_submitbtn = findViewById(R.id.login_submitbtn);
         sharedPref = new SharedPref(Vendor_MerchantActivity.this);
-
 
         Animation animation  = AnimationUtils.loadAnimation(Vendor_MerchantActivity.this,R.anim.blink_anim);
         button_vendor.startAnimation(animation);
@@ -106,11 +112,11 @@ public class Vendor_MerchantActivity extends AppCompatActivity {
             }
         },600);*/
 
-        button_vendor.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,getResources().getDrawable(R.drawable.login_check),null);
-        button_customer.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,getResources().getDrawable(R.drawable.login_uncheck),null);
+        button_vendor.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,getResources().getDrawable(R.drawable.login_check_bg_blue),null);
+        button_customer.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,getResources().getDrawable(R.drawable.login_check_bg_white),null);
         login_type = "vendor";
 
-        Animation animation =AnimationUtils.loadAnimation(Vendor_MerchantActivity.this,R.anim.slide_in);
+        Animation animation =AnimationUtils.loadAnimation(Vendor_MerchantActivity.this,R.anim.blink_anim);
         login_submitbtn.setVisibility(View.VISIBLE);
         login_submitbtn.startAnimation(animation);
 
@@ -138,11 +144,11 @@ public class Vendor_MerchantActivity extends AppCompatActivity {
             }
         },600);*/
 
-        button_customer.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,getResources().getDrawable(R.drawable.login_check),null);
-        button_vendor.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,getResources().getDrawable(R.drawable.login_uncheck),null);
+        button_customer.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,getResources().getDrawable(R.drawable.login_check_bg_blue),null);
+        button_vendor.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,getResources().getDrawable(R.drawable.login_check_bg_white),null);
         login_type ="customer";
 
-        Animation animation =AnimationUtils.loadAnimation(Vendor_MerchantActivity.this,R.anim.slide_in);
+        Animation animation =AnimationUtils.loadAnimation(Vendor_MerchantActivity.this,R.anim.blink_anim);
         login_submitbtn.setVisibility(View.VISIBLE);
         login_submitbtn.startAnimation(animation);
     }

@@ -269,6 +269,7 @@ public class VendorMyProfileActivity extends AppCompatActivity implements View.O
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params = new HashMap<>();
                 params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
+                Log.d("VendorProfile", "getParams: "+new JSONObject(params));
                 return params;
             }
         };

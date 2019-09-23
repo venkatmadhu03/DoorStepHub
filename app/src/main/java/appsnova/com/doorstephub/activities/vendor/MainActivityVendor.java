@@ -86,7 +86,10 @@ public class MainActivityVendor extends AppCompatActivity
 
     TextView latest_completed_Name_TV,latest_completed_City_TV,latest_completed_Description_TV,latest_completed_statusTV,latest_completed_serviceTV,
             latest_pending_Name_TV,latest_pending_City_TV,latest_pending_Description_TV,latest_pending_statusTV,latest_pending_serviceTV,
-            latest_cancelled_Name_TV,latest_cancelled_City_TV,latest_cancelled_Description_TV,latest_cancelled_statusTV,latest_cancelled_serviceTV;
+            latest_cancelled_Name_TV,latest_cancelled_City_TV,latest_cancelled_Description_TV,latest_cancelled_statusTV,latest_cancelled_serviceTV, noLatestCancelledTV,
+            noLatestPendingTV, noLatestCompletedTV;
+    LinearLayout latest_completed_LL, latest_pending_LL, latest_cancelled_LL;
+
 
 
     @Override
@@ -112,6 +115,8 @@ public class MainActivityVendor extends AppCompatActivity
         latest_completed_Description_TV = findViewById(R.id.latest_completed_descriptionTV);
         latest_completed_statusTV = findViewById(R.id.latest_completed_statusTV);
         latest_completed_serviceTV = findViewById(R.id.latest_completed_serviceTV);
+        noLatestCompletedTV = findViewById(R.id.noLatestCompletedTV);
+        latest_completed_LL = findViewById(R.id.latest_completed_LL);
 
 
         latest_pending_Name_TV = findViewById(R.id.latest_pending_textview_name);
@@ -119,7 +124,8 @@ public class MainActivityVendor extends AppCompatActivity
         latest_pending_Description_TV = findViewById(R.id.latest_pending_descriptionTV);
         latest_pending_statusTV = findViewById(R.id.latest_pending_statusTV);
         latest_pending_serviceTV = findViewById(R.id.latest_pending_serviceTV);
-
+        noLatestPendingTV = findViewById(R.id.noLatestPendingTV);
+        latest_pending_LL = findViewById(R.id.latest_pending_LL);
 
 
         latest_cancelled_Name_TV = findViewById(R.id.latest_cancelled_textview_name);
@@ -127,6 +133,8 @@ public class MainActivityVendor extends AppCompatActivity
         latest_cancelled_Description_TV = findViewById(R.id.latest_cancelled_descriptionTV);
         latest_cancelled_statusTV = findViewById(R.id.latest_cancelled_statusTV);
         latest_cancelled_serviceTV = findViewById(R.id.latest_cancelled_serviceTV);
+        noLatestCancelledTV = findViewById(R.id.noLatestCancelledTV);
+        latest_cancelled_LL = findViewById(R.id.latest_cancelled_LL);
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerlayout);
@@ -313,7 +321,7 @@ public class MainActivityVendor extends AppCompatActivity
                     if(statusCode.equalsIgnoreCase("200")){
                         JSONObject jsonObject1 = jsonObject.getJSONObject("response");
                         String role_id = jsonObject1.getString("role_id");
-                        if(role_id.equalsIgnoreCase("5")){
+                        if(role_id.equalsIgnoreCase("5") || role_id.equalsIgnoreCase("6") || role_id.equalsIgnoreCase("7")){
                             walletBalanceTV.setText("Wallet balance");
                             walletBalance_valueTV.setText(jsonObject1.getString("wallet_balance"));
                             Log.d("MainActivityVendor", "onResponse: wallet_balance"+jsonObject1.getString("wallet_balance"));
@@ -364,6 +372,8 @@ public class MainActivityVendor extends AppCompatActivity
                     latest_bookings_statusCode = jsonObject.getInt("statusCode");
                     latest_bookings_statusMessage = jsonObject.getString("statusMessage");
                     if(latest_bookings_statusCode==200){
+                        latest_completed_LL.setVisibility(View.VISIBLE);
+                        noLatestCompletedTV.setVisibility(View.GONE);
                         JSONArray jsonArray = jsonObject.getJSONArray("response");
                         JSONObject jsonObject1 = jsonArray.getJSONObject(0);
 
@@ -371,6 +381,9 @@ public class MainActivityVendor extends AppCompatActivity
                         latest_completed_statusTV.setText("Status:"+jsonObject1.getString("status_name"));
                         latest_completed_Description_TV.setText("Description:"+jsonObject1.getString("requirement"));
                         latest_completed_serviceTV.setText("Service:"+jsonObject1.getString("name"));
+                    }else{
+                        latest_completed_LL.setVisibility(View.GONE);
+                        noLatestCompletedTV.setVisibility(View.VISIBLE);
                     }
 
                 } catch (JSONException e) {
@@ -412,12 +425,17 @@ public class MainActivityVendor extends AppCompatActivity
                     latest_bookings_statusCode = jsonObject.getInt("statusCode");
                     latest_bookings_statusMessage = jsonObject.getString("statusMessage");
                     if(latest_bookings_statusCode==200){
+                        latest_pending_LL.setVisibility(View.VISIBLE);
+                        noLatestPendingTV.setVisibility(View.GONE);
                         JSONArray jsonArray = jsonObject.getJSONArray("response");
                         JSONObject jsonObject1 = jsonArray.getJSONObject(0);
                         latest_pending_Name_TV.setText("Name:"+jsonObject1.getString("user_name"));
                         latest_pending_Description_TV.setText("Description:"+jsonObject1.getString("requirement"));
                         latest_pending_statusTV.setText("Status:"+jsonObject1.getString("status_name"));
                         latest_pending_serviceTV.setText("Service:"+jsonObject1.getString("name"));
+                    }else{
+                        latest_pending_LL.setVisibility(View.GONE);
+                        noLatestPendingTV.setVisibility(View.VISIBLE);
                     }
 
                 } catch (JSONException e) {
@@ -459,12 +477,18 @@ public class MainActivityVendor extends AppCompatActivity
                     latest_bookings_statusCode = jsonObject.getInt("statusCode");
                     latest_bookings_statusMessage = jsonObject.getString("statusMessage");
                     if(latest_bookings_statusCode==200){
+                        latest_cancelled_LL.setVisibility(View.VISIBLE);
+                        noLatestCancelledTV.setVisibility(View.GONE);
+
                         JSONArray jsonArray = jsonObject.getJSONArray("response");
                         JSONObject jsonObject1 = jsonArray.getJSONObject(0);
                         latest_cancelled_Name_TV.setText("Name:"+jsonObject1.getString("user_name"));
                         latest_cancelled_Description_TV.setText("Description:"+jsonObject1.getString("requirement"));
                         latest_cancelled_statusTV.setText("Status:"+jsonObject1.getString("status_name"));
                         latest_cancelled_serviceTV.setText("Service:"+jsonObject1.getString("name"));
+                    }else{
+                        latest_cancelled_LL.setVisibility(View.GONE);
+                        noLatestCancelledTV.setVisibility(View.VISIBLE);
                     }
 
                 } catch (JSONException e) {

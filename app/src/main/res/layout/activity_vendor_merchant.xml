@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.Vendor_MerchantActivity"
-    android:background="@color/vendor_merchant_background"
+    android:background="@color/pink"
     android:id="@+id/loginas_RL">
 
     <!--<androidx.appcompat.widget.AppCompatTextView
@@ -20,60 +20,72 @@
         android:textColor="@color/colorWhite"
         android:textStyle="bold" />-->
 
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:id="@+id/logoIV"
-        android:src="@drawable/applogo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/vendor_btn"
-        android:layout_below="@id/logoIV"
-        android:text="Vendor"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:textColor="@color/colorWhite"
-        android:layout_centerHorizontal="true"
-        android:onClick="vendor_app"
-        android:elevation="10dp"
-        android:padding="10dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/ven_mer_login_button_background"
-        style="@style/Widget.AppCompat.ActionButton"
-        android:drawableEnd="@drawable/login_uncheck"
-        />
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/customer_btn"
-        android:layout_below="@id/vendor_btn"
-        android:text="Customer"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:textColor="@color/colorWhite"
-        android:layout_marginTop="15dp"
-        android:layout_centerHorizontal="true"
-        android:onClick="customer_app"
-        android:elevation="10dp"
-        android:padding="10dp"
-        android:background="@drawable/ven_mer_login_button_background"
-        android:drawableEnd="@drawable/login_uncheck"
-        />
-    <Button
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/login_submitbtn"
-        android:layout_below="@id/customer_btn"
-        android:layout_centerHorizontal="true"
-        android:text="submit"
-        android:textAllCaps="true"
-        android:textColor="@color/colorWhite"
-        android:background="@drawable/loginas_buttons_bakground"
-        android:layout_marginTop="35dp"
-        android:padding="10dp"
-        android:visibility="gone"
-        />
+        <Button
+            android:id="@+id/login_submitbtn"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/customer_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="35dp"
+            android:textSize="18sp"
+            android:background="@drawable/button_bg"
+            android:padding="10dp"
+            android:text="submit"
+            android:textAllCaps="true"
+            android:textColor="@color/colorWhite"
+            android:visibility="gone"
+            android:fontFamily="@font/raleway_extrabold"/>
+
+        <ImageView
+            android:id="@+id/logoIV"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/app_logo1" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/customer_btn"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/vendor_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/solid_button_bg"
+            android:drawableEnd="@drawable/login_check_bg_white"
+            android:elevation="10dp"
+            android:onClick="customer_app"
+            android:text="Customer"
+            android:textSize="26sp"
+            android:paddingTop="5dp"
+            android:paddingBottom="10dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textColor="@color/pink" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vendor_btn"
+            style="@style/Widget.AppCompat.ActionButton"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/logoIV"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:background="@drawable/solid_button_bg"
+            android:drawableEnd="@drawable/login_check_bg_white"
+            android:elevation="10dp"
+            android:onClick="vendor_app"
+            android:text="Technician"
+            android:textSize="26sp"
+            android:paddingTop="5dp"
+            android:paddingBottom="10dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textColor="@color/pink" />
+    </RelativeLayout>
 
 </RelativeLayout>

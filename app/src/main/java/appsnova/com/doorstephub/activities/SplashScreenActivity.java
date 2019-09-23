@@ -64,7 +64,7 @@ SharedPref sharedPref;
     @Override
     protected void onRestart() {
         super.onRestart();
-        onSaveInstanceState(Bundle.EMPTY);
+//        onSaveInstanceState(Bundle.EMPTY);
     }
 
 }

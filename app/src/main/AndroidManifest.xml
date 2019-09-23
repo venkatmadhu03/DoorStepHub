@@ -28,7 +28,8 @@
         <activity android:name=".activities.vendor.CompletedBilingFormActivity"></activity>
         <activity
             android:name=".activities.Vendor_MerchantActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.TermsConditionsActivity"
             android:screenOrientation="portrait"
@@ -77,7 +78,7 @@
         <activity
             android:name=".activities.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
@@ -99,9 +100,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.vendor.VendorHomeActivity"
-            android:label="Vendor HomeActivity"
+            android:label="Vendor Login"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.vendor.VendorMyProfileActivity"
             android:label="Vendor MyProfile Activity"

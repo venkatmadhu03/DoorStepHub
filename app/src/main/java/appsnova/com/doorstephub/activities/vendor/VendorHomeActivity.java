@@ -19,10 +19,14 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.unstoppable.submitbuttonview.SubmitButton;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.appcompat.widget.AppCompatButton;
 import appsnova.com.doorstephub.R;
 import appsnova.com.doorstephub.activities.Vendor_MerchantActivity;
 import appsnova.com.doorstephub.utilities.NetworkUtils;
@@ -32,7 +36,7 @@ import appsnova.com.doorstephub.utilities.VolleySingleton;
 
 
 public class VendorHomeActivity extends AppCompatActivity {
-    Button sigin_btn;
+    AppCompatButton sigin_btn;
     EditText mobilenumberET,passwordET;
     NetworkUtils networkUtils;
     Dialog progressDialog;
@@ -98,7 +102,7 @@ public class VendorHomeActivity extends AppCompatActivity {
                                 security_deposit = jsonObject1.getString("security_deposit");
                                 remaining_leads = jsonObject1.getString("remaining_leads");
                                 user_role = jsonObject1.getString("user_role");
-                                category_name = jsonObject1.getString("category_name");
+                                //category_name = jsonObject1.getString("category_name");
 
                                 sharedPref.setStringValue("user_role", user_role);
                                 sharedPref.setStringValue("role_id", role_id);

@@ -44,11 +44,13 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
     //create View objects
     EditText rechargeWalletEdittext;
     AppCompatButton rechargeWalletButton;
-    TextView walletBalanceValueTv, rewardsValueTv;
+    TextView walletBalanceValueTv, rewardsValueTv, remainingLeadsValueTv;
 
     int statusCode;
     String statusMessage = "";
     Toast toast;
+
+
 
 
     @Override
@@ -76,6 +78,7 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
         rechargeWalletButton = findViewById(R.id.rechargeWalletButton);
         walletBalanceValueTv = findViewById(R.id.walletBalanceValueTv);
         rewardsValueTv = findViewById(R.id.rewardsValueTv);
+        remainingLeadsValueTv = findViewById(R.id.remainingLeadsValueTv);
 
         if (networkUtils.checkConnection()){
             getProfileFromServer();
@@ -119,6 +122,9 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
                             walletBalanceValueTv.setText(jsonObject1.getString("wallet_balance"));
                         }
                         rewardsValueTv.setText(jsonObject1.getString("reward_points"));
+                        remainingLeadsValueTv.setText(jsonObject1.getString("remaining_leads"));
+
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

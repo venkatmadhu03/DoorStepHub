@@ -224,6 +224,21 @@
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"/>
                     </LinearLayout>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/noLatestCompletedTV"
+                        android:text="No Latest Completed bookings"
+                        android:gravity="center"
+                        android:layout_centerInParent="true"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:visibility="gone"
+                        android:paddingTop="40dp"
+                        android:paddingBottom="40dp"/>
+
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -293,6 +308,19 @@
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"/>
                     </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/noLatestPendingTV"
+                        android:text="No Latest Pending bookings"
+                        android:gravity="center"
+                        android:layout_centerInParent="true"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:visibility="gone"
+                        android:paddingTop="35dp"
+                        android:paddingBottom="35dp"/>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -362,6 +390,20 @@
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"/>
                     </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/noLatestCancelledTV"
+                        android:text="No Latest Cancelled bookings"
+                        android:gravity="center"
+                        android:layout_centerInParent="true"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:visibility="gone"
+                        android:paddingTop="35dp"
+                        android:paddingBottom="35dp"/>
+
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 

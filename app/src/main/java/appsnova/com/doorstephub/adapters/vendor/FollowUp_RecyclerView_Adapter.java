@@ -87,8 +87,8 @@ public class FollowUp_RecyclerView_Adapter extends RecyclerView.Adapter<FollowUp
             @Override
             public void onClick(View v) {
 //                Toast.makeText(mcontext, "Deduct 75/- as penality", Toast.LENGTH_SHORT).show();
-                eighteen_percent_deduction = (18.0f/100.0f) * (standard_amount);
-                final_amount = standard_amount+eighteen_percent_deduction;
+                //eighteen_percent_deduction = (18.0f/100.0f) * (standard_amount);
+                //final_amount = standard_amount+eighteen_percent_deduction;
 //                Toast.makeText(mcontext, String.format("%.2f",final_amount), Toast.LENGTH_SHORT).show();
                 deductAmountResultFromServer();
                 Toast.makeText(mcontext, statusMessage, Toast.LENGTH_SHORT).show();
@@ -198,8 +198,8 @@ public class FollowUp_RecyclerView_Adapter extends RecyclerView.Adapter<FollowUp
                 HashMap<String,String> params = new HashMap<>();
                 params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
                 params.put("user_role",sharedPref.getStringValue("role_id"));
-                params.put("amount", String.format("%.2f",final_amount));
-                params.put("status","accept");
+                params.put("amount", String.valueOf(standard_amount));
+                params.put("status","cancel");
                 Log.d("DeductParams ", "getParams: "+params.toString());
                 return params;
             }

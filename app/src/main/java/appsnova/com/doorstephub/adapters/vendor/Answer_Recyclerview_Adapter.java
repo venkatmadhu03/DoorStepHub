@@ -99,13 +99,18 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
                String userRole_id = sharedPref.getStringValue("role_id");
                 Log.d("role_id", "onClick: "+userRole_id);
                if(userRole_id.equalsIgnoreCase("5")){
-                   eighteen_percent_deduction = (18.0f/100.0f) * (standard_amount);
-                   final_amount = standard_amount+eighteen_percent_deduction;
-                   Log.d("FinalAmount", "onClick: "+ String.format("%.2f", final_amount));
                    deductAmountResultFromServer(myLeadsPojoList.get(pos).getBooking_id(),
-                           myLeadsPojoList.get(pos).getStatus_name(), myLeadsPojoList.get(pos).getEnquiry_id());
+                           myLeadsPojoList.get(pos).getStatus_name(), myLeadsPojoList.get(pos).getEnquiry_id(), 250);
 
-               }else{
+               }else if(userRole_id.equalsIgnoreCase("6")){
+                   deductAmountResultFromServer(myLeadsPojoList.get(pos).getBooking_id(),
+                           myLeadsPojoList.get(pos).getStatus_name(), myLeadsPojoList.get(pos).getEnquiry_id(), 375);
+
+               }else if(userRole_id.equalsIgnoreCase("7")){
+                   deductAmountResultFromServer(myLeadsPojoList.get(pos).getBooking_id(),
+                           myLeadsPojoList.get(pos).getStatus_name(), myLeadsPojoList.get(pos).getEnquiry_id(), 175);
+
+               } else{
                    getAcceptedBookingFromServer(myLeadsPojo.getBooking_id(),
                            myLeadsPojo.getStatus_name(), myLeadsPojoList.get(pos).getEnquiry_id());
                }
@@ -121,7 +126,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
 
     }
 
-    private void deductAmountResultFromServer(final String statusId, final String statusName, final String enquiry_id) {
+    private void deductAmountResultFromServer(final String statusId, final String statusName, final String enquiry_id, final int final_amount) {
         progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.VENDOR_BOOKINGS_DEDUCTBALANCE_URL, new Response.Listener<String>() {
             @Override
@@ -142,7 +147,6 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
                     e.printStackTrace();
                 }
                 progressDialog.dismiss();
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -157,7 +161,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
                 HashMap<String,String> params = new HashMap<>();
                 params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
                 params.put("user_role",sharedPref.getStringValue("role_id"));
-                params.put("amount", String.format("%.2f", final_amount));
+                params.put("amount", String.valueOf(final_amount));
                 params.put("status","accept");
                 Log.d("deductparams", "getParams:AnsweredFragment "+params.toString());
                 return params;

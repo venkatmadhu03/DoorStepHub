@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@color/pink"
     tools:context=".activities.vendor.VendorHomeActivity">
 
 
@@ -12,15 +12,24 @@
         android:id="@+id/homeConstraintLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="200dp"
         android:layout_marginBottom="8dp"
-        android:background="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/logoIV"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:src="@drawable/app_logo1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <com.github.florent37.materialtextfield.MaterialTextField
@@ -33,9 +42,9 @@
             android:theme="@style/Base.DialogWindowTitle.AppCompat"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logoIV"
             app:mtf_cardCollapsedHeight="2dp"
-            app:mtf_image="@drawable/blue_phone"
+            app:mtf_image="@drawable/vendor_user_name_icon"
             app:mtf_labelColor="#FFFFFF">
 
             <EditText
@@ -61,14 +70,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phone"
             app:mtf_cardCollapsedHeight="2dp"
-            app:mtf_image="@drawable/blue_password"
+            app:mtf_image="@drawable/vendor_password"
             app:mtf_labelColor="#F8F8FF">
 
             <EditText
                 android:id="@+id/vendor_loginpassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="OTP"
+                android:hint="Password"
                 android:textColor="#333"
                 android:textSize="14sp" />
 
@@ -90,27 +99,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password" />
 
-        <com.unstoppable.submitbuttonview.SubmitButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/signin_btn"
-            android:layout_width="150dp"
-            android:layout_height="70dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="50dp"
-            android:textStyle="bold"
-            app:buttonColor="@color/colorWhite"
-            app:buttonText="Login"
-            app:buttonTextSize="24sp"
-            app:failedColor="@color/colorPrimary"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button_bg"
+            android:fontFamily="@font/raleway_extrabold"
+            android:padding="10dp"
+            android:text="Enter"
+            android:textAllCaps="true"
+            android:textColor="@color/colorWhite"
+            android:textSize="22sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.528"
+            app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/radioButton"
-            app:succeedColor="@color/colorWhite" />
+            app:layout_constraintVertical_bias="0.355" />
 
         <Button
             android:id="@+id/button"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
@@ -124,7 +135,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submitBtn" />
+            app:layout_constraintTop_toBottomOf="@+id/signin_btn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

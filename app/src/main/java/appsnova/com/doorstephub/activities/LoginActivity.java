@@ -60,11 +60,11 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
-        ActionBar actionBar;
-        actionBar = getSupportActionBar();
-        new ActionBar.LayoutParams(250,90);
-        //android.app.ActionBar.LayoutParams layoutParams = new android.app.ActionBar.LayoutParams(250,90);
-        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_background));
+//        ActionBar actionBar;
+//        actionBar = getSupportActionBar();
+//        new ActionBar.LayoutParams(250,90);
+//        //android.app.ActionBar.LayoutParams layoutParams = new android.app.ActionBar.LayoutParams(250,90);
+//        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_background));
 
         networkUtils = new NetworkUtils(this);
         progressDialog = UrlUtility.showProgressDialog(this);

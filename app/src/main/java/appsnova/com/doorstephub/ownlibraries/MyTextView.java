@@ -35,7 +35,7 @@ public class MyTextView extends TextView{
                 Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), fontName);
                 setTypeface(myTypeface);
             }else{
-                Typeface myTypeface =Typeface.createFromAsset(context.getAssets(),"Righteous.ttf");
+                Typeface myTypeface =Typeface.createFromAsset(context.getAssets(),"raleway_extrabold.ttf");
                 setTypeface(myTypeface);
             }
         } catch (Exception e) {
