@@ -10,6 +10,9 @@ import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.Objects;
+
 import appsnova.com.doorstephub.Answered_Fragment;
 import appsnova.com.doorstephub.Cancelled_Fragment;
 import appsnova.com.doorstephub.Completed_Fragment;
@@ -24,12 +27,22 @@ public class MyBookingsVendorActivity extends AppCompatActivity {
     FragmentTransaction fragmentTransaction;
     SharedPref sharedPref;
 
+    Bundle bundle;
+    String intentFrom="", status="";
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPref = new SharedPref(this);
+
+        bundle = getIntent().getExtras();
+
+        if (bundle !=null){
+            intentFrom = bundle.getString("intentFrom");
+        }
+
         setContentView(R.layout.activity_vendor_mybookings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("My Orders");
@@ -57,6 +70,21 @@ public class MyBookingsVendorActivity extends AppCompatActivity {
             }
         });
         tabLayout.setupWithViewPager(viewPager);
+
+
+        if (!intentFrom.isEmpty() || intentFrom !=null){
+            if (intentFrom.equalsIgnoreCase("vendorHome")){
+                status = bundle.getString("status");
+                if (status.equalsIgnoreCase("pending")){
+                    Objects.requireNonNull(tabLayout.getTabAt(0)).select();
+
+                }else if (status.equalsIgnoreCase("completed")){
+                    Objects.requireNonNull(tabLayout.getTabAt(1)).select();
+                }else if (status.equalsIgnoreCase("cancelled")){
+                    Objects.requireNonNull(tabLayout.getTabAt(2)).select();
+                }
+            }
+        }
 
     }
     private void setupViewPager(ViewPager viewPager) {

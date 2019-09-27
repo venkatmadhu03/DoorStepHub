@@ -90,8 +90,6 @@ public class MainActivityVendor extends AppCompatActivity
             noLatestPendingTV, noLatestCompletedTV;
     LinearLayout latest_completed_LL, latest_pending_LL, latest_cancelled_LL;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,7 +136,7 @@ public class MainActivityVendor extends AppCompatActivity
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerlayout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -207,6 +205,52 @@ public class MainActivityVendor extends AppCompatActivity
             }
             @Override
             public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        latest_completed_LL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (networkUtils.checkConnection()){
+                    Intent intent = new Intent(MainActivityVendor.this, MyBookingsVendorActivity.class);
+                    intent.putExtra("intentFrom", "VendorHome");
+                    intent.putExtra("leadStatus", "completed");
+                    startActivity(intent);
+                }else{
+                    UrlUtility.showCustomToast(getResources().getString(R.string.no_connection), MainActivityVendor.this);
+                }
+
+            }
+        });
+
+        latest_cancelled_LL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (networkUtils.checkConnection()){
+                    Intent intent = new Intent(MainActivityVendor.this, MyBookingsVendorActivity.class);
+                    intent.putExtra("intentFrom", "VendorHome");
+                    intent.putExtra("leadStatus", "cancelled");
+                    startActivity(intent);
+                }else{
+                    UrlUtility.showCustomToast(getResources().getString(R.string.no_connection), MainActivityVendor.this);
+                }
+
+            }
+        });
+
+        latest_pending_LL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (networkUtils.checkConnection()){
+                    Intent intent = new Intent(MainActivityVendor.this, MyBookingsVendorActivity.class);
+                    intent.putExtra("intentFrom", "VendorHome");
+                    intent.putExtra("leadStatus", "pending");
+                    startActivity(intent);
+                }else{
+                    UrlUtility.showCustomToast(getResources().getString(R.string.no_connection), MainActivityVendor.this);
+                }
 
             }
         });
