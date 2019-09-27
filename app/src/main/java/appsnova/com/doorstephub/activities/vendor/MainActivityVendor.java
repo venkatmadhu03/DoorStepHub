@@ -105,7 +105,7 @@ public class MainActivityVendor extends AppCompatActivity
         toolbar.setTitleMargin(90,10,0,5);
         setSupportActionBar(toolbar);
 
-        hideItem();
+        //hideItem();
 
         categoryListPOJOList = new ArrayList<>();
         categoryListRecyclerViewAdapter = new CategoryListRecyclerViewAdapter(MainActivityVendor.this,categoryListPOJOList);
@@ -180,16 +180,11 @@ public class MainActivityVendor extends AppCompatActivity
 
 
         for(int i = 0; i < dotscount; i++){
-
             dots[i] = new ImageView(this);
             dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.non_active_dot));
-
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
             params.setMargins(8, 0, 8, 0);
-
             sliderDotspanel.addView(dots[i], params);
-
         }
 
         dots[0].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot));
@@ -379,7 +374,7 @@ public class MainActivityVendor extends AppCompatActivity
 
                         latest_completed_Name_TV.setText("Name:"+jsonObject1.getString("user_name"));
                         latest_completed_statusTV.setText("Status:"+jsonObject1.getString("status_name"));
-                        latest_completed_Description_TV.setText("Description:"+jsonObject1.getString("requirement"));
+                        latest_completed_Description_TV.setText("Problem:"+jsonObject1.getString("requirement"));
                         latest_completed_serviceTV.setText("Service:"+jsonObject1.getString("name"));
                     }else{
                         latest_completed_LL.setVisibility(View.GONE);
@@ -430,7 +425,7 @@ public class MainActivityVendor extends AppCompatActivity
                         JSONArray jsonArray = jsonObject.getJSONArray("response");
                         JSONObject jsonObject1 = jsonArray.getJSONObject(0);
                         latest_pending_Name_TV.setText("Name:"+jsonObject1.getString("user_name"));
-                        latest_pending_Description_TV.setText("Description:"+jsonObject1.getString("requirement"));
+                        latest_pending_Description_TV.setText("Problem:"+jsonObject1.getString("requirement"));
                         latest_pending_statusTV.setText("Status:"+jsonObject1.getString("status_name"));
                         latest_pending_serviceTV.setText("Service:"+jsonObject1.getString("name"));
                     }else{
@@ -483,7 +478,7 @@ public class MainActivityVendor extends AppCompatActivity
                         JSONArray jsonArray = jsonObject.getJSONArray("response");
                         JSONObject jsonObject1 = jsonArray.getJSONObject(0);
                         latest_cancelled_Name_TV.setText("Name:"+jsonObject1.getString("user_name"));
-                        latest_cancelled_Description_TV.setText("Description:"+jsonObject1.getString("requirement"));
+                        latest_cancelled_Description_TV.setText("Problem:"+jsonObject1.getString("requirement"));
                         latest_cancelled_statusTV.setText("Status:"+jsonObject1.getString("status_name"));
                         latest_cancelled_serviceTV.setText("Service:"+jsonObject1.getString("name"));
                     }else{

@@ -76,20 +76,13 @@ public class Completed_RecyclerView_Adapter  extends RecyclerView.Adapter<Comple
         final MyLeadsPojo myLeadsPojo = myCompletedLeadsPojoList.get(i);
         completedViewHolder.textView_completedname.setText("Name:"+myLeadsPojo.getName());
         completedViewHolder.textView_completedcity.setText("Service:"+myLeadsPojo.getService());
-        completedViewHolder.textView_completed_description.setText("Description:"+myLeadsPojo.getDescription());
-
-        if (myLeadsPojo.getTransaction_id().isEmpty() || myLeadsPojo.getTransaction_id().equalsIgnoreCase("0")
-                || myLeadsPojo.getTransaction_id().equalsIgnoreCase("null")){
-            completedViewHolder.button_completedpay.setVisibility(View.VISIBLE);
-        }else{
-            completedViewHolder.button_completedpay.setVisibility(View.GONE);
-        }
-        completedViewHolder.button_completedpay.setOnClickListener(new View.OnClickListener() {
+        completedViewHolder.textView_completed_description.setText("Problem:"+myLeadsPojo.getDescription());
+        Log.d("Completed", "onBindViewHolder: "+myCompletedLeadsPojoList.get(i).getPhone_number());
+        completedViewHolder.completed_call_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                openForm(myCompletedLeadsPojoList.get(i).getAppointment_id(), myCompletedLeadsPojoList.get(i).getService(),
-                        myCompletedLeadsPojoList.get(i).getBooking_id(), myCompletedLeadsPojoList.get(i).getEnquiry_id());
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + myCompletedLeadsPojoList.get(i).getPhone_number()));
+                mcontext.startActivity(intent);
             }
         });
     }
@@ -111,13 +104,13 @@ public class Completed_RecyclerView_Adapter  extends RecyclerView.Adapter<Comple
 
     public class CompletedViewHolder extends RecyclerView.ViewHolder {
         TextView textView_completedname,textView_completedcity,textView_completed_description;
-        Button button_completedpay;
+        Button completed_call_btn;
         public CompletedViewHolder(@NonNull View itemView) {
             super(itemView);
             textView_completedname = itemView.findViewById(R.id.completed_textview_name);
             textView_completedcity = itemView.findViewById(R.id.completed_textview_city);
             textView_completed_description = itemView.findViewById(R.id.completed_textview_description);
-            button_completedpay = itemView.findViewById(R.id.completed_pay_btn);
+            completed_call_btn = itemView.findViewById(R.id.completed_call_btn);
         }
     }
 

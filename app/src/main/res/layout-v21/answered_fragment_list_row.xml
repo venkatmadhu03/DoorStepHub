@@ -20,16 +20,12 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:padding="10dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:id="@+id/answered_LL"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp">
                 <!--<LinearLayout
@@ -45,7 +41,8 @@
                     android:text="Name:"
                     android:textStyle="bold"
                     android:textSize="16sp"
-                    android:textColor="@color/colorBlack"/>
+                    android:layout_marginTop="@dimen/nav_header_vertical_spacing"/>
+
 
                 <TextView
                     android:id="@+id/answered_textview_city"
@@ -53,7 +50,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="Service:"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/nav_header_vertical_spacing"/>
                 <!-- </LinearLayout>-->
 
                 <TextView
@@ -61,8 +60,11 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/answered_TV_description"
                     android:text="Description:"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/nav_header_vertical_spacing"/>
             </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,7 +83,8 @@
                     android:background="@drawable/accept_button_background"
                     android:src="@drawable/accept_button"
                     android:tooltipText="Accept"
-                    android:layout_marginStart="8dp"/>
+                    android:layout_marginStart="8dp" />
+
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

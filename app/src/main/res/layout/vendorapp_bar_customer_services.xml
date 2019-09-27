@@ -6,12 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.vendor.MainActivityVendor"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/pink">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@drawable/tabbackground">
+        android:layout_height="wrap_content">
+        <!--android:background="@drawable/tabbackground"-->
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_vendor"

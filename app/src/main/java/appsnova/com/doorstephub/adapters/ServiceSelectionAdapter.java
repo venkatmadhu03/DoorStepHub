@@ -23,6 +23,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import appsnova.com.doorstephub.R;
 import appsnova.com.doorstephub.models.ServiceSelectionModel;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ServiceSelectionAdapter extends RecyclerView.Adapter<ServiceSelectionAdapter.ServiceSelectionViewHolder> {
     Context context;
@@ -86,7 +87,8 @@ public class ServiceSelectionAdapter extends RecyclerView.Adapter<ServiceSelecti
     public class ServiceSelectionViewHolder extends RecyclerView.ViewHolder {
         TextView servicetext;
         CardView service_item;
-        ImageView service_background, selected_item;
+        ImageView selected_item;
+        CircleImageView service_background;
         // CheckBox servicerow_checkbox;
 
         RelativeLayout servicerelativelayout;

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 repositories {
     mavenCentral()
@@ -60,6 +61,7 @@ dependencies {
 
     implementation 'com.github.florent37:materialtextfield:1.0.7'
     implementation 'com.unstoppable:submitbutton:1.1.3'
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
 
     //payment Gateway
     implementation 'com.instamojo:android-sdk:3.2.0'
@@ -67,6 +69,7 @@ dependencies {
     //razor pay
     implementation 'com.razorpay:checkout:1.5.12'
 
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.2-alpha01'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.2-alpha01'

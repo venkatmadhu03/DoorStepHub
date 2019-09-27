@@ -86,12 +86,8 @@ public class FollowUp_RecyclerView_Adapter extends RecyclerView.Adapter<FollowUp
         acceptedViewHolder.followup_cancel_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(mcontext, "Deduct 75/- as penality", Toast.LENGTH_SHORT).show();
-                //eighteen_percent_deduction = (18.0f/100.0f) * (standard_amount);
-                //final_amount = standard_amount+eighteen_percent_deduction;
-//                Toast.makeText(mcontext, String.format("%.2f",final_amount), Toast.LENGTH_SHORT).show();
-                deductAmountResultFromServer();
-                Toast.makeText(mcontext, statusMessage, Toast.LENGTH_SHORT).show();
+            deductAmountResultFromServer();
+            Toast.makeText(mcontext, statusMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }

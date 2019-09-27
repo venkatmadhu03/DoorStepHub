@@ -112,6 +112,7 @@ public class VendorMyProfileActivity extends AppCompatActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vendoractivity_my_profile);
+
         servicesStringBuilder = new StringBuilder();
         citiesStringBuilder = new StringBuilder();
 

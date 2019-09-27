@@ -88,7 +88,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
         Log.d("AcceptedlistName", "onBindViewHolder: "+myLeadsPojo.getName());
         myViewHolder.textView_name.setText("Name:"+myLeadsPojo.getName());
         myViewHolder.textView_city.setText("Service:"+myLeadsPojo.getService());
-        myViewHolder.textView_description.setText("Description:"+myLeadsPojo.getDescription());
+        myViewHolder.textView_description.setText("Problem:"+myLeadsPojo.getDescription());
 
         getCancelledBookingsReasonList();
 
@@ -126,7 +126,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
 
     }
 
-    private void deductAmountResultFromServer(final String statusId, final String statusName, final String enquiry_id, final int final_amount) {
+    private void deductAmountResultFromServer(final String bookingId, final String statusName, final String enquiry_id, final int final_amount) {
         progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.VENDOR_BOOKINGS_DEDUCTBALANCE_URL, new Response.Listener<String>() {
             @Override
@@ -138,7 +138,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
                     statusCode = jsonObject.getInt("statusCode");
                     statusMessage = jsonObject.getString("statusMessage");
                     if(statusCode==200){
-                        getAcceptedBookingFromServer(statusId, statusName, enquiry_id);
+                        getAcceptedBookingFromServer(bookingId, statusName, enquiry_id);
                     }else{
                         Toast.makeText(mcontext, statusMessage, Toast.LENGTH_SHORT).show();
                     }
@@ -163,6 +163,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
                 params.put("user_role",sharedPref.getStringValue("role_id"));
                 params.put("amount", String.valueOf(final_amount));
                 params.put("status","accept");
+                params.put("booking_id", bookingId);
                 Log.d("deductparams", "getParams:AnsweredFragment "+params.toString());
                 return params;
             }

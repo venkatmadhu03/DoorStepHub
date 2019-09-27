@@ -53,7 +53,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ServiceSelectionActivity extends AppCompatActivity {
+public class
+ServiceSelectionActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     RelativeLayout servicetype_container;
@@ -93,7 +94,7 @@ public class ServiceSelectionActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         new ActionBar.LayoutParams(250,90);
         //android.app.ActionBar.LayoutParams layoutParams = new android.app.ActionBar.LayoutParams(250,90);
-        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_background));
+        //actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_background));
 
 
         //intialie Utils Objects

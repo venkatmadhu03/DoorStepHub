@@ -32,7 +32,7 @@ public class MyBookingsVendorActivity extends AppCompatActivity {
         sharedPref = new SharedPref(this);
         setContentView(R.layout.activity_vendor_mybookings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Transactions");
+        setTitle("My Orders");
 
         tabLayout = findViewById(R.id.tablayout);
         viewPager  =findViewById(R.id.view_pager);
@@ -64,15 +64,17 @@ public class MyBookingsVendorActivity extends AppCompatActivity {
 
         viewPagerAdapter.addFragment(new Answered_Fragment(),"Answered");
         Log.d("User_role", "setupViewPager: "+sharedPref.getStringValue("role_id"));
-        if(sharedPref.getStringValue("role_id").equalsIgnoreCase("4")){
-            viewPagerAdapter.addFragment(new FollowUp_Fragment(),"Follow Up");
-            viewPager.setOffscreenPageLimit(4);
-        }else{
-            viewPager.setOffscreenPageLimit(3);
-        }
+//        if(sharedPref.getStringValue("role_id").equalsIgnoreCase("4")){
+//            viewPagerAdapter.addFragment(new FollowUp_Fragment(),"Follow Up");
+//            viewPager.setOffscreenPageLimit(4);
+//        }else{
+//            viewPager.setOffscreenPageLimit(3);
+//        }
         viewPagerAdapter.addFragment(new Completed_Fragment(),"Completed");
         viewPagerAdapter.addFragment(new Cancelled_Fragment(),"Cancelled");
         viewPager.setAdapter(viewPagerAdapter);
+
+        viewPager.setOffscreenPageLimit(3);
     }
 
     @Override

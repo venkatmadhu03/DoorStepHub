@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "528521776044",
+    "firebase_url": "https://doorstephub-2f4a1.firebaseio.com",
+    "project_id": "doorstephub-2f4a1",
+    "storage_bucket": "doorstephub-2f4a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528521776044:android:321cd91e46099d29568809",
+        "android_client_info": {
+          "package_name": "appsnova.com.doorstephub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "528521776044-jaako85o1tavdfna31j2ima7lts9d5tb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "appsnova.com.doorstephub",
+            "certificate_hash": "983c2b70df572a05d75333af695a5b31a7259f22"
+          }
+        },
+        {
+          "client_id": "528521776044-pqm56bvtphul5llv1741s7325e3r34dj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpRs6xcPFAlBubjA77UBHdH5LiNeVvCN4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "528521776044-pqm56bvtphul5llv1741s7325e3r34dj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

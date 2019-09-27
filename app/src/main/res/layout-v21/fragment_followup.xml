@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Answered_Fragment"
-    android:background="@color/Ltgray">
+    android:background="@color/pink">
 
     <!-- TODO: Update blank fragment layout -->
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -25,7 +25,8 @@
             android:id="@+id/noFollowupsTv"
             android:gravity="center"
             android:visibility="gone"
-            android:textSize="16dp"
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"
             android:layout_centerInParent="true"
             android:text="No FollowUp Bookings"/>
     </RelativeLayout>

@@ -6,89 +6,105 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.vendor.AboutUsVendorActivity"
-    android:orientation="vertical">
-
-    <!-- <ProgressBar
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:id="@+id/aboutus_progressbar"
-         android:layout_gravity="center"/>
-     <WebView
-         android:id="@+id/webview_aboutus"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent">
-     </WebView>-->
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/image_cardview"
-        app:cardElevation="10dp"
-        app:cardCornerRadius="8dp"
-        app:cardUseCompatPadding="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/about_us_image_viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="190dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"/>
-    </androidx.cardview.widget.CardView>
-
-
-    <LinearLayout
+        android:id="@+id/aboutus_progressbar"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:elevation="30dp"/>
+    <WebView
+        android:id="@+id/webview_aboutus"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/SliderDots"
-        android:layout_below="@+id/image_cardview"
-        android:orientation="horizontal"
-        android:gravity="center_vertical|center_horizontal" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/webviewcontainer"
-            android:orientation="vertical"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/image_cardview">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/serviceheading"
-                android:text="@string/about_us"
-                android:textSize="20sp"
-                android:textColor="@color/colorPrimary"
-                android:textAlignment="center"
-                android:layout_marginTop="8dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/servicesubheading"
-                android:text="@string/subheading"
-                android:textSize="18sp"
-                android:layout_marginTop="8dp"
-                android:textAlignment="center"
-                android:textColor="#000000"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/servicedescription"
-                android:text="@string/description"
-                android:textSize="14sp"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="12dp"
-                android:textAlignment="center" />
-        </LinearLayout>
-</LinearLayout>
+        android:layout_height="match_parent">
+    </WebView>
+
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--tools:context=".activities.vendor.AboutUsVendorActivity"-->
+    <!--android:orientation="vertical">-->
+
+    <!--&lt;!&ndash; <ProgressBar-->
+         <!--android:layout_width="wrap_content"-->
+         <!--android:layout_height="wrap_content"-->
+         <!--android:id="@+id/aboutus_progressbar"-->
+         <!--android:layout_gravity="center"/>-->
+     <!--<WebView-->
+         <!--android:id="@+id/webview_aboutus"-->
+         <!--android:layout_width="match_parent"-->
+         <!--android:layout_height="match_parent">-->
+     <!--</WebView>&ndash;&gt;-->
+
+    <!--<androidx.cardview.widget.CardView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/image_cardview"-->
+        <!--app:cardElevation="10dp"-->
+        <!--app:cardCornerRadius="8dp"-->
+        <!--app:cardUseCompatPadding="true"-->
+        <!--android:layout_marginStart="10dp"-->
+        <!--android:layout_marginEnd="10dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginBottom="10dp">-->
+        <!--<androidx.viewpager.widget.ViewPager-->
+            <!--android:id="@+id/about_us_image_viewPager"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="190dp"-->
+            <!--android:layout_marginStart="8dp"-->
+            <!--android:layout_marginEnd="8dp"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:layout_marginBottom="8dp"/>-->
+    <!--</androidx.cardview.widget.CardView>-->
+
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/SliderDots"-->
+        <!--android:layout_below="@+id/image_cardview"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:gravity="center_vertical|center_horizontal" />-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:id="@+id/webviewcontainer"-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_below="@id/image_cardview">-->
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/serviceheading"-->
+                <!--android:text="@string/about_us"-->
+                <!--android:textSize="20sp"-->
+                <!--android:textColor="@color/colorPrimary"-->
+                <!--android:textAlignment="center"-->
+                <!--android:layout_marginTop="8dp"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/servicesubheading"-->
+                <!--android:text="@string/subheading"-->
+                <!--android:textSize="18sp"-->
+                <!--android:layout_marginTop="8dp"-->
+                <!--android:textAlignment="center"-->
+                <!--android:textColor="#000000"-->
+                <!--android:textStyle="bold"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/servicedescription"-->
+                <!--android:text="@string/description"-->
+                <!--android:textSize="14sp"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_marginStart="8dp"-->
+                <!--android:layout_marginEnd="8dp"-->
+                <!--android:layout_marginBottom="12dp"-->
+                <!--android:textAlignment="center" />-->
+        <!--</LinearLayout>-->
+<!--</LinearLayout>-->
 </androidx.core.widget.NestedScrollView>

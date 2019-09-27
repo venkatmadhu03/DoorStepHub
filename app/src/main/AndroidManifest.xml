@@ -19,6 +19,17 @@
         android:roundIcon="@drawable/applogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name=".services.MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+
+        </service>
+
         <activity android:name=".activities.vendor.WalletActivity"></activity>
 
         <meta-data
@@ -29,7 +40,7 @@
         <activity
             android:name=".activities.Vendor_MerchantActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.TermsConditionsActivity"
             android:screenOrientation="portrait"
@@ -95,17 +106,17 @@
             android:theme="@style/ActionBar" /> <!-- VENDOR ACTIVITIES -->
         <activity
             android:name=".activities.vendor.MainActivityVendor"
-            android:label="Vendor MainActivity"
+            android:label="Home"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.vendor.VendorHomeActivity"
-            android:label="Vendor Login"
+            android:label="Login"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.vendor.VendorMyProfileActivity"
-            android:label="Vendor MyProfile Activity"
+            android:label="Profile"
             android:screenOrientation="portrait"
             android:theme="@style/ActionBar" />
         <activity
@@ -113,17 +124,17 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.vendor.MyBookingsVendorActivity"
-            android:label="Vendor MyBookingsActivity"
+            android:label="Bookings"
             android:screenOrientation="portrait"
             android:theme="@style/ActionBar" />
         <activity
             android:name=".activities.vendor.MyBookingsResultVendorActivity"
-            android:label="Vendor MyBookingsResult Activity"
+            android:label="Booking result"
             android:screenOrientation="portrait"
             android:theme="@style/ActionBar" />
         <activity
             android:name=".activities.vendor.AboutUsVendorActivity"
-            android:label="Vendor AboutUs Activity"
+            android:label="About Us"
             android:screenOrientation="portrait"
             android:theme="@style/ActionBar" />
     </application>

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Ltgray">
+    android:background="@color/pink">
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,9 +22,10 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/noLeadsTv"
                 android:gravity="center"
-                android:textSize="16dp"
                 android:visibility="gone"
                 android:text="No Answered bookings"
+                android:textSize="20sp"
+                android:textColor="@color/colorWhite"
                 android:layout_centerInParent="true"/>
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/pink"
     tools:context=".activities.vendor.MyBookingsResultVendorActivity">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -88,7 +89,7 @@
             android:gravity="start"
             android:text="FEEDBACK:"
             android:textAlignment="center"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
             android:textSize="18sp"
             android:id="@+id/feedback_heading"
             android:textStyle="bold"/>
@@ -112,6 +113,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/feedback_submit"
             android:text="Submit"
+            android:background="@drawable/button_bg"
+            android:textColor="@color/colorWhite"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/raleway_extrabold"
             android:layout_below="@id/feedback_form"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"/>

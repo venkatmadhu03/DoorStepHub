@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/pink">
 
 <RelativeLayout
     android:layout_width="match_parent"
@@ -28,9 +29,10 @@
                 android:text="Profile"
                 android:textSize="20sp"
                 android:padding="10dp"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorWhite"
                 android:textAlignment="center"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:visibility="gone"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -360,7 +362,7 @@
                         android:id="@+id/profilepic"
                         android:text="Profile Pic:"
                         android:textStyle="bold"
-                        android:textColor="@color/colorPrimaryDark"/>
+                        android:textColor="@color/colorWhite"/>
                     <ImageView
                         android:layout_width="100dp"
                         android:layout_height="100dp"
@@ -376,7 +378,8 @@
                         android:text="profilepic.png"
                         android:gravity="center_horizontal|center_vertical"
                         android:foregroundGravity="center_horizontal|center_vertical"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:textColor="@color/colorWhite"/>
 
                 </RelativeLayout>
                 <RelativeLayout
@@ -392,7 +395,7 @@
                         android:id="@+id/address_proof_text"
                         android:text="Address Proof:"
                         android:textStyle="bold"
-                        android:textColor="@color/colorPrimaryDark"/>
+                        android:textColor="@color/colorWhite"/>
                     <ImageView
                         android:id="@+id/question1"
                         android:layout_width="30dp"
@@ -408,7 +411,8 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/address_proof_nameTV"
                         android:layout_toRightOf="@+id/question1"
-                        android:text="Addressproof.jpg"/>
+                        android:text="Addressproof.jpg"
+                        android:textColor="@color/colorWhite"/>
                     <ImageView
                         android:layout_width="100dp"
                         android:layout_height="100dp"
@@ -438,7 +442,8 @@
                         android:gravity="center_horizontal|center_vertical"
                         android:maxLines="2"
                         android:text="APFront"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textColor="@color/colorWhite"/>
 
                     <TextView
                         android:layout_width="100dp"
@@ -453,7 +458,7 @@
                         android:ems="3"
                         android:gravity="center_horizontal|center_vertical"
                         android:foregroundGravity="center_horizontal|center_vertical"
-                        />
+                        android:textColor="@color/colorWhite"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -468,7 +473,7 @@
                         android:id="@+id/idproof"
                         android:text="Identity Proof:"
                         android:textStyle="bold"
-                        android:textColor="@color/colorPrimaryDark"/>
+                        android:textColor="@color/colorWhite"/>
 
                     <ImageView
                         android:id="@+id/question2"
@@ -485,7 +490,8 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/id_proof_nameTV"
                         android:layout_toRightOf="@+id/question2"
-                        android:text="IdentityProof.jpg"/>
+                        android:text="IdentityProof.jpg"
+                        android:textColor="@color/colorWhite"/>
                     <ImageView
                         android:layout_width="100dp"
                         android:layout_height="100dp"
@@ -515,7 +521,7 @@
                         android:ems="3"
                         android:gravity="center_horizontal|center_vertical"
                         android:foregroundGravity="center_horizontal|center_vertical"
-                        />
+                        android:textColor="@color/colorWhite"/>
                     <TextView
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
@@ -528,7 +534,8 @@
                         android:maxLines="2"
                         android:ems="3"
                         android:gravity="center_horizontal|center_vertical"
-                        android:foregroundGravity="center_horizontal|center_vertical"/>
+                        android:foregroundGravity="center_horizontal|center_vertical"
+                        android:textColor="@color/colorWhite"/>
                 </RelativeLayout>
             </RelativeLayout>
             <TextView
@@ -584,7 +591,8 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
                 android:layout_gravity="center"
-                android:background="@drawable/button_background"/>
+                android:fontFamily="@font/raleway_extrabold"
+                android:background="@drawable/button_bg"/>
         </LinearLayout>
 </RelativeLayout>
     </androidx.core.widget.NestedScrollView>

@@ -19,13 +19,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/container">
-    <ImageView
+
+    <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:id="@+id/image_background"
-        android:src="@drawable/background"
+        android:src="@drawable/applogo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="12dp"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/pink"/>
+
     <ImageView
         android:layout_width="80dp"
         android:layout_height="80dp"

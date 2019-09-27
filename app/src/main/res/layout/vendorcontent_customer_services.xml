@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/pink">
 
         <RelativeLayout
             android:id="@+id/activity_main"
@@ -37,133 +37,13 @@
                 android:layout_below="@+id/samplecard"
                 android:orientation="horizontal"
                 android:gravity="center_vertical|center_horizontal"
-                android:layout_marginTop="10dp"
-                />
-
-            <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/webviewcontainer"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_below="@id/image_cardview">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/serviceheading"
-                    android:text="@string/about_us"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorPrimary"
-                    android:textAlignment="center"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/servicesubheading"
-                    android:text="@string/subheading"
-                    android:textSize="18sp"
-                    android:layout_marginTop="10dp"
-                    android:textAlignment="center"
-                    android:textColor="#000000"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/servicedescription"
-                    android:text="@string/description"
-                    android:textSize="14sp"
-                    android:layout_marginTop="10dp"
-                    android:textAlignment="center" />
-        </LinearLayout>
-        -->
-            <!--  <TextView
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:id="@+id/details_heading"
-                  android:text="LATEST COMPLETED WORK STREAK"
-                  android:textColor="@color/colorPrimaryDark"
-                  android:layout_below="@id/SliderDots"
-                  android:layout_marginTop="10dp"
-                  android:paddingStart="15dp"/>-->
-            <!--  <androidx.cardview.widget.CardView
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:id="@+id/workdetailscard"
-                  android:layout_below="@+id/details_heading"
-                  android:layout_marginTop="12dp"
-                  android:layout_marginBottom="2dp"
-                  app:cardUseCompatPadding="true"
-                  app:cardElevation="5dp"
-                  app:cardCornerRadius="5dp">
-                  <RelativeLayout
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content">
-                      <TextView
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:id="@+id/card_mainheading"
-                          android:text="Completed"
-                          android:paddingStart="5dp"
-                          android:layout_marginTop="8dp"/>
-                      <TextView
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:id="@+id/card_subheading"
-                          android:text="Novenber 2018"
-                          android:layout_below="@id/card_mainheading"
-                          android:paddingStart="5dp"
-                          android:layout_marginBottom="8dp"/>
-
-                      <TextView
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:id="@+id/workprogress"
-                          android:text="6/8 Project"
-                          android:layout_below="@id/card_subheading"
-                          android:paddingStart="5dp"
-                          android:layout_marginBottom="8dp"/>
-                  </RelativeLayout>
-              </androidx.cardview.widget.CardView>-->
-            <!-- <androidx.cardview.widget.CardView
-                 android:layout_width="match_parent"
-                 android:layout_height="240dp"
-                 android:id="@+id/cardview"
-                 android:layout_below="@id/workdetailscard"
-                 android:layout_marginTop="5dp"
-                 app:cardCornerRadius="8dp"
-                 app:cardUseCompatPadding="true"
-                 app:cardElevation="5dp">
-                 <RelativeLayout
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:layout_below="@id/workdetailscard"
-                     android:layout_marginBottom="10dp">
-                     <TextView
-                         android:layout_width="match_parent"
-                         android:layout_height="wrap_content"
-                         android:id="@+id/ourservices_heading"
-                         android:text="OUR SERVICES"
-                         android:textColor="@color/colorWhite"
-                         android:padding="5dp"
-                         android:background="@color/colorPrimaryDark"
-                         android:textSize="20sp" />
-
-                     <androidx.recyclerview.widget.RecyclerView
-                         android:layout_width="match_parent"
-                         android:layout_height="match_parent"
-                         android:id="@+id/category_RV"
-                         android:background="@color/Ltgray"
-                         android:layout_below="@id/ourservices_heading">
-                     </androidx.recyclerview.widget.RecyclerView>
-                 </RelativeLayout>
-             </androidx.cardview.widget.CardView>-->
-
+                android:layout_marginTop="10dp" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/completed_bookingsTV"
                 android:layout_below="@+id/sliderDots"
-                android:text="Latest Completed Booking"
+                android:text="Latest Completed Orders"
                 android:textColor="@color/colorWhite"
                 android:layout_marginTop="5dp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
@@ -180,17 +60,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/latest_completed_bookingsRL"
-                    android:padding="8dp">
+                    android:padding="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:id="@+id/latest_completed_LL"
-                        android:paddingStart="5dp"
-                        android:paddingEnd="5dp"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp">
                         <TextView
@@ -200,21 +76,23 @@
                             android:text="Name:"
                             android:textStyle="bold"
                             android:textSize="14sp"
-                            android:textColor="@color/colorBlack"/>
+                            android:layout_marginTop="@dimen/nav_header_vertical_spacing"/>
                         <!-- </LinearLayout>-->
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/latest_completed_descriptionTV"
-                            android:text="Description:"
-                            android:textSize="14sp"/>
+                            android:text="Problem:"
+                            android:textSize="14sp"
+                            android:layout_marginTop="@dimen/nav_header_vertical_spacing"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/latest_completed_serviceTV"
                             android:text="Service:"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp"
+                            android:layout_marginTop="@dimen/nav_header_vertical_spacing"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -222,7 +100,7 @@
                             android:text="Status:"
                             android:textSize="14sp"
                             android:textColor="@color/colorBlack"
-                            android:textStyle="bold"/>
+                            android:layout_marginTop="@dimen/nav_header_vertical_spacing"/>
                     </LinearLayout>
 
 
@@ -230,7 +108,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/noLatestCompletedTV"
-                        android:text="No Latest Completed bookings"
+                        android:text="No Latest Completed Orders"
                         android:gravity="center"
                         android:layout_centerInParent="true"
                         android:textStyle="bold"
@@ -247,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/pending_bookingsTV"
                 android:layout_below="@+id/latestcompleted_boobkings"
-                android:text="Latest Pending Booking"
+                android:text="Latest Pending Orders"
                 android:textColor="@color/colorWhite"
                 android:layout_marginTop="5dp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
@@ -264,7 +142,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/latest_pending_bookingsRL"
-                    android:padding="8dp">
+                    android:padding="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -284,21 +162,24 @@
                             android:text="Name:"
                             android:textStyle="bold"
                             android:textSize="14sp"
-                            android:textColor="@color/colorBlack"/>
+                            android:textColor="@color/colorBlack"
+                            android:layout_marginTop="@dimen/nav_header_vertical_spacing"/>
                         <!-- </LinearLayout>-->
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/latest_pending_descriptionTV"
-                            android:text="Description:"
-                            android:textSize="14sp"/>
+                            android:text="Problem:"
+                            android:textSize="14sp"
+                            android:layout_marginTop="@dimen/nav_header_vertical_spacing"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/latest_pending_serviceTV"
                             android:text="Service:"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp"
+                            android:layout_marginTop="@dimen/nav_header_vertical_spacing"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -306,14 +187,15 @@
                             android:text="Status:"
                             android:textSize="14sp"
                             android:textColor="@color/colorBlack"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold"
+                            android:layout_marginTop="@dimen/nav_header_vertical_spacing"/>
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/noLatestPendingTV"
-                        android:text="No Latest Pending bookings"
+                        android:text="No Latest Pending Orders"
                         android:gravity="center"
                         android:layout_centerInParent="true"
                         android:textStyle="bold"
@@ -329,7 +211,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/cancelled_bookingsTV"
                 android:layout_below="@+id/latestpending_boobkings"
-                android:text="Latest Cancelled Booking"
+                android:text="Latest Cancelled Orders"
                 android:textColor="@color/colorWhite"
                 android:layout_marginTop="5dp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
@@ -395,7 +277,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/noLatestCancelledTV"
-                        android:text="No Latest Cancelled bookings"
+                        android:text="No Latest Cancelled Orders"
                         android:gravity="center"
                         android:layout_centerInParent="true"
                         android:textStyle="bold"

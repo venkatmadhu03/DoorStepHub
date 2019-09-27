@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Completed_Fragment"
-    android:background="@color/Ltgray">
+    android:background="@color/pink">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -29,7 +29,8 @@
             android:id="@+id/noCompletedLeadsTv"
             android:text="No Completed Bookings"
             android:gravity="center"
-            android:textSize="16dp"
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"
             android:layout_centerInParent="true"
             android:visibility="gone"/>
 

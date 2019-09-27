@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:theme="@style/AppTheme.NoActionBar"
     tools:context=".activities.MyBookingsActivity"
-    android:background="@color/Ltgray">
+    android:background="@color/pink">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mybooking_list"

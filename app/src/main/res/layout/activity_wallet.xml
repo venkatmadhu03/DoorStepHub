@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_ltgray"
+    android:background="@color/pink"
     tools:context=".activities.vendor.WalletActivity">
 
     <RelativeLayout
@@ -51,8 +51,8 @@
                     android:gravity="center"
                     android:layout_marginRight="4dp"
                     android:text="Proceed"
-                    android:background="@drawable/button_background"
-                    android:textColor="@color/colorWhite"/>
+                    android:background="@drawable/button_bg"
+                    android:textColor="@color/pink"/>
 
                 <TextView
                     android:layout_width="match_parent"

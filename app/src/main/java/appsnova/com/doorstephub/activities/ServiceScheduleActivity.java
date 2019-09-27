@@ -78,7 +78,7 @@ public class ServiceScheduleActivity extends AppCompatActivity{
         Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
         new ActionBar.LayoutParams(250,90);
         //android.app.ActionBar.LayoutParams layoutParams = new android.app.ActionBar.LayoutParams(250,90);
-        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_background));
+       // actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_background));
         //getting current time
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
