@@ -31,6 +31,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -59,22 +60,22 @@ ServiceSelectionActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RelativeLayout servicetype_container;
     TextView noSubserviceTv;
+
+
     ServiceSelectionAdapter serviceSelectionAdapter;
     List<ServiceSelectionModel> serviceSelectionModelList;
-    List<ServiceSelectionModel> selecteditemlist;
+
     ActionMode mActionMode;
     boolean isMultiSelect = false;
     int statusCode;
     String statusMessage;
     Bundle bundle;
     String service_Id="",service_name="";
+
     NetworkUtils networkUtils;
     SharedPref sharedPref;
     ProgressDialog progressDialog;
-    int selectedItemsCount;
-    CardView services;
-    RadioButton rb_desktop,rb_laptop;
-    RadioGroup radioGroup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -84,10 +85,7 @@ ServiceSelectionActivity extends AppCompatActivity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_selection);
-        services=findViewById(R.id.services);
-        radioGroup = findViewById(R.id.services_radiogroup);
-        rb_desktop = findViewById(R.id.rb_desktop);
-        rb_laptop = findViewById(R.id.rb_laptop);
+
 
         ActionBar actionBar;
         actionBar = getSupportActionBar();
@@ -107,18 +105,14 @@ ServiceSelectionActivity extends AppCompatActivity {
             service_name=bundle.getString("service_name");
             Log.d("service_Id", "onCreate: "+service_Id+","+service_name);
         }
-        if (service_name.contains("Computer")){
-            services.setVisibility(View.VISIBLE);
-        }else {
-            services.setVisibility(View.GONE);
-        }
+
         recyclerView = findViewById(R.id.serviceselection_list);
         servicetype_container =findViewById(R.id.servicetype_container);
         noSubserviceTv =findViewById(R.id.noSubserviceTv);
 
         serviceSelectionModelList = new ArrayList<>();
-        selecteditemlist = new ArrayList<>();
-        serviceSelectionAdapter = new ServiceSelectionAdapter(ServiceSelectionActivity.this, serviceSelectionModelList, selecteditemlist);
+        serviceSelectionAdapter = new ServiceSelectionAdapter(ServiceSelectionActivity.this, serviceSelectionModelList
+                                    , service_Id, service_name);
 
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(ServiceSelectionActivity.this, 2);
@@ -130,23 +124,6 @@ ServiceSelectionActivity extends AppCompatActivity {
         if (networkUtils.checkConnection()){
             getSubServicesListFromServer();
         }
-
-
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-
-                if (!isMultiSelect) {
-                    isMultiSelect = true;
-                }
-                multi_select(position);
-            }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-            }
-
-        }));
     }
 
     // get SubServices
@@ -210,116 +187,6 @@ ServiceSelectionActivity extends AppCompatActivity {
 
     }//end of getSubServicesListFromServer
 
-    public void serviceselection(View view) {
-        if (service_name.contains("Computer")){
-            services.setVisibility(View.VISIBLE);
 
-            if(rb_desktop.isChecked()||rb_laptop.isChecked()){
-                selectedItemsList();
-            }
-            else{
-                Toast.makeText(this, "Please Select Type Of Device", Toast.LENGTH_SHORT).show();
-            }
-        }
-        else {
-            services.setVisibility(View.GONE);
-            selectedItemsList();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        selecteditemlist.clear();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        selecteditemlist.clear();
-    }
-
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        selecteditemlist.clear();
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        selecteditemlist.clear();
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            finishAfterTransition();
-        }
-        return true;
-    }
-
-    public void multi_select(int position) {
-            if (selecteditemlist.contains(serviceSelectionModelList.get(position))){
-                selecteditemlist.remove(serviceSelectionModelList.get(position));
-                Log.d("selecteditemlist", "multi_select: "+selecteditemlist);
-            }else{
-                selecteditemlist.add(serviceSelectionModelList.get(position));
-            }
-            refreshAdapter();
-    }
-
-    public void refreshAdapter() {
-        serviceSelectionAdapter.selectedItemsList=selecteditemlist;
-        serviceSelectionAdapter.serviceSelectionModelList = serviceSelectionModelList;
-        serviceSelectionAdapter.notifyDataSetChanged();
-    }
-    private void selectedItemsList(){
-        List<ServiceSelectionModel> list = null;
-        selectedItemsCount=serviceSelectionAdapter.getSelectedItemCount();
-        Log.d("selectedItemsCount", "selectedItemsList: "+selectedItemsCount);
-
-        if (selectedItemsCount == serviceSelectionModelList.size()){
-            list = serviceSelectionAdapter.getSelectedItem();
-            Log.d("list", "assignUsers: "+list);
-        }else{
-            list = serviceSelectionAdapter.getSelectedItem();
-            Log.d("selectedLeadsCount", "assignUsers: "+list);
-
-        }
-
-        if (list.size() > 0){
-            StringBuilder sb = new StringBuilder();
-            StringBuilder sbIds = new StringBuilder();
-            for (int index = 0; index < list.size(); index++){
-                ServiceSelectionModel model = list.get(index);
-                sb.append(model.getName()).append(",");
-                sbIds.append(model.getId()).append(",");
-            }
-            //String output = sb.deleteCharAt(sb.lastIndexOf(",")).toString();
-            Log.d("LeadList", "assignUsers: "+sb.toString());
-
-            Intent intent = new Intent(ServiceSelectionActivity.this, ServiceScheduleActivity.class);
-            intent.putExtra("Service_Id",service_Id);
-            intent.putExtra("Service_Name",service_name);
-            intent.putExtra("IntentFrom","serviceselection");
-            intent.putExtra("serviceSelectionId",sbIds.toString());
-            intent.putExtra("serviceSelections", sb.toString());
-           // startActivity(intent);
-            Log.d("intentvalues", "selectedItemsList: "+service_name+","+sb.toString());
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                ActivityOptions activityOptions = (ActivityOptions) ActivityOptions.makeSceneTransitionAnimation(ServiceSelectionActivity.this);
-                startActivity(intent,activityOptions.toBundle());
-            }
-
-        }else{
-            Toast.makeText(ServiceSelectionActivity.this, "Please Select Any Service..", Toast.LENGTH_SHORT).show();
-        }
-
-
-
-    }
 
 }

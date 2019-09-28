@@ -14,11 +14,14 @@ import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
@@ -26,6 +29,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -40,7 +45,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 import appsnova.com.doorstephub.R;
+import appsnova.com.doorstephub.activities.vendor.VendorMyProfileActivity;
+import appsnova.com.doorstephub.adapters.CitiesListAdapter;
 import appsnova.com.doorstephub.models.MyBookingsModel;
+import appsnova.com.doorstephub.models.vendor.SpinnerPojoVendor;
 import appsnova.com.doorstephub.utilities.NetworkUtils;
 import appsnova.com.doorstephub.utilities.SharedPref;
 import appsnova.com.doorstephub.utilities.UrlUtility;
@@ -48,7 +56,9 @@ import appsnova.com.doorstephub.utilities.VolleySingleton;
 
 public class ServiceScheduleActivity extends AppCompatActivity{
     EditText editText_name,editText_phone,editText_SelectedService,editText_SelectedSubService,editText_date,
-            editText_description,editText_housenum,editText_colony,editText_landmark,editText_city;
+            editText_description,editText_housenum,editText_colony,editText_landmark;
+
+    Spinner edittext_city;
     Button serviveschedulebutton;
     CheckBox serviceschedule_checkbox;
     NetworkUtils networkUtils;
@@ -62,6 +72,10 @@ public class ServiceScheduleActivity extends AppCompatActivity{
     int year,month,dayOfMonth, hourOfDay, minute, seconds;
     Calendar calendar;
     List<MyBookingsModel> myBookingsModelList;
+    String cityName="";
+
+    ArrayAdapter arrayAdapter;
+    List<String> citiesList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,8 +91,7 @@ public class ServiceScheduleActivity extends AppCompatActivity{
         actionBar = getSupportActionBar();
         Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
         new ActionBar.LayoutParams(250,90);
-        //android.app.ActionBar.LayoutParams layoutParams = new android.app.ActionBar.LayoutParams(250,90);
-       // actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_background));
+
         //getting current time
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -111,7 +124,7 @@ public class ServiceScheduleActivity extends AppCompatActivity{
         editText_housenum = findViewById(R.id.edittext_housenumber);
         editText_colony = findViewById(R.id.edittext_colony);
         editText_landmark = findViewById(R.id.edittext_landmark);
-        editText_city = findViewById(R.id.edittext_city);
+        edittext_city = findViewById(R.id.edittext_city);
 
 
 
@@ -128,6 +141,12 @@ public class ServiceScheduleActivity extends AppCompatActivity{
                 datePickerDialog();
             }
         });
+
+        if (networkUtils.checkConnection()){
+            getCitiesListFromServer();
+        }else{
+            UrlUtility.showCustomToast(getResources().getString(R.string.no_connection), this);
+        }
 
         serviceschedule_checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -160,12 +179,65 @@ public class ServiceScheduleActivity extends AppCompatActivity{
             }
         });
 
+        edittext_city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                cityName = edittext_city.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
+
+    public void getCitiesListFromServer(){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.GET_CITIES_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("Cities", "onResponse: "+response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    statusCode = jsonObject.getInt("statusCode");
+                    statusMessage = jsonObject.getString("statusMessage");
+                    if (statusCode == 200){
+                        JSONArray jsonArray = jsonObject.getJSONArray("response");
+                        for (int i=0; i<jsonArray.length(); i++){
+                            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                            citiesList.add(jsonObject1.getString("name"));
+                        }
+                        arrayAdapter = new ArrayAdapter(ServiceScheduleActivity.this, R.layout.cities_spinner_custom, citiesList);
+                        edittext_city.setAdapter(arrayAdapter);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Cities", "onErrorResponse: "+error.toString());
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<>();
+                params.put("User_ID", sharedPref.getStringValue("User_Id"));
+
+                return params;
+            }
+        };
+        VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
+        VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
+    } //end of CitiesListFromServer
 
 
     public void serviveschedulebutton(View view) {
         address=editText_housenum.getText().toString()+","+editText_colony.getText().toString()+","+editText_landmark.getText().toString()
-                +","+editText_city.getText().toString();
+                +","+cityName;
         Log.d("address", "serviveschedulebutton: "+address);
        /* Toast.makeText(this, "Details Saved!", Toast.LENGTH_SHORT).show();*/
 
@@ -174,7 +246,7 @@ public class ServiceScheduleActivity extends AppCompatActivity{
 
 
         if(editText_name.getText().toString().length()!=0 && editText_date.getText().toString().length() != 0 && editText_housenum.getText().toString().length() != 0
-                && editText_colony.getText().toString().length() != 0 && editText_city.getText().toString().length() != 0) {
+                && editText_colony.getText().toString().length() != 0 && cityName.length() != 0) {
             if(serviceschedule_checkbox.isChecked()){
                 submitDetailsToServer();
             }
@@ -209,9 +281,9 @@ public class ServiceScheduleActivity extends AppCompatActivity{
             {
                 editText_colony.setError("Colony is Required");
             }
-            if(editText_city.getText().toString().length() == 0)
+            if(cityName.length() == 0)
             {
-                editText_city.setError("City is Required");
+               UrlUtility.showCustomToast("City name required", ServiceScheduleActivity.this );
             }
 
             //  serviveschedulebutton.setEnabled(false);
@@ -254,7 +326,7 @@ public class ServiceScheduleActivity extends AppCompatActivity{
                 HashMap<String,String> params=new HashMap<>();
                 params.put("User_ID",sharedPref.getStringValue("User_Id"));
                 params.put("service_id",service_id);//first page id
-                params.put("service_subcat_id",service_selection_id.substring(0, service_selection_id.lastIndexOf(",")));
+                params.put("service_subcat_id",service_selection_id);
                 params.put("requirement",editText_description.getText().toString());//description
                 params.put("lead_from","2");//2
                 params.put("address",address);
@@ -262,6 +334,7 @@ public class ServiceScheduleActivity extends AppCompatActivity{
                 params.put("mobile",sharedPref.getStringValue("MobileNumber"));
                 params.put("enquiry_date",editText_date.getText().toString());
                 params.put("full_name",editText_name.getText().toString());
+               // params.put("problem_id", )
 
                 JSONObject jsonObject=new JSONObject(params);
                 Log.d("scheduleparams", "getParams: "+jsonObject.toString());

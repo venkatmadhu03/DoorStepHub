@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/problems_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pink">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="18dp"
+        android:id="@+id/problemsCardView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/service_required_for"
+                android:textAlignment="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:id="@+id/services_text"/>
+            <!--<RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/services_radiogroup"
+                android:orientation="horizontal"
+                android:textColor="#000000"
+                android:layout_below="@id/services_text"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/textviewpadding_bottom">
+&lt;!&ndash;                <RadioButton&ndash;&gt;
+&lt;!&ndash;                    android:layout_width="wrap_content"&ndash;&gt;
+&lt;!&ndash;                    android:layout_height="wrap_content"&ndash;&gt;
+&lt;!&ndash;                    android:id="@+id/rb_service_type_1"&ndash;&gt;
+&lt;!&ndash;                    android:text="Desktop"&ndash;&gt;
+&lt;!&ndash;                    android:layout_marginRight="30dp"/>&ndash;&gt;
+&lt;!&ndash;                <RadioButton&ndash;&gt;
+&lt;!&ndash;                    android:layout_width="wrap_content"&ndash;&gt;
+&lt;!&ndash;                    android:layout_height="wrap_content"&ndash;&gt;
+&lt;!&ndash;                    android:id="@+id/rb_service_type_2"&ndash;&gt;
+&lt;!&ndash;                    android:text="Laptop"/>&ndash;&gt;
+            </RadioGroup>-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/serviceRequiredForRecyclerView"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/problems_container"
+        android:layout_marginTop="5dp"
+        android:visibility="visible"
+        android:layout_below="@+id/problemsCardView"
+        android:layout_marginBottom="@dimen/activity_vertical_margin">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/button_continue"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:id="@+id/problemsRecyclerView"
+            android:visibility="gone">
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+        <Button
+            android:id="@+id/button_continue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:background="@drawable/button_bg"
+            android:drawableEnd="@drawable/forwardarrow"
+            android:paddingRight="20dp"
+            android:text="Continue"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"/>
+    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No issues types Found for selected Service"
+        android:textColor="@color/colorWhite"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:id="@+id/noIssuesTV"
+        android:visibility="visible"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>

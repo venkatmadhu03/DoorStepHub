@@ -22,19 +22,22 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import appsnova.com.doorstephub.R;
+import appsnova.com.doorstephub.activities.SubServiceSelectionActivity;
 import appsnova.com.doorstephub.models.ServiceSelectionModel;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ServiceSelectionAdapter extends RecyclerView.Adapter<ServiceSelectionAdapter.ServiceSelectionViewHolder> {
     Context context;
     public List<ServiceSelectionModel> serviceSelectionModelList;
-    public List<ServiceSelectionModel> selectedItemsList;
+    String service_id, service_name;
 
 
-    public ServiceSelectionAdapter(Context context, List<ServiceSelectionModel> serviceSelectionModelList,List<ServiceSelectionModel> selectedItemList) {
+    public ServiceSelectionAdapter(Context context, List<ServiceSelectionModel> serviceSelectionModelList,
+                                   String service_id, String service_name) {
         this.serviceSelectionModelList = serviceSelectionModelList;
         this.context = context;
-        this.selectedItemsList = selectedItemList;
+        this.service_id = service_id;
+        this.service_name = service_name;
     }
 
     @NonNull
@@ -42,36 +45,41 @@ public class ServiceSelectionAdapter extends RecyclerView.Adapter<ServiceSelecti
     public ServiceSelectionViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, final int i) {
         LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View view = layoutInflater.inflate(R.layout.service_selection_list_row, viewGroup, false);
-        final ServiceSelectionViewHolder holder = new ServiceSelectionViewHolder(view);
-        return holder;
+        return new ServiceSelectionViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ServiceSelectionViewHolder holder, final int i) {
+    public void onBindViewHolder(@NonNull final ServiceSelectionViewHolder holder, final int i) {
 
         final ServiceSelectionModel serviceSelectionModel = serviceSelectionModelList.get(i);
         holder.servicetext.setText(serviceSelectionModel.getName());
         Picasso.get().load(serviceSelectionModel.getService_selection_image()).
                 placeholder(R.drawable.dhub_placeholder).error(R.drawable.error).into(holder.service_background);
-        Log.d("selecteditemlistsize", String.valueOf(selectedItemsList.size()));
-        if(selectedItemsList.size()>0){
-            if(selectedItemsList.contains(serviceSelectionModel)){
 
-                holder.selected_item.setVisibility(View.VISIBLE);
-
-            }else{
-                holder.selected_item.setVisibility(View.GONE);
-            }
-
-        }
-        if(selectedItemsList.size()==0){
-            holder.selected_item.setVisibility(View.GONE);
-        }
+//        if(selectedItemsList.size()>0){
+//            if(selectedItemsList.contains(serviceSelectionModel)){
+//
+//                holder.selected_item.setVisibility(View.VISIBLE);
+//
+//            }else{
+//                holder.selected_item.setVisibility(View.GONE);
+//            }
+//
+//        }
+//        if(selectedItemsList.size()==0){
+//            holder.selected_item.setVisibility(View.GONE);
+//        }
 
         holder.servicerelativelayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(context, SubServiceSelectionActivity.class);
+                intent.putExtra("sub_service_id", serviceSelectionModelList.get(i).getId());
+                intent.putExtra("Service_Id", service_id);
+                intent.putExtra("Service_Name", service_name);
+                intent.putExtra("sub_service_name", serviceSelectionModelList.get(i).getName());
 
+                context.startActivity(intent);
             }
 
         });
@@ -85,7 +93,7 @@ public class ServiceSelectionAdapter extends RecyclerView.Adapter<ServiceSelecti
 
 
     public class ServiceSelectionViewHolder extends RecyclerView.ViewHolder {
-        TextView servicetext;
+       TextView servicetext;
         CardView service_item;
         ImageView selected_item;
         CircleImageView service_background;
@@ -96,15 +104,15 @@ public class ServiceSelectionAdapter extends RecyclerView.Adapter<ServiceSelecti
         public ServiceSelectionViewHolder(@NonNull final View itemView) {
             super(itemView);
             servicerelativelayout = itemView.findViewById(R.id.container);
-            servicetext = itemView.findViewById(R.id.servicerow_text);
+            servicetext = itemView.findViewById(R.id.problemTextView);
             service_background = itemView.findViewById(R.id.image_background);
-            selected_item = itemView.findViewById(R.id.selected_item);
+            //selected_item = itemView.findViewById(R.id.selected_item);
             service_item=itemView.findViewById(R.id.service_item);
 
         }
     }
 
-    public  List<ServiceSelectionModel> getSelectedItem(){
+    /*public  List<ServiceSelectionModel> getSelectedItem(){
 
         for (int i =0; i < serviceSelectionModelList.size(); i++){
             ServiceSelectionModel itemModel = serviceSelectionModelList.get(i);
@@ -118,6 +126,6 @@ public class ServiceSelectionAdapter extends RecyclerView.Adapter<ServiceSelecti
 
     public int getSelectedItemCount(){
         return selectedItemsList.size();
-    }
+    }*/
 
 }

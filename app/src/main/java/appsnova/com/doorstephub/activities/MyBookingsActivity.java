@@ -76,9 +76,9 @@ public class MyBookingsActivity extends AppCompatActivity {
         ActionBar actionBar;
         actionBar = getSupportActionBar();
         Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
-        new ActionBar.LayoutParams(250,90);
-        //android.app.ActionBar.LayoutParams layoutParams = new android.app.ActionBar.LayoutParams(250,90);
-        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_background));
+//        new ActionBar.LayoutParams(250,90);
+//        //android.app.ActionBar.LayoutParams layoutParams = new android.app.ActionBar.LayoutParams(250,90);
+//        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_background));
 
         networkUtils = new NetworkUtils(this);
         sharedPref = new SharedPref(this);

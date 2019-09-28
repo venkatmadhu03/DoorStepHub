@@ -40,6 +40,9 @@ import appsnova.com.doorstephub.utilities.VolleySingleton;
 
 
 public class VendorHomeActivity extends AppCompatActivity {
+    private static final String TAG = VendorHomeActivity.class.getSimpleName();
+
+    //create Views
     AppCompatButton sigin_btn;
     EditText mobilenumberET,passwordET;
     NetworkUtils networkUtils;
@@ -103,6 +106,7 @@ public class VendorHomeActivity extends AppCompatActivity {
                             statusCode = jsonObject.getString("statusCode");
                             statusMessage = jsonObject.getString("statusMessage");
                             if (statusCode.equalsIgnoreCase("200")) {
+
                                 JSONObject jsonObject1 = jsonObject.getJSONObject("response");
                                 id = jsonObject1.getString("id");
                                 role_id = jsonObject1.getString("role_id");
@@ -125,7 +129,9 @@ public class VendorHomeActivity extends AppCompatActivity {
 
                                 Log.d("Vendor_User_ID", "onResponse:"+"User_Id:"+id);
 
-                               Intent intent  = new Intent(VendorHomeActivity.this,MainActivityVendor.class);
+                                sendRegisterRequestToServer(jsonObject1.getString("id"));
+
+                                Intent intent  = new Intent(VendorHomeActivity.this,MainActivityVendor.class);
                                startActivity(intent);
                             }
                         } catch (JSONException e) {
@@ -158,5 +164,41 @@ public class VendorHomeActivity extends AppCompatActivity {
             }
         }
 
-    }
+    }//end of local validation
+
+
+    //sendRegisterRequestToServer
+    /*Method used to register the FCM token to server to get Push notifications*/
+    private void sendRegisterRequestToServer(final String userId){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.FCM_REGISTRATION_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("TAG", "onResponse: "+response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("TAG", "onResponse: "+error.toString());
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> params= new HashMap<>();
+                params.put("user_id", userId);
+                params.put("access_token", sharedPref.getStringValue("access_token"));
+                params.put("user_type", "2");
+                params.put("os", "Android");
+
+                Log.d(TAG, "getParams: "+new JSONObject(params).toString());
+
+                return params;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000*60, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
+        VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
+    } //end of sendRegisterRequestToServer
 }

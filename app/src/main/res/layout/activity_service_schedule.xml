@@ -71,9 +71,7 @@
                 android:paddingTop="@dimen/edittextpadding_top"
                 android:paddingEnd="@dimen/edittextpadding_end"
                 android:paddingBottom="@dimen/edittextpadding_bottom"
-                android:textSize="@dimen/edittext_size"
-                android:focusable="false"
-                android:clickable="false"/>
+                android:textSize="@dimen/edittext_size" />
 
             <EditText
                 android:id="@+id/editText_selectedservice"
@@ -138,7 +136,7 @@
                 android:background="@drawable/edittext_background"
                 android:drawablePadding="@dimen/drawable_padding"
                 android:focusable="false"
-                android:hint="Calendar"
+                android:hint="Schedule date and time"
                 android:textColorHint="@color/pink"
                 android:textColor="@color/pink"
                 android:imeOptions="actionNext"
@@ -161,7 +159,7 @@
                 android:background="@drawable/edittext_background"
                 android:drawablePadding="@dimen/drawable_padding"
                 android:gravity="top|start"
-                android:hint="Description"
+                android:hint="Specify requirement"
                 android:textColorHint="@color/pink"
                 android:textColor="@color/pink"
                 android:maxHeight="100dp"
@@ -207,7 +205,7 @@
                 android:layout_marginBottom="@dimen/edittext_marginbottom"
                 android:background="@drawable/edittext_background"
                 android:drawablePadding="@dimen/drawable_padding"
-                android:hint="Colony"
+                android:hint="Area"
                 android:textColorHint="@color/pink"
                 android:textColor="@color/pink"
                 android:imeOptions="actionNext"
@@ -241,23 +239,17 @@
                 android:paddingBottom="@dimen/edittextpadding_bottom"
                 android:textSize="@dimen/edittext_size" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/edittext_city"
                 android:layout_width="300dp"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:layout_below="@id/edittext_landmark"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="@dimen/edittextmarginleft"
                 android:layout_marginRight="@dimen/edittextmarginright"
                 android:layout_marginBottom="@dimen/edittext_marginbottom"
-                android:background="@drawable/edittext_background"
-                android:drawablePadding="@dimen/drawable_padding"
-                android:hint="City"
-                android:textColorHint="@color/pink"
-                android:textColor="@color/pink"
-                android:imeOptions="actionDone"
-                android:inputType="text"
+                android:background="@color/colorWhite"
                 android:paddingStart="@dimen/edittextpadding_start"
                 android:paddingTop="@dimen/edittextpadding_top"
                 android:paddingEnd="@dimen/edittextpadding_end"

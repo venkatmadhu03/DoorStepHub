@@ -30,19 +30,11 @@
         app:civ_border_width="2dp"
         app:civ_border_color="@color/pink"/>
 
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:id="@+id/selected_item"
-        android:src="@drawable/tick_mark"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:visibility="gone"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/servicerow_text"
+        android:id="@+id/problemTextView"
         android:layout_below="@id/image_background"
         android:minLines="2"
         android:maxLines="2"

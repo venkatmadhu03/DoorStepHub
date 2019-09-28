@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -154,7 +155,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }//end of onCreate
+
+    //OTP verification
     public void loginsuccessfull(View view) {
 
         if(otp_ET.getText().toString().length()==0){
@@ -179,6 +182,7 @@ public class LoginActivity extends AppCompatActivity {
                            Log.d("User_Id", "onResponse: "+jsonObject1.getString("id"));
                            intent = new Intent(LoginActivity.this,HomeActivity.class);
                            intent.putExtra("userid",mobilenumber_ET.getText().toString());
+                           sendRegisterRequestToServer(jsonObject1.getString("id"));
                            startActivity(intent);
                        }
                        else{
@@ -211,32 +215,40 @@ public class LoginActivity extends AppCompatActivity {
             VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
         }
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-    }
-   /* private void sendingRequestForOTP() {
-        String password="";
-        String path = "login.bulksmsgateway.in/sendmessage.php?user=doorstephub&password="+password+
-                "&mobile="+mobilenumber_ET.getText().toString()+"&message=&"+"&sender=DSLHUB"+"&type=3";
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, path, new Response.Listener<String>() {
+    } //end of verifyOTP
+
+    //sendRegisterRequestToServer FCM registration
+    private void sendRegisterRequestToServer(final String userId){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.FCM_REGISTRATION_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
-                        try {
-                            JSONObject jsonObject=new JSONObject(response);
-                            statuscode=jsonObject.getInt("statusCode");
-                            if (statuscode==200){
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                Log.d("TAG", "onResponse: "+response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(LoginActivity.this, "Please Enter OTP", Toast.LENGTH_SHORT).show();
+                Log.d("TAG", "onResponse: "+error.toString());
             }
-        });
-    }*/
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> params= new HashMap<>();
+                params.put("user_id", userId);
+                params.put("access_token", sharedPref.getStringValue("access_token"));
+                params.put("user_type", "1");
+                params.put("os", "Android");
+                return params;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000*60, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
+        VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
+    } //end of sendRegisterRequestToServer
+
+
     @Override
     public void onBackPressed() {
 

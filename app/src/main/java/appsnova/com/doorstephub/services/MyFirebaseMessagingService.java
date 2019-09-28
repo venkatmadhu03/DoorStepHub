@@ -1,20 +1,33 @@
 package appsnova.com.doorstephub.services;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.os.IBinder;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import androidx.core.app.NotificationCompat;
+import appsnova.com.doorstephub.R;
+import appsnova.com.doorstephub.utilities.MyNotificationManager;
+import appsnova.com.doorstephub.utilities.NetworkUtils;
+import appsnova.com.doorstephub.utilities.SharedPref;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
+
+    NetworkUtils networkUtils;
 
     private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
 
     public MyFirebaseMessagingService() {
-    }
 
+    }
 
     /**
      * Called if InstanceID token is updated. This may occur if the security of
@@ -24,6 +37,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(String token) {
         Log.d(TAG, "Refreshed token: " + token);
+        SharedPref sharedPref = new SharedPref(this);
+        if (!token.isEmpty()){
+            sharedPref.setStringValue("access_token", token);
+        }
+
 
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
@@ -43,13 +61,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
 
-            if (/* Check if data needs to be processed by long running job */ true) {
-                // For long-running tasks (10 seconds or more) use Firebase Job Dispatcher.
-                //scheduleJob();
-            } else {
-                // Handle message within 10 seconds
-                //handleNow();
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                NotificationManager mNotificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+                NotificationChannel mChannel = new NotificationChannel("DSH", "DoorstepHub", importance);
+                mChannel.enableLights(true);
+                mChannel.setLightColor(Color.RED);
+                mChannel.enableVibration(true);
+                mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                mNotificationManager.createNotificationChannel(mChannel);
             }
+
+            /*
+             * Displaying a notification locally
+             */
+            MyNotificationManager.getInstance(this).displayNotification("DoorstepHub", remoteMessage.getData().get("message"));
 
         }
 

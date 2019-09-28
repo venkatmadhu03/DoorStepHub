@@ -52,6 +52,11 @@ public class UrlUtility {
     public static final String CREATE_PAYMENT_REQUEST_URL = BASE_URL+"Payments/CreatePaymentRequest";
     public static final String PAYMENT_SUCCESS_URL = BASE_URL+"Payments/RechargeWallet";
 
+    public static final String FCM_REGISTRATION_URL = BASE_URL+"User/RegisterFCMToken";
+
+    public static final String GET_PROBLEMS_FROM_SERVER_URL = BASE_URL+"Services/Problems";
+    public static final String GET_SERVICE_REQUIRED_TYPE_URL = BASE_URL+"Services/ServiceRequiredType";
+
 
     public static ProgressDialog showProgressDialog(Context mContext) {
         ProgressDialog progressDialog = new ProgressDialog(mContext);

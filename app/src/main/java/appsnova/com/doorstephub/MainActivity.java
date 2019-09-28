@@ -21,6 +21,7 @@ import appsnova.com.doorstephub.activities.SplashScreenActivity;
 import appsnova.com.doorstephub.activities.Vendor_MerchantActivity;
 import appsnova.com.doorstephub.activities.vendor.VendorHomeActivity;
 import appsnova.com.doorstephub.adapters.IntroSliderAdapter;
+import appsnova.com.doorstephub.services.MyFirebaseMessagingService;
 import appsnova.com.doorstephub.utilities.SharedPref;
 
 public class MainActivity extends AppCompatActivity {

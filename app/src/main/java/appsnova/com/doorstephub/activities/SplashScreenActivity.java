@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import appsnova.com.doorstephub.MainActivity;
 import appsnova.com.doorstephub.R;
 import appsnova.com.doorstephub.activities.vendor.MainActivityVendor;
+import appsnova.com.doorstephub.services.MyFirebaseMessagingService;
 import appsnova.com.doorstephub.utilities.SharedPref;
 
 import android.content.Intent;
@@ -19,6 +20,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 SharedPref sharedPref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        startService(new Intent(this, MyFirebaseMessagingService.class));
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);

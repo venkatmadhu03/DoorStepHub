@@ -92,7 +92,7 @@
                 android:layout_centerHorizontal="true"
                 android:id="@+id/rating_bar"
                 android:layout_below="@id/orderdetails"
-                android:progressTint="#c31432"/>
+                android:theme="@style/RatingBar" />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
