@@ -26,6 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -48,6 +50,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringBufferInputStream;
 import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
@@ -71,11 +74,11 @@ public class VendorMyProfileActivity extends AppCompatActivity implements View.O
     EditText editText_fullname, editText_email_Id,
             editText_alternate_number, editText_description,editText_address;
     TextView textView_sevices_spinner, locations_spinner, address_proof_text, Id_proof_text,
-            address_proof_nameTV,idproof_name_TV,profile_pic_filename,addressproof_frontTV,addressproof_backTV,
+            address_proof_nameTV,idproof_name_TV,addressproof_frontTV,addressproof_backTV,
             idproof_frontTV,idproof_backTV;
     Button update_btn;
     StringBuilder servicesStringBuilder, citiesStringBuilder;
-    ImageView pp_Image,ap_FrontImage,ap_BackImage,id_FrontImage,id_BackImage;
+    ImageView ap_FrontImage,ap_BackImage,id_FrontImage,id_BackImage;
 
    /* private static final int TAKE_PICTURE = 1;
     private static final int PICK_FROM_GALLERY = 2;
@@ -100,7 +103,7 @@ public class VendorMyProfileActivity extends AppCompatActivity implements View.O
     SharedPref sharedPref;
     Dialog progressDialog;
 
-    String statusMessage;
+    String statusMessage,base64file1="",base64file2="",base64file3="",base64file4="";
     int statusCode;
     List<ServiceCategoryModel> serviceCategoryModelList = new ArrayList<>();
     VendorSpinnerAdapter vendorSpinnerAdapter;
@@ -141,20 +144,19 @@ public class VendorMyProfileActivity extends AppCompatActivity implements View.O
         address_proof_nameTV = findViewById(R.id.address_proof_nameTV);
         idproof_name_TV = findViewById(R.id.id_proof_nameTV);
 
-        profile_pic_filename = findViewById(R.id.profilepic_filename);
         addressproof_frontTV = findViewById(R.id.addressproof_front_TV);
         addressproof_backTV = findViewById(R.id.addressproof_back_TV);
         idproof_frontTV = findViewById(R.id.idproof_front_TV);
         idproof_backTV = findViewById(R.id.idproof_backTV);
 
         //ImageViews
-        pp_Image = findViewById(R.id.pp_Image);
+
         ap_FrontImage = findViewById(R.id.addressproof_frontIV);
         ap_BackImage = findViewById(R.id.addressproof_backIV);
         id_FrontImage = findViewById(R.id.idproof_frontIV);
         id_BackImage = findViewById(R.id.idproof_backIV);
 
-        pp_Image.setOnClickListener(this);
+
         ap_FrontImage.setOnClickListener(this);
         ap_BackImage.setOnClickListener(this);
         id_FrontImage.setOnClickListener(this);
@@ -173,7 +175,12 @@ public class VendorMyProfileActivity extends AppCompatActivity implements View.O
         update_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateVendorProfileDetails();
+                if (networkUtils.checkConnection()){
+                    updateVendorProfileDetails();
+                }else {
+                    Toast.makeText(VendorMyProfileActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -191,13 +198,14 @@ public class VendorMyProfileActivity extends AppCompatActivity implements View.O
                     statusCode  = jsonObject.getInt("statusCode");
                     statusMessage = jsonObject.getString("statusMessage");
                     if(statusCode == 200){
+                        sendAttachmentsToServer();
                         Toast.makeText(VendorMyProfileActivity.this, "Profile Updated Successfully", Toast.LENGTH_SHORT).show();
-                        finish();
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                progressDialog.dismiss();
+
             }
         }, new Response.ErrorListener() {
             @SuppressLint("LongLogTag")
@@ -234,6 +242,65 @@ public class VendorMyProfileActivity extends AppCompatActivity implements View.O
         VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
         VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
     } //update vendor Profile
+
+    private void sendAttachmentsToServer(){
+        progressDialog.show();
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, UrlUtility.VENDOR_PROOF_ATTACHMENTS_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Log.d("vendorResponse", "onResponse: "+response);
+                    JSONObject jsonObject=new JSONObject(response);
+                    if (jsonObject.getInt("statusCode")==200){
+                        Log.d("vendorResponse", "onResponse: "+response);
+                        finish();
+                    }else {
+                        Log.d("vendorResponse", "onResponse: "+response);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                progressDialog.dismiss();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("vendorResponse", "onResponse: "+error.toString());
+                progressDialog.dismiss();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params=new HashMap<>();
+                params.put("address_front",base64file1);
+                params.put("address_back",base64file2);
+                params.put("file_name1",addressproof_frontTV.getText().toString());
+                params.put("file_name2",addressproof_backTV.getText().toString());
+                params.put("id_back",base64file4);
+                params.put("id_front",base64file3);
+                params.put("file_name3",idproof_frontTV.getText().toString());
+                params.put("file_name4",idproof_backTV.getText().toString());
+                params.put("user_id",sharedPref.getStringValue("Vendor_User_id"));
+
+                Log.d("AttachmentParams", "getParams:filenames "+addressproof_frontTV.getText().toString()+","+addressproof_backTV.getText().toString()
+                        +","+idproof_frontTV.getText().toString()+","+idproof_backTV.getText().toString());
+                Log.d("AttachmentParams", "getParams: "+new JSONObject(params).toString());
+
+
+                return params;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(600000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
+        VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
+    }
+
 
     private void getProfileDetailsFromServer() {
         progressDialog.show();
@@ -722,47 +789,27 @@ public class VendorMyProfileActivity extends AppCompatActivity implements View.O
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode != RESULT_CANCELED) {
-            if (requestCode == PP_ImageRequest && resultCode == RESULT_OK) {
-                Uri ppuri = data.getData();
-//                String selectedImagePath = getImagePath(ppuri);
-//                File profilefile = new File(selectedImagePath);
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-                pp_Image.setImageBitmap(photo);
-                profile_pic_filename.setText(data.getDataString());
-                profile_pic_filename.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-
-            } else if (requestCode == PP_CHOOSE_REQUEST) {
-                if (data != null) {
-                    Uri contentURI = data.getData();
-                    String selectedImagePath = getImagePath(contentURI);
-                    File profilefile = new File(selectedImagePath);
-                    Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath);
-                    pp_Image.setImageBitmap(bitmap);
-                    profile_pic_filename.setText(profilefile.getName());
-                    profile_pic_filename.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-                }
-            }
-        }
-
-        if (resultCode != RESULT_CANCELED) {
             if (requestCode == AP_Front_ImageRequest && resultCode == RESULT_OK) {
-//                Uri contentURI1 = data.getData();
-//                String selectedImagePath  = getImagePath(contentURI1);
-//                File apFrontfile = new File(selectedImagePath);
+                Uri contentURI1 = data.getData();
+                String selectedImagePath  = getImagePath(contentURI1);
+                File apFrontfile = new File(selectedImagePath);
+                base64file1=convertFileToBase64(Uri.fromFile(apFrontfile));
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 ap_FrontImage.setImageBitmap(photo);
-                addressproof_frontTV.setText(data.getDataString());
-                addressproof_frontTV.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                addressproof_frontTV.setText(editText_fullname.getText().toString()+"_add_f_"+System.currentTimeMillis()+".jpg");
+                addressproof_frontTV.setTextColor(getResources().getColor(R.color.colorWhite));
             }
             else if (requestCode == AP_Front_CHOOSE_REQUEST) {
                 if (data != null) {
                     Uri contentURI = data.getData();
                     String selectedImagePath = getImagePath(contentURI);
                     File apFrontfile = new File(selectedImagePath);
+                    base64file1=convertFileToBase64(Uri.fromFile(apFrontfile));
                     Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath);
                     ap_FrontImage.setImageBitmap(bitmap);
-                    addressproof_frontTV.setText(apFrontfile.getName());
-                    addressproof_frontTV.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                    addressproof_frontTV.setText(editText_fullname.getText().toString()+"_add_f_"+System.currentTimeMillis()+".jpg");
+                    addressproof_frontTV.setTextColor(getResources().getColor(R.color.colorWhite));
+                    Log.d("FileName", "onActivityResult:FileName "+apFrontfile.getName());
 
                 }
             }
@@ -771,13 +818,14 @@ public class VendorMyProfileActivity extends AppCompatActivity implements View.O
 
         if (resultCode != RESULT_CANCELED) {
             if (requestCode == AP_Back_ImageRequest && resultCode == RESULT_OK) {
-//                Uri contentURI1 = data.getData();
-//                String selectedImagePath = getImagePath(contentURI1);
-//                File apBackfile = new File(selectedImagePath);
+                Uri contentURI1 = data.getData();
+                String selectedImagePath = getImagePath(contentURI1);
+                File apBackfile = new File(selectedImagePath);
+                base64file2=convertFileToBase64(Uri.fromFile(apBackfile));
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 ap_BackImage.setImageBitmap(photo);
-                addressproof_backTV.setText(data.getDataString());
-                addressproof_backTV.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                addressproof_backTV.setText(editText_fullname.getText().toString()+"_add_b_"+System.currentTimeMillis()+".jpg");
+                addressproof_backTV.setTextColor(getResources().getColor(R.color.colorWhite));
 
 
             }
@@ -786,10 +834,11 @@ public class VendorMyProfileActivity extends AppCompatActivity implements View.O
                     Uri contentURI = data.getData();
                     String selectedImagePath = getImagePath(contentURI);
                     File apBackfile = new File(selectedImagePath);
+                    base64file2=convertFileToBase64(Uri.fromFile(apBackfile));
                     Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath);
                     ap_BackImage.setImageBitmap(bitmap);
-                    addressproof_backTV.setText(apBackfile.getName());
-                    addressproof_backTV.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                    addressproof_backTV.setText(editText_fullname.getText().toString()+"_add_b_"+System.currentTimeMillis()+".jpg");
+                    addressproof_backTV.setTextColor(getResources().getColor(R.color.colorWhite));
 
                 }
             }
@@ -798,12 +847,13 @@ public class VendorMyProfileActivity extends AppCompatActivity implements View.O
 
         if (resultCode != RESULT_CANCELED) {
             if (requestCode == ID_Front_ImageRequest && resultCode == RESULT_OK) {
-//                Uri contentUri = data.getData();
-//                String selectedImagePath = getImagePath(contentUri);
-//                File idFrontfile  = new File(selectedImagePath);
+                Uri contentUri = data.getData();
+                String selectedImagePath = getImagePath(contentUri);
+                File idFrontfile  = new File(selectedImagePath);
+                base64file3=convertFileToBase64(Uri.fromFile(idFrontfile));
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 id_FrontImage.setImageBitmap(photo);
-                idproof_frontTV.setText(data.getDataString());
+                idproof_frontTV.setText(editText_fullname.getText().toString()+"_id_f_"+System.currentTimeMillis()+".jpg");
                 idproof_frontTV.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
 
             }
@@ -812,9 +862,10 @@ public class VendorMyProfileActivity extends AppCompatActivity implements View.O
                     Uri contentURI = data.getData();
                     String selectedImagePath = getImagePath(contentURI);
                     File idFrontfile = new File(selectedImagePath);
+                    base64file3=convertFileToBase64(Uri.fromFile(idFrontfile));
                     Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath);
                     id_FrontImage.setImageBitmap(bitmap);
-                    idproof_frontTV.setText(idFrontfile.getName());
+                    idproof_frontTV.setText(editText_fullname.getText().toString()+"_id_f_"+System.currentTimeMillis()+".jpg");
                     idproof_frontTV.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
 //                    showExif(contentURI);
                 }
@@ -824,12 +875,13 @@ public class VendorMyProfileActivity extends AppCompatActivity implements View.O
 
         if (resultCode != RESULT_CANCELED) {
             if (requestCode == ID_Back_ImageRequest && resultCode == RESULT_OK) {
-//                Uri contentUri = data.getData();
-//                String selectedImagePath = getImagePath(contentUri);
-//                File idBackfile = new File(selectedImagePath);
+                Uri contentUri = data.getData();
+                String selectedImagePath = getImagePath(contentUri);
+                File idBackfile = new File(selectedImagePath);
+                base64file4=convertFileToBase64(Uri.fromFile(idBackfile));
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 id_BackImage.setImageBitmap(photo);
-                idproof_backTV.setText(data.getDataString());
+                idproof_backTV.setText(editText_fullname.getText().toString()+"_id_b_"+System.currentTimeMillis()+".jpg");
                 idproof_backTV.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
 
             } else if (requestCode == ID_Back_CHOOSE_REQUEST) {
@@ -837,24 +889,48 @@ public class VendorMyProfileActivity extends AppCompatActivity implements View.O
                     Uri contentURI = data.getData();
                     String selectedImagePath = getImagePath(contentURI);
                     File idBackfile   = new File(selectedImagePath);
+                    base64file4=convertFileToBase64(Uri.fromFile(idBackfile));
                     Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath);
                     id_BackImage.setImageBitmap(bitmap);
-                    idproof_backTV.setText(idBackfile.getName());
+                    idproof_backTV.setText(editText_fullname.getText().toString()+"_id_b_"+System.currentTimeMillis()+".jpg");
                     idproof_backTV.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-
                 }
             }
         }
 
     }
 
+    private String convertFileToBase64(Uri contentUri) {
+        byte[] byteArray = new byte[1024*11];
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        try {
+            InputStream inputStream = getApplicationContext().getContentResolver().openInputStream(contentUri);
+            byte[] b = new byte[1024 * 11];
+            int bytesRead = 0;
+
+            while ((bytesRead = inputStream.read(b)) != -1) {
+                byteArrayOutputStream.write(b, 0, bytesRead);
+            }
+
+            byteArray = byteArrayOutputStream.toByteArray();
+
+            Log.e("Byte array", ">" + byteArray);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String base64_file = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        return base64_file;
+    }
+
     @Override
     public void onClick(View v) {
        int id = v.getId();
-        if(id==R.id.pp_Image){
-            uploadButtonOptions("image1");
-        }
-        else if(id == R.id.addressproof_frontIV){
+
+        if(id == R.id.addressproof_frontIV){
             uploadButtonOptions("image2");
         }
         else if(id == R.id.addressproof_backIV){

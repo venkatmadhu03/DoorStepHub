@@ -45,6 +45,8 @@ public class UrlUtility {
     public static final String VENDOR_CANCELLED_REASONS_URL =BASE_URL+"Bookings/CancelledReasons";
     public static final String VENDOR_LATEST_BOOKINGS_URL =BASE_URL+"Bookings/VendorLatestBooking";
     public static final String VENDOR_BOOKINGS_DEDUCTBALANCE_URL =BASE_URL+"Bookings/DeductBalance";
+    public static final String VENDOR_PROOF_ATTACHMENTS_URL =BASE_URL+"User/InsertImages";
+
 
     public static final String GET_CITIES_URL = BASE_URL+"Services/GetCities";
 
