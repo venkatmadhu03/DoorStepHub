@@ -58,6 +58,7 @@ public class UrlUtility {
 
     public static final String GET_PROBLEMS_FROM_SERVER_URL = BASE_URL+"Services/Problems";
     public static final String GET_SERVICE_REQUIRED_TYPE_URL = BASE_URL+"Services/ServiceRequiredType";
+    public static final String UPDATE_PROFILE_IMAGE_URL = BASE_URL+"User/UpdateProfilePhoto";
 
 
     public static ProgressDialog showProgressDialog(Context mContext) {

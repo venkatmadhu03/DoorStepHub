@@ -123,7 +123,9 @@
             android:theme="@style/ActionBar" />
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_5Pt5TsAeyZpFiP" />
+            android:value="rzp_live_XK3esNTdXe3xSW" />
+
+        <!--rzp_test_5Pt5TsAeyZpFiP-->
         <service
             android:name=".services.MyFirebaseMessagingService"
             android:enabled="true"
@@ -133,6 +135,8 @@
             </intent-filter>
         </service>
     </application>
+
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />

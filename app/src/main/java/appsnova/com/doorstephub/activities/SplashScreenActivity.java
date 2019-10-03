@@ -14,15 +14,23 @@ import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.ScaleAnimation;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class SplashScreenActivity extends AppCompatActivity {
 SharedPref sharedPref;
+ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        startService(new Intent(this, MyFirebaseMessagingService.class));
         super.onCreate(savedInstanceState);
+
+        startService(new Intent(this, MyFirebaseMessagingService.class));
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -31,6 +39,32 @@ SharedPref sharedPref;
         setContentView(R.layout.activity_splash_screen);
 
         sharedPref = new SharedPref(SplashScreenActivity.this);
+
+        imageView = findViewById(R.id.imageView);
+
+        final float growTo = 1.2f;
+        final long duration = 800;
+
+        ScaleAnimation grow = new ScaleAnimation(1, growTo, 1, growTo,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        grow.setDuration(duration / 2);
+        grow.setRepeatMode(Animation.REVERSE);
+        grow.setRepeatCount(Animation.INFINITE);
+
+
+        ScaleAnimation shrink = new ScaleAnimation(growTo, 1, growTo, 1,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        shrink.setDuration(duration / 2);
+        shrink.setStartOffset(duration / 2);
+        AnimationSet growAndShrink = new AnimationSet(true);
+        growAndShrink.setInterpolator(new LinearInterpolator());
+        growAndShrink.addAnimation(grow);
+        growAndShrink.addAnimation(shrink);
+
+//        Animation animation = AnimationUtils.loadAnimation(this, R.anim.blink_anim);
+        imageView.startAnimation(growAndShrink);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
