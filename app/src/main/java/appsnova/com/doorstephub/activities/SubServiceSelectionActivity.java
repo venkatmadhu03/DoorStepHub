@@ -103,9 +103,6 @@ public class SubServiceSelectionActivity extends AppCompatActivity {
 
         //initilze views
         services=findViewById(R.id.problemsCardView);
-        //radioGroup = findViewById(R.id.services_radiogroup);
-//        rb_service_type_1 = findViewById(R.id.rb_service_type_1);
-//        rb_service_type_2 = findViewById(R.id.rb_service_type_2);
         button_continue = findViewById(R.id.button_continue);
         problemsRecyclerView = findViewById(R.id.problemsRecyclerView);
         noIssuesTV = findViewById(R.id.noIssuesTV);
@@ -202,6 +199,7 @@ public class SubServiceSelectionActivity extends AppCompatActivity {
     } // end of getServiceRequiredTypeFromServer
 
     private void getProblemsListFromServer(final String id){
+        problemsModelList.clear();
         progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.GET_PROBLEMS_FROM_SERVER_URL, new Response.Listener<String>() {
             @Override

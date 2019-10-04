@@ -56,7 +56,7 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
     public void onBindViewHolder(@NonNull MyBookingsViewHolder holder, int position) {
         MyBookingsModel myBookingsModel = mybookingsfilteredlist.get(position);
 
-        holder.mybooking_orderidtxt.setText(myBookingsModel.getOrderid());
+        holder.mybooking_orderidtxt.setText(myBookingsModel.getAppointment_id());
         holder.mybooking_service_description.setText(myBookingsModel.getService_description());
        // holder.mybooking_SelectedService.setText("Service:"+myBookingsModel.getSelectedService());
         holder.mybooking_SelectedSubService.setText(myBookingsModel.getSelectedSubService());

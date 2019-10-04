@@ -1,6 +1,7 @@
 package appsnova.com.doorstephub.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,9 +9,11 @@ import android.transition.Explode;
 import android.transition.Fade;
 import android.transition.Visibility;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.CycleInterpolator;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
@@ -29,6 +32,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,7 +51,7 @@ public class MyBookingsResultActivity extends AppCompatActivity {
     Button feedback_submit;
     Bundle bundle;
     int statusCode;
-    String statusMessage;
+    String statusMessage,status="";
     String service_order_id="";
     TextView selectedorderid,service,subservice,selected_servicerequired,selected_scheduled_date;
     ProgressDialog progressDialog;
@@ -91,12 +95,17 @@ public class MyBookingsResultActivity extends AppCompatActivity {
         //get Values from bundle
         if(bundle!=null){
             service_order_id =bundle.getString("selectedorderid");
-            selectedorderid.setText("Order ID:"+bundle.getString("selectedorderid"));
+            selectedorderid.setText("Order ID:"+bundle.getString("appointmentId"));
             service.setText("Service:"+bundle.getString("service"));
             subservice.setText("Sub Service:"+bundle.getString("subservice"));
             selected_servicerequired.setText("Service Description:"+bundle.getString("selectedservicedescription"));
             selected_scheduled_date.setText("Scheduled On:"+bundle.getString("scheduleddate"));
+            status=bundle.getString("status");
         }
+//        if (status.equalsIgnoreCase("closed") || status.equalsIgnoreCase("completed")){
+//            feedback_submit.setVisibility(View.GONE);
+//
+//        }
         setTitle(service_order_id);
         //check for connection and get feedback from server
         if (networkUtils.checkConnection()){
@@ -116,6 +125,14 @@ public class MyBookingsResultActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.
+                INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
+        return true;
     }
 
     public void getFeedbackFromServer(){

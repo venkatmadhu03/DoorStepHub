@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -14,6 +15,7 @@ import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -43,6 +45,7 @@ import java.util.Objects;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.lifecycle.MutableLiveData;
 import appsnova.com.doorstephub.R;
 import appsnova.com.doorstephub.activities.vendor.VendorMyProfileActivity;
@@ -58,7 +61,7 @@ public class ServiceScheduleActivity extends AppCompatActivity{
     EditText editText_name,editText_phone,editText_SelectedService,editText_SelectedSubService,editText_date,
             editText_description,editText_housenum,editText_colony,editText_landmark;
 
-    Spinner edittext_city;
+    AppCompatSpinner edittext_city;
     Button serviveschedulebutton;
     CheckBox serviceschedule_checkbox;
     NetworkUtils networkUtils;
@@ -193,6 +196,14 @@ public class ServiceScheduleActivity extends AppCompatActivity{
 
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.
+                INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
+        return true;
+    }
+
     public void getCitiesListFromServer(){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.GET_CITIES_URL, new Response.Listener<String>() {
             @Override
@@ -233,7 +244,6 @@ public class ServiceScheduleActivity extends AppCompatActivity{
         VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
         VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
     } //end of CitiesListFromServer
-
 
     public void serviveschedulebutton(View view) {
         address=editText_housenum.getText().toString()+","+editText_colony.getText().toString()+","+editText_landmark.getText().toString()

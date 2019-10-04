@@ -187,6 +187,11 @@ ServiceSelectionActivity extends AppCompatActivity {
 
     }//end of getSubServicesListFromServer
 
-
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAfterTransition();
+        }
+        return true;
+    }
 }

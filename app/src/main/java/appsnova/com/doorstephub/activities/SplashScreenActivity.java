@@ -45,7 +45,7 @@ ImageView imageView;
         final float growTo = 1.2f;
         final long duration = 800;
 
-        ScaleAnimation grow = new ScaleAnimation(1, growTo, 1, growTo,
+        /*ScaleAnimation grow = new ScaleAnimation(1, growTo, 1, growTo,
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f);
         grow.setDuration(duration / 2);
@@ -61,10 +61,10 @@ ImageView imageView;
         AnimationSet growAndShrink = new AnimationSet(true);
         growAndShrink.setInterpolator(new LinearInterpolator());
         growAndShrink.addAnimation(grow);
-        growAndShrink.addAnimation(shrink);
+        growAndShrink.addAnimation(shrink);*/
 
-//        Animation animation = AnimationUtils.loadAnimation(this, R.anim.blink_anim);
-        imageView.startAnimation(growAndShrink);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        imageView.startAnimation(animation);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -88,7 +88,7 @@ ImageView imageView;
                     startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
                 }
             }
-        },3000);
+        },2000);
 
     }
 

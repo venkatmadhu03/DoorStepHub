@@ -90,19 +90,27 @@ public class MyBookingsActivity extends AppCompatActivity {
             @Override
             public void onClickItem(View v, int pos) {
               //  Toast.makeText(MyBookingsVendorActivity.this, myBookingsModels.get(pos).getUsername(), Toast.LENGTH_SHORT).show();
+                if (myBookingsModels.get(pos).getStatus().equalsIgnoreCase("closed")||
+                        myBookingsModels.get(pos).getStatus().equalsIgnoreCase("completed")){
+                    Intent intent = new Intent(MyBookingsActivity.this, MyBookingsResultActivity.class);
+                    intent.putExtra("selectedorderid",myBookingsModels.get(pos).getOrderid());
+                    intent.putExtra("service",myBookingsModels.get(pos).getSelectedService());
+                    intent.putExtra("subservice",myBookingsModels.get(pos).getSelectedSubService());
+                    intent.putExtra("selectedorderusername",myBookingsModels.get(pos).getUsername());
+                    intent.putExtra("selectedservicedescription",myBookingsModels.get(pos).getService_description());
+                    intent.putExtra("scheduleddate",myBookingsModels.get(pos).getScheduleddate());
+                    intent.putExtra("status",myBookingsModels.get(pos).getStatus());
+                    intent.putExtra("appointmentId",myBookingsModels.get(pos).getAppointment_id());
 
-                Intent intent = new Intent(MyBookingsActivity.this, MyBookingsResultActivity.class);
-                intent.putExtra("selectedorderid",myBookingsModels.get(pos).getOrderid());
-                intent.putExtra("service",myBookingsModels.get(pos).getSelectedService());
-                intent.putExtra("subservice",myBookingsModels.get(pos).getSelectedSubService());
-                intent.putExtra("selectedorderusername",myBookingsModels.get(pos).getUsername());
-                intent.putExtra("selectedservicedescription",myBookingsModels.get(pos).getService_description());
-                intent.putExtra("scheduleddate",myBookingsModels.get(pos).getScheduleddate());
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                        ActivityOptions activityOptions =ActivityOptions.makeSceneTransitionAnimation(MyBookingsActivity.this);
+                        startActivity(intent,activityOptions.toBundle());
+                    }
 
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    ActivityOptions activityOptions =ActivityOptions.makeSceneTransitionAnimation(MyBookingsActivity.this);
-                    startActivity(intent,activityOptions.toBundle());
+                }else {
+                    UrlUtility.showCustomToast("cannot submit feedback until your request is completed",MyBookingsActivity.this);
                 }
+
             }
         });
         LinearLayoutManager linearLayoutManager =new LinearLayoutManager(MyBookingsActivity.this);
@@ -162,7 +170,7 @@ public class MyBookingsActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             finishAfterTransition();
         }
-        return super.onSupportNavigateUp();
+        return true;
     }
 
     @Override
@@ -193,6 +201,7 @@ public class MyBookingsActivity extends AppCompatActivity {
                             myBookingsModel.setService_description(jsonObject1.getString("requirement"));
                             myBookingsModel.setScheduleddate(jsonObject1.getString("enquiry_date"));
                             myBookingsModel.setStatus(jsonObject1.getString("enquiry_status_value"));
+                            myBookingsModel.setAppointment_id(jsonObject1.getString("appointment_id"));
                             myBookingsModels.add(myBookingsModel);
                         }
                         Log.d("mybookingslist", "onResponse: "+myBookingsModels.size());

@@ -6,6 +6,16 @@ public class ServiceRequiredForModel {
     String id;
     String service_required_for_id;
 
+    public String getIsChecked() {
+        return isChecked;
+    }
+
+    public void setIsChecked(String isChecked) {
+        this.isChecked = isChecked;
+    }
+
+    String isChecked;
+
     public ServiceRequiredForModel() {
     }
 

@@ -238,30 +238,35 @@
                 android:paddingEnd="@dimen/edittextpadding_end"
                 android:paddingBottom="@dimen/edittextpadding_bottom"
                 android:textSize="@dimen/edittext_size" />
-
-            <Spinner
-                android:id="@+id/edittext_city"
+            <LinearLayout
                 android:layout_width="300dp"
-                android:layout_height="60dp"
-                android:layout_below="@id/edittext_landmark"
-                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerLl"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="@dimen/edittextmarginleft"
                 android:layout_marginRight="@dimen/edittextmarginright"
                 android:layout_marginBottom="@dimen/edittext_marginbottom"
                 android:background="@color/colorWhite"
-                android:paddingStart="@dimen/edittextpadding_start"
-                android:paddingTop="@dimen/edittextpadding_top"
-                android:paddingEnd="@dimen/edittextpadding_end"
-                android:paddingBottom="@dimen/edittextpadding_bottom"
-                android:textSize="@dimen/edittext_size" />
+                android:layout_below="@id/edittext_landmark"
+                android:paddingTop="9dp"
+                android:paddingBottom="9dp"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/edittext_size">
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/edittext_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown" />
+
+            </LinearLayout>
 
 
             <CheckBox
                 android:id="@+id/serviceschedule_checkbox"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/edittext_city"
+                android:layout_below="@id/spinnerLl"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="9dp"
                 android:gravity="center_horizontal|center_vertical"

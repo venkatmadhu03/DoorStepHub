@@ -3,11 +3,50 @@
     android:fillAfter="true"
     android:interpolator="@android:anim/bounce_interpolator">
 
-    <scale
-        android:duration="500"
-        android:fromXScale="1.0"
+    <!--<scale
+        android:duration="1500"
+        android:fromXScale="0.0"
         android:fromYScale="0.0"
         android:toXScale="1.0"
-        android:toYScale="1.0" />
+        android:toYScale="1.0"
+        android:repeatCount="infinite" />-->
+
+    <translate
+        android:duration="2000"
+        android:fromXDelta="0%p"
+        android:toXDelta="0%p"
+        android:fromYDelta="-10%p"
+        android:toYDelta="10%p"
+        android:repeatCount="infinite" />
 
 </set>
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/bounce_interpolator">
+
+    &lt;!&ndash; Use your working translate animation here&ndash;&gt;
+    <translate
+        android:duration="1500"
+        android:fromXDelta="0%p"
+        android:toXDelta="0%p"
+        android:fromYDelta="-10%p"
+        android:toYDelta="0%p"
+        android:repeatCount="infinite"
+        android:repeatMode="reverse"/>
+</set>-->
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<set xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    android:fillAfter="true"-->
+    <!--    android:interpolator="@android:anim/bounce_interpolator">-->
+
+    <!--    <scale-->
+    <!--        android:duration="700"-->
+    <!--        android:fromXScale="1.0"-->
+    <!--        android:fromYScale="0.0"-->
+    <!--        android:toXScale="1.0"-->
+    <!--        android:toYScale="1.0" />-->
+
+    <!--</set>-->

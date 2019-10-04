@@ -17,8 +17,8 @@ public class ThankYouPage extends AppCompatActivity {
 
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-       // new ActionBar.LayoutParams(250,90);
-        //android.app.ActionBar.LayoutParams layoutParams = new android.app.ActionBar.LayoutParams(250,90);
+        new ActionBar.LayoutParams(250,90);
+        android.app.ActionBar.LayoutParams layoutParams = new android.app.ActionBar.LayoutParams(250,90);
        // actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_background));
 
         Handler handler = new Handler();
