@@ -27,6 +27,7 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -351,6 +352,8 @@ public class ServiceScheduleActivity extends AppCompatActivity{
                 return params;
             }
         };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000*60, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
         VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
     }
