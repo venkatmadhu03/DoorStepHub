@@ -708,6 +708,7 @@ public class MainActivityVendor extends AppCompatActivity
                 params.put("user_id", sharedPref.getStringValue("Vendor_User_id"));
                 params.put("profile_photo", base64file);
                 params.put("file_name", file_name);
+                params.put("user_role", "merchant");
 
                 Log.d("ProfileParams", "getParams: "+new JSONObject(params).toString());
 

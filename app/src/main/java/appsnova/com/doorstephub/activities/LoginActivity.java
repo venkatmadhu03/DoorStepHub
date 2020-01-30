@@ -14,6 +14,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
@@ -61,7 +62,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        }
 
         setContentView(R.layout.activity_login);
 
@@ -90,13 +93,13 @@ public class LoginActivity extends AppCompatActivity {
                 if (s.length() == 10) {
                     final AlertDialog.Builder confirm_Number = new AlertDialog.Builder(LoginActivity.this);
                     confirm_Number.setMessage("Are You Sure To Send OTP to this Number?"+Html.fromHtml("<font><b>" + mobilenumber_ET.getText().toString() + "</b></font>"));
-                   /* confirm_Number.setItems(new CharSequence[]{"Change Number?"}, new DialogInterface.OnClickListener() {
+                   confirm_Number.setItems(new CharSequence[]{"Change Number?"}, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
                             dialog.dismiss();
                         }
-                    });*/
+                    });
 
                     confirm_Number.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
@@ -256,6 +259,7 @@ public class LoginActivity extends AppCompatActivity {
     public boolean onTouchEvent(MotionEvent event) {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.
                 INPUT_METHOD_SERVICE);
+        assert imm != null;
         imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
         return true;
     }

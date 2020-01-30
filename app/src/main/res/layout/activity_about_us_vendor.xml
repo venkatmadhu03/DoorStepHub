@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/aboutus_progressbar"
-        android:layout_gravity="center"
-        android:layout_centerInParent="true"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:elevation="30dp"/>
-    <WebView
-        android:id="@+id/webview_aboutus"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </WebView>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/aboutus_progressbar"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:elevation="30dp"
+            tools:targetApi="lollipop" />
+        <WebView
+            android:id="@+id/webview_aboutus"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </WebView>
+
+
+    </RelativeLayout>
+
 
 
     <!--<LinearLayout-->

@@ -36,6 +36,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="@dimen/edittextmarginleft"
                 android:layout_marginTop="10dp"
+                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 android:maxLines="1"
                 android:inputType="text"
                 android:imeOptions="actionNext"

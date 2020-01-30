@@ -16,12 +16,11 @@ import androidx.viewpager.widget.PagerAdapter;
 import appsnova.com.doorstephub.R;
 
 public class IntroSliderAdapter extends PagerAdapter {
-    Context context;
+    private Context context;
     LayoutInflater layoutInflater;
 
     //Array
     public int[] list_images={
-
             R.drawable.intro_image1,
             R.drawable.intro_image2,
             R.drawable.intro_image3
@@ -35,7 +34,6 @@ public class IntroSliderAdapter extends PagerAdapter {
     };
 
     public String[] list_description={
-
             " ",
             "Jut spend few Seconds of your \n valuable time to share your \n requirement and Schedule time for Us.",
             "Within few minutes of your request, \n you will receive a call from our \n professional we follow-up on the \n customer call.",
@@ -75,7 +73,7 @@ public class IntroSliderAdapter extends PagerAdapter {
         //TextView txt1 = view.findViewById(R.id.slidetitle);
         //TextView txt2 = view.findViewById(R.id.slidedescription);
 
-        Picasso.get().load(list_images[position]).placeholder(R.drawable.dhub_placeholder).into(img);
+        Picasso.get().load(list_images[position]).placeholder(R.drawable.applogo).into(img);
        // img.setImageResource(list_images[position]);
        // txt1.setText(list_title[position]);
        // txt2.setText(list_description[position]);

@@ -44,7 +44,7 @@ public class MyBookingsVendorActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_vendor_mybookings);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setTitle("My Orders");
 
         tabLayout = findViewById(R.id.tablayout);
@@ -53,7 +53,7 @@ public class MyBookingsVendorActivity extends AppCompatActivity {
         setupViewPager(viewPager);
         //start fragment transaction
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
@@ -72,17 +72,15 @@ public class MyBookingsVendorActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
 
-        if (!intentFrom.isEmpty() || intentFrom !=null){
-            if (intentFrom.equalsIgnoreCase("vendorHome")){
-                status = bundle.getString("status");
-                if (status.equalsIgnoreCase("pending")){
-                    Objects.requireNonNull(tabLayout.getTabAt(0)).select();
+        if (intentFrom.equalsIgnoreCase("VendorHome")){
+            status = bundle.getString("leadStatus");
+            if (status.equalsIgnoreCase("pending")){
+                Objects.requireNonNull(tabLayout.getTabAt(0)).select();
 
-                }else if (status.equalsIgnoreCase("completed")){
-                    Objects.requireNonNull(tabLayout.getTabAt(1)).select();
-                }else if (status.equalsIgnoreCase("cancelled")){
-                    Objects.requireNonNull(tabLayout.getTabAt(2)).select();
-                }
+            }else if (status.equalsIgnoreCase("completed")){
+                Objects.requireNonNull(tabLayout.getTabAt(1)).select();
+            }else if (status.equalsIgnoreCase("cancelled")){
+                Objects.requireNonNull(tabLayout.getTabAt(2)).select();
             }
         }
 

@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import appsnova.com.doorstephub.Answered_Fragment;
 import appsnova.com.doorstephub.R;
 import appsnova.com.doorstephub.activities.vendor.VendorMyProfileActivity;
 import appsnova.com.doorstephub.models.CancelledReasonPOJO;
@@ -58,7 +59,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
     LinearLayout.LayoutParams layoutParams;
     RadioGroup radioGroup;
     RadioButton dynamic_radiobutton;
-    String selectedRadioButtonValue ="";
+    String selectedRadioButtonValue ="", selectedRadioButtonId="";
     double standard_amount = 150;
     double eighteen_percent_deduction;
     double final_amount;
@@ -95,22 +96,21 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
         myViewHolder.answered_accept_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                String userRole_id = sharedPref.getStringValue("role_id");
-                Log.d("role_id", "onClick: "+userRole_id);
+               Log.d("role_id", "onClick: "+userRole_id);
                if(userRole_id.equalsIgnoreCase("5")){
                    deductAmountResultFromServer(myLeadsPojoList.get(pos).getBooking_id(),
                            myLeadsPojoList.get(pos).getStatus_name(), myLeadsPojoList.get(pos).getEnquiry_id(), 250);
 
                }else if(userRole_id.equalsIgnoreCase("6")){
                    deductAmountResultFromServer(myLeadsPojoList.get(pos).getBooking_id(),
-                           myLeadsPojoList.get(pos).getStatus_name(), myLeadsPojoList.get(pos).getEnquiry_id(), 375);
+                           myLeadsPojoList.get(pos).getStatus_name(), myLeadsPojoList.get(pos).getEnquiry_id(), 250);
 
                }else if(userRole_id.equalsIgnoreCase("7")){
                    deductAmountResultFromServer(myLeadsPojoList.get(pos).getBooking_id(),
-                           myLeadsPojoList.get(pos).getStatus_name(), myLeadsPojoList.get(pos).getEnquiry_id(), 175);
+                           myLeadsPojoList.get(pos).getStatus_name(), myLeadsPojoList.get(pos).getEnquiry_id(), 250);
 
-               } else{
+               }else{
                    getAcceptedBookingFromServer(myLeadsPojo.getBooking_id(),
                            myLeadsPojo.getStatus_name(), myLeadsPojoList.get(pos).getEnquiry_id());
                }
@@ -120,7 +120,8 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
         myViewHolder.button_rejected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                reasonForCancellation();
+                reasonForCancellation(myLeadsPojoList.get(pos).getBooking_id(),
+                        myLeadsPojoList.get(pos).getStatus_name(), myLeadsPojoList.get(pos).getEnquiry_id());
             }
         });
 
@@ -244,7 +245,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
         VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
     }
 
-    private void getCancelledBookingFromServer() {
+    private void sendCancelledBookingRequestToServer(final String bookingId, String statusName, final String enquiryId, final String cancelledReasonId) {
         progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.UPDATE_VENDORBOOKINGS_URL, new Response.Listener<String>() {
             @Override
@@ -281,7 +282,9 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
                 HashMap<String,String> params = new HashMap<>();
                 params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
                 params.put("User_Role",sharedPref.getStringValue("role_id"));
-                params.put("Booking_ID",sharedPref.getStringValue("vendor_booking_id"));
+                params.put("Booking_ID",bookingId);
+                params.put("enquiry_id", enquiryId);
+                params.put("Reason_ID", cancelledReasonId);
                 params.put("booking_status","cancel");
 
                 Log.d("Bookings_params", "getParams: "+new JSONObject(params).toString());
@@ -292,9 +295,9 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
         VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
         VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
 
-    }
+    } //end of sendCancelBookingsToServer
 
-    private void reasonForCancellation() {
+    private void reasonForCancellation(final String bookingId, final String statusName, final String enquiryId) {
         final Dialog reasonForCancelDialog = new Dialog(mcontext);
         reasonForCancelDialog.setContentView(R.layout.reasonforcancellayout);
         LinearLayout reason_LL;
@@ -330,8 +333,8 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
               for (int rg = 0; rg < radioGroup.getChildCount(); rg++) {
                   dynamic_radiobutton = (RadioButton) radioGroup.getChildAt(rg);
                   if (dynamic_radiobutton.getId() == checkedId) {
-
                       selectedRadioButtonValue = dynamic_radiobutton.getText().toString();
+                      selectedRadioButtonId = cancelledReasonPOJOList.get(rg).getReason();
 //                      Toast.makeText(mcontext, selectedRadioButtonValue, Toast.LENGTH_SHORT).show();
 
                   }
@@ -342,7 +345,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
         reason_submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // getCancelledBookingFromServer();
+                sendCancelledBookingRequestToServer(bookingId, statusName, enquiryId, selectedRadioButtonId);
                 Toast.makeText(mcontext, "Submitted Reason:"+selectedRadioButtonValue, Toast.LENGTH_SHORT).show();
                 reasonForCancelDialog.dismiss();
             }

@@ -1,7 +1,16 @@
 package appsnova.com.doorstephub.activities;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.android.volley.AuthFailureError;
@@ -10,8 +19,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -21,6 +40,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import appsnova.com.doorstephub.R;
+import appsnova.com.doorstephub.activities.vendor.MainActivityVendor;
 import appsnova.com.doorstephub.adapters.HomeAdapter;
 import appsnova.com.doorstephub.models.ServiceCategoryModel;
 import appsnova.com.doorstephub.utilities.NetworkUtils;
@@ -29,6 +49,7 @@ import appsnova.com.doorstephub.utilities.UrlUtility;
 import appsnova.com.doorstephub.utilities.VolleySingleton;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,19 +57,34 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static java.security.AccessController.getContext;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     
     //create View Objects
     RecyclerView servicesCategoryRecyclerView;
-    int statusCode,profile_StatusCode;
-    String statusMessage,profile_StatusMessage;
     TextView navusername,nav_usermobilenumber;
+    ImageView customer_profile_pic;
+
+
+    int statusCode,profile_StatusCode;
+    String statusMessage,profile_StatusMessage, file_name="", base64file="", mCurrentPhotoPath="";
+    private static final int IMAGE_REQUEST_1 = 1;
+    private static final int CHOOSE_REQUEST_1 = 2;
+    private static final int GALLERY_PERMISSION = 5;
+
     /*Time delay for back press*/
     private static final int TIME_DELAY = 2000;
     private static long back_pressed;
@@ -56,9 +92,11 @@ public class HomeActivity extends AppCompatActivity
     NetworkUtils networkUtils;
     SharedPref sharedPref;
     ProgressDialog progressDialog;
+
     List<ServiceCategoryModel> serviceCategoryModelList;
     HomeAdapter homeAdapter;
     String navheader;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,16 +125,9 @@ public class HomeActivity extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         navusername= headerView.findViewById(R.id.nav_username);
         nav_usermobilenumber= headerView.findViewById(R.id.nav_usermobilenumber);
+        customer_profile_pic = headerView.findViewById(R.id.customer_profile_pic);
 
         getProfile();
-
-
-          /*if(navheader==null || navheader.equals("")){
-            nav_usermobilenumber.setText("To Doorstep Hub");
-        }
-        else{
-            nav_usermobilenumber.setText(navheader);
-        }*/
 
         navigationView.setNavigationItemSelectedListener(this);
         servicesCategoryRecyclerView = findViewById(R.id.servicesCategoryRecyclerView);
@@ -110,11 +141,286 @@ public class HomeActivity extends AppCompatActivity
         servicesCategoryRecyclerView.setLayoutManager(layoutManager);
         servicesCategoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
         servicesCategoryRecyclerView.setAdapter(homeAdapter);
+
         if (networkUtils.checkConnection()){
             getServicesListFromServer();
         }
 
+        customer_profile_pic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkPermission();
+            }
+        });
+
     } //onCreate
+
+    private void checkPermission(){
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(HomeActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(HomeActivity.this,
+                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                requestPermission();
+        } else {
+           choosePhotoFromGallery();
+        }
+
+    }
+
+    private void requestPermission(){
+        // Permission is not granted
+        // Should we show an explanation?
+        if (ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this,
+                        Manifest.permission.CAMERA)) {
+            // Show an explanation to the user *asynchronously* -- don't block
+            // this thread waiting for the user's response! After the user
+            // sees the explanation, try again to request the permission.
+        } else {
+            // No explanation needed; request the permission
+            ActivityCompat.requestPermissions(HomeActivity.this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
+                    GALLERY_PERMISSION);
+
+            // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+            // app-defined int constant. The callback method gets the
+            // result of the request.
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case GALLERY_PERMISSION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    //buildAlertDialogBox();
+                    choosePhotoFromGallery();
+                } else {
+                    checkPermission();
+                    Toast.makeText(this, "Accept this permission to upload image", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+
+    private void buildAlertDialogBox(){
+        AlertDialog.Builder alert_dialog = new AlertDialog.Builder(HomeActivity.this);
+        alert_dialog.setTitle("Choose Mode:");
+        alert_dialog.setItems(new CharSequence[]{"Capture Image", "Choose Files"}, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    takePhotoFromCamera();
+                } else {
+                    choosePhotoFromGallery();
+                }
+            }
+        });
+        alert_dialog.show();
+    }
+
+
+
+    private void takePhotoFromCamera() {
+        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Create the File where the photo should go
+        File photoFile = null;
+        Uri photoURI;
+        try {
+            photoFile = createImageFile();
+        } catch (IOException ex) {
+            // Error occurred while creating the File
+
+        }
+        // Continue only if the File was successfully created
+        if (photoFile != null) {
+            if ((Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT)) {
+                photoURI = FileProvider.getUriForFile(this,
+                        "com.example.provider",
+                        photoFile);
+                //FAApplication.setPhotoUri(photoURI);
+            } else {
+                photoURI = Uri.fromFile(photoFile);
+            }
+
+            takePicture.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            startActivityForResult(takePicture, IMAGE_REQUEST_1);
+        }
+    }
+
+    private void choosePhotoFromGallery() {
+        Intent galleryPhotoIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryPhotoIntent, CHOOSE_REQUEST_1);
+
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+
+
+        /*File file = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                + File.separator
+                + imageFileName);
+        if (file.getParentFile().exists() || file.getParentFile().mkdirs()) {
+            mCurrentPhotoPath = file.getAbsolutePath();
+        }*/
+
+
+        File file = File.createTempFile(
+                imageFileName,   //prefix
+                ".jpg",          //suffix
+                storageDir       //directory
+        );
+        mCurrentPhotoPath = file.getAbsolutePath();
+        // Save a file: path for use with ACTION_VIEW intents
+
+        return file;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != RESULT_CANCELED) {
+            if (requestCode == IMAGE_REQUEST_1 && resultCode == RESULT_OK) {
+
+
+                Uri contentUri = FileProvider.getUriForFile(this,
+                        "com.example.provider",
+                        new File(mCurrentPhotoPath)
+                ); //You wll get the proper image uri here.
+
+                Log.d("HomeActivity", "onActivityResult: "+contentUri);
+                String selectedImagePath  = getImagePath(contentUri);
+                File apFrontfile = new File(selectedImagePath);
+                base64file=convertFileToBase64(Uri.fromFile(apFrontfile));
+               // Bitmap photo = (Bitmap) data.getExtras().get("data");
+                //navheader_imageview.setImageBitmap(photo);
+                file_name = System.currentTimeMillis()+".jpg";
+            }
+            else if (requestCode == CHOOSE_REQUEST_1) {
+                if (data != null) {
+                    Uri contentURI = data.getData();
+                    String selectedImagePath = getImagePath(contentURI);
+                    File apFrontfile = new File(selectedImagePath);
+                    base64file=convertFileToBase64(Uri.fromFile(apFrontfile));
+                    Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath);
+                    // navheader_imageview.setImageBitmap(bitmap);
+                    file_name = System.currentTimeMillis()+".jpg";
+                }
+            }
+
+            if (!base64file.isEmpty()){
+                if (networkUtils.checkConnection()){
+                    sendProfileImageToServer(base64file, file_name);
+                }
+            }
+
+        }
+
+    } //end of OnActivity result
+
+    private void sendProfileImageToServer(final String base64file, final String file_name){
+        progressDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.UPDATE_PROFILE_IMAGE_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("ProfilePhoto", "onResponse: "+response);
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getInt("statusCode") ==  200){
+                        progressDialog.dismiss();
+                        UrlUtility.showCustomToast(jsonObject.getString("statusMessage"), HomeActivity.this);
+                        getProfile();
+                    }else{
+                        progressDialog.dismiss();
+                        UrlUtility.showCustomToast(jsonObject.getString("statusMessage"), HomeActivity.this);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Hello", "onErrorResponse: "+error.toString());
+                progressDialog.dismiss();
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<>();
+                params.put("user_id", sharedPref.getStringValue("User_Id"));
+                params.put("profile_photo", base64file);
+                params.put("file_name", file_name);
+                params.put("user_role", "customer");
+
+                Log.d("ProfileParams", "getParams: "+new JSONObject(params).toString());
+
+                return params;
+            }
+        };
+        VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
+        VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
+    }
+
+
+    private String convertFileToBase64(Uri contentUri) {
+        byte[] byteArray = new byte[1024*11];
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        try {
+            InputStream inputStream = getApplicationContext().getContentResolver().openInputStream(contentUri);
+            byte[] b = new byte[1024 * 11];
+            int bytesRead = 0;
+
+            while ((bytesRead = inputStream.read(b)) != -1) {
+                byteArrayOutputStream.write(b, 0, bytesRead);
+            }
+
+            byteArray = byteArrayOutputStream.toByteArray();
+
+            Log.e("Byte array", ">" + byteArray);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String base64_file = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        return base64_file;
+    }
+
+    public String getImagePath(Uri uri){
+
+        String[] imageprojection = { MediaStore.Images.Media.DATA};
+        Cursor image_cursor = getContentResolver().query(uri,imageprojection,null,null,null);
+        if(image_cursor != null){
+            int column_index = image_cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            image_cursor.moveToFirst();
+            String path = image_cursor.getString(column_index);
+            image_cursor.close();
+            Log.d("Path", "getImagePath: "+path);
+            return path;
+        }
+        else{
+            return null;
+        }
+    }
 
     private void getProfile() {
         progressDialog.show();
@@ -130,6 +436,19 @@ public class HomeActivity extends AppCompatActivity
                         JSONObject jsonObject1 = jsonObject.getJSONObject("response");
                         navusername.setText(jsonObject1.getString("name"));
                         nav_usermobilenumber.setText(jsonObject1.getString("mobile"));
+                        if(jsonObject1.getString("attachment") !=null || jsonObject1.getString("attachment").isEmpty()){
+                            Picasso
+                                    .get()
+                                    .load(jsonObject1.getString("attachment"))
+                                    .error(R.drawable.user_profile)
+                                    .placeholder(R.drawable.user_profile).into(customer_profile_pic);
+                        }else{
+                            Picasso
+                                    .get()
+                                    .load(R.drawable.user_profile)
+                                    .error(R.drawable.user_profile)
+                                    .placeholder(R.drawable.user_profile).into(customer_profile_pic);
+                        }
                         sharedPref.setStringValue("email",jsonObject1.getString("email"));
                     }
                 } catch (JSONException e) {

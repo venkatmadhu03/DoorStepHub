@@ -257,7 +257,7 @@ public class ServiceScheduleActivity extends AppCompatActivity{
 
 
         if(editText_name.getText().toString().length()!=0 && editText_date.getText().toString().length() != 0 && editText_housenum.getText().toString().length() != 0
-                && editText_colony.getText().toString().length() != 0 && cityName.length() != 0) {
+                && editText_colony.getText().toString().length() != 0 && cityName.length() != 0 && editText_description.getText().toString().length() !=0) {
             if(serviceschedule_checkbox.isChecked()){
                 submitDetailsToServer();
             }
@@ -295,6 +295,9 @@ public class ServiceScheduleActivity extends AppCompatActivity{
             if(cityName.length() == 0)
             {
                UrlUtility.showCustomToast("City name required", ServiceScheduleActivity.this );
+            }
+            if (editText_description.getText().toString().length() == 0){
+                editText_description.setError("Problem description is Required");
             }
 
             //  serviveschedulebutton.setEnabled(false);

@@ -90,8 +90,8 @@ public class MyBookingsActivity extends AppCompatActivity {
             @Override
             public void onClickItem(View v, int pos) {
               //  Toast.makeText(MyBookingsVendorActivity.this, myBookingsModels.get(pos).getUsername(), Toast.LENGTH_SHORT).show();
-                if (myBookingsModels.get(pos).getStatus().equalsIgnoreCase("closed")||
-                        myBookingsModels.get(pos).getStatus().equalsIgnoreCase("completed")){
+                /*if (myBookingsModels.get(pos).getStatus().equalsIgnoreCase("closed")||
+                        myBookingsModels.get(pos).getStatus().equalsIgnoreCase("completed")){*/
                     Intent intent = new Intent(MyBookingsActivity.this, MyBookingsResultActivity.class);
                     intent.putExtra("selectedorderid",myBookingsModels.get(pos).getOrderid());
                     intent.putExtra("service",myBookingsModels.get(pos).getSelectedService());
@@ -107,9 +107,9 @@ public class MyBookingsActivity extends AppCompatActivity {
                         startActivity(intent,activityOptions.toBundle());
                     }
 
-                }else {
+               /* }else {
                     UrlUtility.showCustomToast("cannot submit feedback until your request is completed",MyBookingsActivity.this);
-                }
+                }*/
 
             }
         });
@@ -119,7 +119,6 @@ public class MyBookingsActivity extends AppCompatActivity {
         mybookings_list.setAdapter(myBookingsAdapter);
 
         if (networkUtils.checkConnection()){
-
             mybookingsdetails();
         }
 
@@ -192,6 +191,8 @@ public class MyBookingsActivity extends AppCompatActivity {
                     status_message = jsonObject.getString("statusMessage");
                     JSONArray jsonArray = jsonObject.getJSONArray("response");
                     if (status_code==200) {
+                        mybookings_list.setVisibility(View.VISIBLE);
+                        noBookingsTextView.setVisibility(View.GONE);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                             MyBookingsModel myBookingsModel = new MyBookingsModel();
@@ -209,6 +210,7 @@ public class MyBookingsActivity extends AppCompatActivity {
                     }
                     else
                     {
+                        mybookings_list.setVisibility(View.GONE);
                         noBookingsTextView.setVisibility(View.VISIBLE);
                     }
 

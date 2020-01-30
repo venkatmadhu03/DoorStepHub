@@ -295,7 +295,7 @@ public class CompletedBilingFormActivity extends AppCompatActivity implements Pa
                 String selectedImagePath = getImagePath(contentURI);
                 Log.d("selectedImagePath", "onActivityResult:CompleteBillingForm"+selectedImagePath);
                 File file = new File(selectedImagePath);
-               /* Picasso.get().load(selectedImagePath)
+              /*  Picasso.get().load(selectedImagePath)
                         .placeholder(android.R.drawable.ic_menu_report_image)
                         .error(android.R.drawable.stat_notify_error)
                         .into(upload_billing_cpy);*/

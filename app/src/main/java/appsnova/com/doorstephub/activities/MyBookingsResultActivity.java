@@ -102,10 +102,15 @@ public class MyBookingsResultActivity extends AppCompatActivity {
             selected_scheduled_date.setText("Scheduled On:"+bundle.getString("scheduleddate"));
             status=bundle.getString("status");
         }
-//        if (status.equalsIgnoreCase("closed") || status.equalsIgnoreCase("completed")){
-//            feedback_submit.setVisibility(View.GONE);
-//
-//        }
+        Log.d("MyBookings", "onCreate:Status "+status);
+        if (status.equalsIgnoreCase("Open") || status.equalsIgnoreCase("Follow Up")
+                || status.equalsIgnoreCase("Answered")){
+            feedback_submit.setVisibility(View.GONE);
+            feedback.setFocusable(false);
+        }else{
+            feedback_submit.setVisibility(View.VISIBLE);
+            feedback.setFocusable(true);
+        }
         setTitle(service_order_id);
         //check for connection and get feedback from server
         if (networkUtils.checkConnection()){
@@ -131,6 +136,7 @@ public class MyBookingsResultActivity extends AppCompatActivity {
     public boolean onTouchEvent(MotionEvent event) {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.
                 INPUT_METHOD_SERVICE);
+        assert imm != null;
         imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
         return true;
     }
