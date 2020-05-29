@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.icu.text.SimpleDateFormat;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
@@ -39,6 +40,7 @@ import com.instamojo.android.models.Wallet;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -60,7 +62,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,8 +94,6 @@ public class MainActivityVendor extends AppCompatActivity
     Dialog progressDialog;
     SharedPref sharedPref;
 
-    Uri contentURI;
-
     TextView walletBalance_valueTV, security_depositvalueTV, walletBalanceTV, securityDepositTV;
     NavigationView navigationView;
     CircleImageView navheader_imageview;
@@ -108,18 +110,19 @@ public class MainActivityVendor extends AppCompatActivity
     private static final int CHOOSE_REQUEST_1 = 2;
 
 
-    CategoryListPOJO categoryListPOJO;
     CategoryListRecyclerViewAdapter categoryListRecyclerViewAdapter;
 
     int latest_bookings_statusCode;
-    String latest_bookings_statusMessage,file_name="", base64file="";
+    String latest_bookings_statusMessage,file_name="", base64file="", enquiry_id="", booking_id="", statusName="";
 
     TextView latest_completed_Name_TV, latest_completed_City_TV, latest_completed_Description_TV, latest_completed_statusTV, latest_completed_serviceTV,
             latest_pending_Name_TV, latest_pending_City_TV, latest_pending_Description_TV, latest_pending_statusTV, latest_pending_serviceTV,
             latest_cancelled_Name_TV, latest_cancelled_City_TV, latest_cancelled_Description_TV, latest_cancelled_statusTV, latest_cancelled_serviceTV, noLatestCancelledTV,
-            noLatestPendingTV, noLatestCompletedTV;
-    LinearLayout latest_completed_LL, latest_pending_LL, latest_cancelled_LL;
+            noLatestPendingTV, noLatestCompletedTV, latest_followup_Name_TV,
+            latest_followup_Description_TV, latest_followup_statusTV, latest_followup_serviceTV, noLatestFollowUpTV;
+    LinearLayout latest_completed_LL, latest_pending_LL, latest_cancelled_LL, latest_followup_LL;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,6 +135,7 @@ public class MainActivityVendor extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_vendor);
         toolbar.setTitleMargin(90, 10, 0, 5);
         setSupportActionBar(toolbar);
+
 
         //hideItem();
 
@@ -163,6 +167,13 @@ public class MainActivityVendor extends AppCompatActivity
         noLatestCancelledTV = findViewById(R.id.noLatestCancelledTV);
         latest_cancelled_LL = findViewById(R.id.latest_cancelled_LL);
 
+        //latest Followup
+        latest_followup_Name_TV = findViewById(R.id.latest_followup_textview_name);
+        latest_followup_Description_TV = findViewById(R.id.latest_followup_descriptionTV);
+        latest_followup_statusTV = findViewById(R.id.latest_followup_statusTV);
+        latest_followup_serviceTV = findViewById(R.id.latest_followup_serviceTV);
+        noLatestFollowUpTV = findViewById(R.id.noLatestFollowUpTV);
+        latest_followup_LL = findViewById(R.id.latest_followup_LL);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerlayout);
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -637,6 +648,143 @@ public class MainActivityVendor extends AppCompatActivity
         VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
     }
 
+    private void getLatestFollowUpBookingStatusesFromServer() {
+        progressDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.VENDOR_LATEST_BOOKINGS_URL, new Response.Listener<String>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onResponse(String response) {
+                Log.d("LatestBookingsStatus", "onResponse: " + response);
+                progressDialog.dismiss();
+//                main_SwipeRL.setRefreshing(false);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    latest_bookings_statusCode = jsonObject.getInt("statusCode");
+                    latest_bookings_statusMessage = jsonObject.getString("statusMessage");
+
+                    //accepted_date
+
+                    if (latest_bookings_statusCode == 200) {
+                        latest_completed_LL.setVisibility(View.VISIBLE);
+                        noLatestCompletedTV.setVisibility(View.GONE);
+                        JSONArray jsonArray = jsonObject.getJSONArray("response");
+                        JSONObject jsonObject1 = jsonArray.getJSONObject(0);
+
+                        latest_followup_Name_TV.setText("Name:" + jsonObject1.getString("user_name"));
+                        latest_followup_statusTV.setText("Status:" + jsonObject1.getString("status_name"));
+                        latest_followup_Description_TV.setText("Problem:" + jsonObject1.getString("requirement"));
+                        latest_followup_serviceTV.setText("Service:" + jsonObject1.getString("name"));
+
+                        String accepted_date = jsonObject1.getString("accepted_date");
+                        enquiry_id = jsonObject1.getString("enquiry_id");
+                        booking_id = jsonObject1.getString("booking_id");
+                        statusName = jsonObject1.getString("status_name");
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        try {
+                            Date mDate = sdf.parse(accepted_date);
+                            long timeInMilliseconds = (mDate.getTime())/1000;
+                            long currentTimeInMillis = System.currentTimeMillis() / 1000L;
+                            System.out.println("Date in milli : " + timeInMilliseconds+","+currentTimeInMillis+","+(timeInMilliseconds+720));
+
+                            if(currentTimeInMillis > (timeInMilliseconds+720) &&  (currentTimeInMillis) < (timeInMilliseconds+1440))
+                            {
+                                buildAlertDialog();
+                            }else if(currentTimeInMillis > (timeInMilliseconds+1440)){
+                                deductAmountFromServer(enquiry_id, statusName, booking_id);
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    } else {
+                        latest_followup_LL.setVisibility(View.GONE);
+                        noLatestFollowUpTV.setVisibility(View.VISIBLE);
+                    }
+
+                } catch (JSONException e) {
+                    progressDialog.dismiss();
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<>();
+                params.put("User_ID", sharedPref.getStringValue("Vendor_User_id"));
+                params.put("status_id", "3");
+                return params;
+            }
+        };
+        VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
+        VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
+    }
+
+
+
+    private void buildAlertDialog(){
+        androidx.appcompat.app.AlertDialog.Builder builder= new androidx.appcompat.app.AlertDialog.Builder(this);
+        builder.setTitle("Alert!!!");
+        builder.setMessage("It's been 12 hrs you accepted the lead but not completed. If Completed Kindly upload the invoice bill..");
+        builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+
+    private void deductAmountFromServer(final String enquiry_id, final String statusName, final String bookingId) {
+        //progressDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UrlUtility.VENDOR_BOOKINGS_DEDUCTBALANCE_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("DeductBalanceResponse", "onResponse: "+response);
+                progressDialog.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    int statusCode = jsonObject.getInt("statusCode");
+                    statusMessage = jsonObject.getString("statusMessage");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                progressDialog.dismiss();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(mcontext, error.toString(), Toast.LENGTH_SHORT).show();
+               // progressDialog.dismiss();
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params = new HashMap<>();
+                params.put("User_ID",sharedPref.getStringValue("Vendor_User_id"));
+                params.put("user_role",sharedPref.getStringValue("role_id"));
+                params.put("amount", String.valueOf(75));
+                params.put("status",statusName);
+                params.put("booking_id", bookingId);
+                params.put("enquiry_id", enquiry_id);
+                Log.d("deductparams", "getParams:AnsweredFragment "+params.toString());
+                return params;
+            }
+        };
+        VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
+        VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -767,6 +915,7 @@ public class MainActivityVendor extends AppCompatActivity
             getLatestCompletedBookingStatusesFromServer();
             getLatestPendingBookingStatusesFromServer();
             getLatestCancelledBookingStatusesFromServer();
+            getLatestFollowUpBookingStatusesFromServer();
         }
 
     }

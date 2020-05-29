@@ -88,16 +88,6 @@ public class Answered_Fragment extends Fragment {
 
             }
         });
-               /*myLeadsPojo = new MyLeadsPojo("Sai","Hyderabad","Description about sai");
-        myLeadsPojoList.add(myLeadsPojo);
-        myLeadsPojo = new MyLeadsPojo("Sree","Bangalore","Description about sree");
-        myLeadsPojoList.add(myLeadsPojo);
-        myLeadsPojo = new MyLeadsPojo("Teja","Chennai","Description about teja");
-        myLeadsPojoList.add(myLeadsPojo);
-        myLeadsPojo = new MyLeadsPojo("Rao","Mumbai","Description about rao");
-        myLeadsPojoList.add(myLeadsPojo);
-        myLeadsPojo = new MyLeadsPojo("Ram","Vizag","Description about ram");
-        myLeadsPojoList.add(myLeadsPojo);*/
     }
 
 

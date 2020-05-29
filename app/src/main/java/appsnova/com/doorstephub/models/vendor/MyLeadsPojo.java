@@ -6,6 +6,16 @@ public class MyLeadsPojo {
     String booking_id="";
     String transaction_id="";
     String enquiry_id="";
+    String address="";
+    String appointment_id="";
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public String getEnquiry_id() {
         return enquiry_id;
@@ -31,7 +41,7 @@ public class MyLeadsPojo {
         this.appointment_id = appointment_id;
     }
 
-    String appointment_id="";
+
 
     public String getStatus_name() {
         return status_name;

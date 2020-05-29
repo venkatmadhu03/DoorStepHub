@@ -39,7 +39,7 @@
             android:textAllCaps="true"
             android:textColor="@color/colorWhite"
             android:visibility="gone"
-            android:fontFamily="@font/raleway_extrabold"/>
+            android:fontFamily="@font/poppins_regular"/>
 
         <ImageView
             android:id="@+id/logoIV"

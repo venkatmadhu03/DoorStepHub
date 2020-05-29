@@ -129,6 +129,7 @@ public class HomeActivity extends AppCompatActivity
 
         getProfile();
 
+
         navigationView.setNavigationItemSelectedListener(this);
         servicesCategoryRecyclerView = findViewById(R.id.servicesCategoryRecyclerView);
       //  serviceCategoryModelList = new ArrayList<ServiceCategoryModel>();

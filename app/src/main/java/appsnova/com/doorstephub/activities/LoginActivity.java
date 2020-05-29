@@ -139,7 +139,8 @@ public class LoginActivity extends AppCompatActivity {
                                         return params;
                                     }
                                 };
-
+                                stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000*60, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                                 VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
                                 VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
                             }
@@ -218,6 +219,8 @@ public class LoginActivity extends AppCompatActivity {
                    return params;
                }
            };
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000*60, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             VolleySingleton.getmApplication().getmRequestQueue().getCache().clear();
             VolleySingleton.getmApplication().getmRequestQueue().add(stringRequest);
         }

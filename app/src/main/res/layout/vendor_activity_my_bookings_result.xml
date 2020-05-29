@@ -118,7 +118,7 @@
             android:paddingRight="10dp"
             android:paddingLeft="10dp"
             android:layout_marginTop="30dp"
-            android:fontFamily="@font/raleway_extrabold"
+            android:fontFamily="@font/poppins_regular"
             android:layout_below="@id/feedback_form"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"/>

@@ -10,9 +10,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
-
 import java.util.Objects;
-
 import appsnova.com.doorstephub.Answered_Fragment;
 import appsnova.com.doorstephub.Cancelled_Fragment;
 import appsnova.com.doorstephub.Completed_Fragment;
@@ -89,37 +87,17 @@ public class MyBookingsVendorActivity extends AppCompatActivity {
         MyBookingsViewPagerAdapter viewPagerAdapter = new MyBookingsViewPagerAdapter(getSupportFragmentManager());
 
         viewPagerAdapter.addFragment(new Answered_Fragment(),"Answered");
-        Log.d("User_role", "setupViewPager: "+sharedPref.getStringValue("role_id"));
-//        if(sharedPref.getStringValue("role_id").equalsIgnoreCase("4")){
-//            viewPagerAdapter.addFragment(new FollowUp_Fragment(),"Follow Up");
-//            viewPager.setOffscreenPageLimit(4);
-//        }else{
-//            viewPager.setOffscreenPageLimit(3);
-//        }
+        viewPagerAdapter.addFragment(new FollowUp_Fragment(),"Follow Up");
         viewPagerAdapter.addFragment(new Completed_Fragment(),"Completed");
         viewPagerAdapter.addFragment(new Cancelled_Fragment(),"Cancelled");
         viewPager.setAdapter(viewPagerAdapter);
 
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(4);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mybookingsmenu,menu);
-        MenuItem searchitem= menu.findItem(R.id.searchview);
-        SearchView searchView = (SearchView) searchitem.getActionView();
-        searchView.setQueryHint("Search");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
         return super.onCreateOptionsMenu(menu);
 
     }

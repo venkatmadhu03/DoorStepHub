@@ -7,6 +7,9 @@ import appsnova.com.doorstephub.activities.vendor.MainActivityVendor;
 import appsnova.com.doorstephub.services.MyFirebaseMessagingService;
 import appsnova.com.doorstephub.utilities.SharedPref;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -63,8 +66,22 @@ ImageView imageView;
         growAndShrink.addAnimation(grow);
         growAndShrink.addAnimation(shrink);*/
 
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.bounce);
-        imageView.startAnimation(animation);
+        //Animation animation = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        //imageView.startAnimation(animation);
+
+        ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(imageView, "scaleY", 0.5f);
+        scaleYAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        scaleYAnimator.setRepeatCount(2);
+        scaleYAnimator.setDuration(1000);
+
+        ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(imageView, "scaleX", -0.5f);
+        scaleXAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        scaleXAnimator.setRepeatCount(2);
+        scaleXAnimator.setDuration(1000);
+
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(scaleXAnimator, scaleYAnimator);
+        set.start();
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

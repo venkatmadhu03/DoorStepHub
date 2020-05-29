@@ -219,7 +219,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/latestcancelled_boobkings"
+                android:id="@+id/latestcancelled_bookings"
                 android:layout_below="@+id/cancelled_bookingsTV"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="8dp"
@@ -285,6 +285,88 @@
                         android:visibility="gone"
                         android:paddingTop="35dp"
                         android:paddingBottom="35dp"/>
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/followup_bookingsTV"
+                android:layout_below="@+id/latestcancelled_bookings"
+                android:text="Latest Follow Up Orders"
+                android:textColor="@color/colorWhite"
+                android:layout_marginTop="5dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/latestfollowup_bookings"
+                android:layout_below="@+id/followup_bookingsTV"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
+                android:layout_marginTop="5dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/latest_followup_bookingsRL"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:id="@+id/latest_followup_LL"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/latest_followup_textview_name"
+                            android:text="Name:"
+                            android:textStyle="bold"
+                            android:textSize="14sp"
+                            android:layout_marginTop="@dimen/nav_header_vertical_spacing"/>
+                        <!-- </LinearLayout>-->
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/latest_followup_descriptionTV"
+                            android:text="Problem:"
+                            android:textSize="14sp"
+                            android:layout_marginTop="@dimen/nav_header_vertical_spacing"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/latest_followup_serviceTV"
+                            android:text="Service:"
+                            android:textSize="14sp"
+                            android:layout_marginTop="@dimen/nav_header_vertical_spacing"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/latest_followup_statusTV"
+                            android:text="Status:"
+                            android:textSize="14sp"
+                            android:textColor="@color/colorBlack"
+                            android:layout_marginTop="@dimen/nav_header_vertical_spacing"/>
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/noLatestFollowUpTV"
+                        android:text="No Latest Completed Orders"
+                        android:gravity="center"
+                        android:layout_centerInParent="true"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:visibility="gone"
+                        android:paddingTop="40dp"
+                        android:paddingBottom="40dp"/>
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>

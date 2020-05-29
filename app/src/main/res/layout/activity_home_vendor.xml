@@ -109,7 +109,7 @@
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/button_bg"
-            android:fontFamily="@font/raleway_extrabold"
+            android:fontFamily="@font/poppins_regular"
             android:padding="10dp"
             android:text="Enter"
             android:textAllCaps="true"

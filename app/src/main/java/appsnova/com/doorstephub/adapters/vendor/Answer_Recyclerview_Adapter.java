@@ -1,8 +1,10 @@
 package appsnova.com.doorstephub.adapters.vendor;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.RadialGradient;
 import android.graphics.Typeface;
 import android.util.Log;
@@ -41,9 +43,12 @@ import java.util.Map;
 
 import appsnova.com.doorstephub.Answered_Fragment;
 import appsnova.com.doorstephub.R;
+import appsnova.com.doorstephub.activities.HomeActivity;
+import appsnova.com.doorstephub.activities.vendor.MyBookingsVendorActivity;
 import appsnova.com.doorstephub.activities.vendor.VendorMyProfileActivity;
 import appsnova.com.doorstephub.models.CancelledReasonPOJO;
 import appsnova.com.doorstephub.models.vendor.MyLeadsPojo;
+import appsnova.com.doorstephub.utilities.NetworkUtils;
 import appsnova.com.doorstephub.utilities.SharedPref;
 import appsnova.com.doorstephub.utilities.UrlUtility;
 import appsnova.com.doorstephub.utilities.VolleySingleton;
@@ -66,11 +71,14 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
     int deduct_statusCode;
     String deduct_statusMessage="";
 
+    NetworkUtils networkUtils;
+
     public Answer_Recyclerview_Adapter(List<MyLeadsPojo> myLeadsPojoList, Context mcontext) {
         this.myLeadsPojoList = myLeadsPojoList;
         this.mcontext = mcontext;
         progressDialog = UrlUtility.showCustomDialog(mcontext);
         sharedPref = new SharedPref(mcontext);
+        networkUtils = new NetworkUtils(mcontext);
     }
 
     @NonNull
@@ -87,9 +95,10 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
         final MyLeadsPojo myLeadsPojo = myLeadsPojoList.get(pos);
         Log.d("Acceptedlistsize", "onBindViewHolder: "+myLeadsPojoList.size());
         Log.d("AcceptedlistName", "onBindViewHolder: "+myLeadsPojo.getName());
-        myViewHolder.textView_name.setText("Name:"+myLeadsPojo.getName());
-        myViewHolder.textView_city.setText("Service:"+myLeadsPojo.getService());
-        myViewHolder.textView_description.setText("Problem:"+myLeadsPojo.getDescription());
+        myViewHolder.textView_name.append(" "+myLeadsPojo.getName());
+        myViewHolder.textView_city.append(" "+myLeadsPojo.getService());
+        myViewHolder.textView_description.append(" "+myLeadsPojo.getDescription());
+        myViewHolder.appointmentid_textview.append(" "+myLeadsPojo.getDescription());
 
         getCancelledBookingsReasonList();
 
@@ -98,7 +107,12 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
             public void onClick(View v) {
                String userRole_id = sharedPref.getStringValue("role_id");
                Log.d("role_id", "onClick: "+userRole_id);
-               if(userRole_id.equalsIgnoreCase("5")){
+
+               buildAlertBox(myLeadsPojoList.get(pos).getBooking_id(),
+                       myLeadsPojoList.get(pos).getStatus_name(), myLeadsPojoList.get(pos).getEnquiry_id(), 250);
+
+
+               /*if(userRole_id.equalsIgnoreCase("5")){
                    deductAmountResultFromServer(myLeadsPojoList.get(pos).getBooking_id(),
                            myLeadsPojoList.get(pos).getStatus_name(), myLeadsPojoList.get(pos).getEnquiry_id(), 250);
 
@@ -113,7 +127,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
                }else{
                    getAcceptedBookingFromServer(myLeadsPojo.getBooking_id(),
                            myLeadsPojo.getStatus_name(), myLeadsPojoList.get(pos).getEnquiry_id());
-               }
+               }*/
 
             }
         });
@@ -125,6 +139,33 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
             }
         });
 
+    }
+
+
+
+    private void buildAlertBox(final String bookingId, final String statusName, final String enquiryId, final int amount){
+        final AlertDialog.Builder alert_dialog = new AlertDialog.Builder(mcontext);
+        alert_dialog.setTitle("Alert!!!");
+        alert_dialog.setMessage("Penality of Rs. 75 will be charged if the query is not attended with in 24 hrs..");
+        alert_dialog.setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (networkUtils.checkConnection()){
+                    dialog.dismiss();
+                    deductAmountResultFromServer(bookingId,
+                            statusName, enquiryId, amount);
+                }else {
+                    Toast.makeText(mcontext, mcontext.getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        alert_dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alert_dialog.show();
     }
 
     private void deductAmountResultFromServer(final String bookingId, final String statusName, final String enquiry_id, final int final_amount) {
@@ -180,7 +221,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView textView_name,textView_city,textView_description;
+        TextView textView_name,textView_city,textView_description, appointmentid_textview;
         ImageButton answered_accept_btn,button_rejected;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -189,6 +230,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
             textView_description = itemView.findViewById(R.id.answered_TV_description);
             answered_accept_btn = itemView.findViewById(R.id.answered_accept_btn);
             button_rejected = itemView.findViewById(R.id.answered_reject_btn);
+            appointmentid_textview = itemView.findViewById(R.id.appointmentid_textview);
         }
     }
 
@@ -205,6 +247,7 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
                     statusMessage = jsonObject.getString("statusMessage");
                     if(statusCode == 200){
                         Toast.makeText(mcontext, "Booking Accepted..", Toast.LENGTH_SHORT).show();
+                        MyBookingsVendorActivity.viewPager.setCurrentItem(1, true);
                     }else{
 //                        Toast.makeText(mcontext, "Booking Not Accepted", Toast.LENGTH_SHORT).show();
                     }
@@ -230,11 +273,12 @@ public class Answer_Recyclerview_Adapter extends RecyclerView.Adapter<Answer_Rec
                 params.put("User_Role",sharedPref.getStringValue("role_id"));
                 params.put("Booking_ID", bookingId);
                 params.put("enquiry_id", enquiry_id);
-                if (sharedPref.getStringValue("role_id").equalsIgnoreCase("5")){
+                params.put("booking_status","accept");
+                /*if (sharedPref.getStringValue("role_id").equalsIgnoreCase("5")){
                     params.put("booking_status","complete");
                 }else{
                     params.put("booking_status","accept");
-                }
+                }*/
 
                 Log.d("Bookings_params", "getParams: "+params.toString());
 

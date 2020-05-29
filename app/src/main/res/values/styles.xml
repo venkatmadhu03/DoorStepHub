@@ -7,18 +7,18 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/pink</item>
         <item name="drawerArrowStyle">@style/DrawerIcon</item>
-        <item name="android:fontFamily">@font/varela</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
     </style>
 <style name="ActionBar" parent="AppTheme">
     <item name="colorPrimary">@color/pink</item>  <!-- #c31432 -->
     <item name="colorPrimaryDark">#240b36</item>
-    <item name="android:fontFamily">@font/righteous</item>
+    <item name="android:fontFamily">@font/poppins_regular</item>
 </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:fontFamily">@font/righteous</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
     </style>
 
 
@@ -31,7 +31,7 @@
 
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:fontFamily">@font/righteous</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
     </style>
 
 
@@ -80,7 +80,7 @@
         <!--<item name="background">@drawable/tabbackground</item>-->
     <!--</style>-->
     <style name="NavigationView" >
-        <item name="fontFamily">@font/righteous</item>
+        <item name="fontFamily">@font/poppins_regular</item>
     </style>
 
 </resources>

@@ -14,13 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <!--<ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:id="@+id/Profilephoto"
-                android:layout_gravity="center"
-                android:src="@mipmap/ic_launcher_round"/>
-        -->
 
             <TextView
                 android:layout_width="match_parent"
@@ -33,7 +26,15 @@
                 android:textAlignment="center"
                 android:textStyle="bold"
                 android:visibility="gone"/>
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/fullname_tv"
+                android:text="Name"
+                android:textColor="@color/colorWhite"
+                android:visibility="visible"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="8dp"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,15 +43,24 @@
                 android:imeOptions="actionNext"
                 android:inputType="text"
                 android:textSize="14sp"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/edittext_background"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/emailid_tv"
+                android:text="Email Id"
+                android:textColor="@color/colorWhite"
+                android:visibility="visible"
+                android:layout_marginLeft="8dp"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -68,6 +78,15 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/alternatenumber_tv"
+                android:text="Alternate Number"
+                android:textColor="@color/colorWhite"
+                android:visibility="visible"
+                android:layout_marginLeft="8dp"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,6 +106,35 @@
                 android:layout_marginRight="8dp"
                 android:clickable="false"
                 android:focusable="false"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/address_tv"
+                android:text="Address"
+                android:textColor="@color/colorWhite"
+                android:visibility="visible"
+                android:layout_marginLeft="8dp"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editext_address"
+                android:lines="8"
+                android:maxLines="10"
+                android:hint="Address:"
+                android:layout_margin="8dp"
+                android:padding="5dp"
+                android:background="@drawable/edittext_background"
+                android:textSize="14sp"
+                android:gravity="start"
+                android:scrollbars="vertical"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -109,26 +157,6 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:visibility="gone"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/editext_address"
-                android:lines="8"
-                android:maxLines="10"
-                android:hint="Address:"
-                android:layout_margin="8dp"
-                android:padding="5dp"
-                android:background="@drawable/edittext_background"
-                android:textSize="14sp"
-                android:gravity="start"
-                android:scrollbars="vertical"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -139,14 +167,16 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/addressProofRL"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="8dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/address_proof_text"
-                        android:text="Address Proof:"
+                        android:text="AADHAAR Proof:"
                         android:textStyle="bold"
-                        android:textColor="@color/colorWhite"/>
+                        android:textColor="@color/colorWhite"
+                        android:layout_marginLeft="30dp"/>
                     <ImageView
                         android:id="@+id/question1"
                         android:layout_width="30dp"
@@ -162,7 +192,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/address_proof_nameTV"
                         android:layout_toRightOf="@+id/question1"
-                        android:text="Addressproof.jpg"
+                        android:text="AADHAAR Proof.jpg"
                         android:textColor="@color/colorWhite"/>
                     <ImageView
                         android:layout_width="100dp"
@@ -170,8 +200,8 @@
                         android:id="@+id/addressproof_frontIV"
                         android:layout_below="@+id/address_proof_text"
                         android:src="@android:drawable/ic_menu_gallery"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="15dp" />
+                        android:layout_marginLeft="30dp"
+                        />
                     <ImageView
                         android:layout_width="100dp"
                         android:layout_height="100dp"
@@ -179,20 +209,19 @@
                         android:layout_below="@+id/address_proof_text"
                         android:src="@android:drawable/ic_menu_gallery"
                         android:layout_toEndOf="@+id/addressproof_frontIV"
-                        android:layout_marginStart="80dp"
-                        android:layout_marginTop="15dp"/>
+                        android:layout_alignParentEnd="true" />
 
                     <TextView
                         android:id="@+id/addressproof_front_TV"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/addressproof_frontIV"
-                        android:layout_marginStart="5dp"
                         android:ems="3"
                         android:foregroundGravity="center_horizontal|center_vertical"
                         android:gravity="center_horizontal|center_vertical"
                         android:maxLines="2"
-                        android:text="APFront"
+                        android:text="Front"
+                        android:layout_marginLeft="30dp"
                         android:textStyle="bold"
                         android:textColor="@color/colorWhite"/>
 
@@ -202,7 +231,7 @@
                         android:id="@+id/addressproof_back_TV"
                         android:layout_below="@+id/addressproof_backIV"
                         android:layout_toRightOf="@+id/addressproof_front_TV"
-                        android:text="APBack"
+                        android:text="Back"
                         android:textStyle="bold"
                         android:layout_marginStart="80dp"
                         android:maxLines="2"
@@ -217,7 +246,8 @@
                     android:id="@+id/identityProofRL"
                     android:layout_below="@+id/addressProofRL"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="8dp"
+                    android:visibility="gone">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -338,11 +368,9 @@
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="50dp"
                 android:layout_gravity="center"
-                android:fontFamily="@font/raleway_extrabold"
+                android:fontFamily="@font/poppins_regular"
                 android:background="@drawable/button_bg"/>
         </LinearLayout>
 </RelativeLayout>
